@@ -405,7 +405,7 @@
       var today = new Date();
       document.getElementById('btn-prev-month').disabled = (dateObj.getFullYear() === today.getFullYear() && dateObj.getMonth() === today.getMonth());
       
-      fetch(WEB_APP_URL + '?yearMonth=' + yearMonthStr)
+      fetch(WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr)
         .then(function(response) { return response.json(); })
         .then(function(data) { renderCalendar(data); })
         .catch(function(error) {
@@ -419,41 +419,36 @@
       document.getElementById('loading-overlay').style.display = 'none';
       var eventsArray = [];
       var today = new Date(); today.setHours(0,0,0,0);
-      
-      gDeadlineDate = new Date(today); 
-      gDeadlineDate.setDate(today.getDate() + (data.deadlineDays || 0));
-      gMaxAcceptDate = new Date(today); 
-      gMaxAcceptDate.setDate(today.getDate() + (data.maxDays || 60));
-      gHardEndDate = new Date(data.endDate || "2099-12-31"); 
-      gHardEndDate.setHours(23,59,59);
+      gDeadlineDate = new Date(today); gDeadlineDate.setDate(today.getDate() + data.deadlineDays);
+      gMaxAcceptDate = new Date(today); gMaxAcceptDate.setDate(today.getDate() + data.maxDays);
+      gHardEndDate = new Date(data.endDate); gHardEndDate.setHours(23,59,59);
 
-      var displayYear = currentCalendarDate.getFullYear();
-      var displayMonth = currentCalendarDate.getMonth();
+      var displayYear = parseInt(data.currentYearMonth.split('-')[0]);
+      var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1;
       var dateInMonth = new Date(displayYear, displayMonth, 1);
-      
-      var maxSeats = data.maxSeats || 6; // 固定値
       
       while(dateInMonth.getMonth() === displayMonth) {
         var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2);
         var isRestricted = (dateInMonth < gDeadlineDate) || (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
-        
         if (!isRestricted) {
-          // 「昼」「夜」をそれぞれ判定
-          ['昼', '夜'].forEach(function(slot) {
-            // スプレッドシート側の「昼・夜」の個別休業指定、もしくは「終日」指定の場合を判定
-            if (data.holidayMap[dateStr + '_' + slot] === "休業" || data.holidayMap[dateStr] === "休業") {
-              eventsArray.push({ title: slot + '：休業', start: dateStr, classNames: ['holiday-event'] });
-            } else {
-              var booked = data.bookedCounts[dateStr + '_' + slot] || 0;
-              var remain = maxSeats - booked;
+          var holidayStatus = data.holidayMap[dateStr];
+          if (holidayStatus === "終日") {
+            eventsArray.push({ title: '休業', start: dateStr, classNames: ['holiday-event'] });
+          } else {
+            ['ランチ', 'ディナー'].forEach(function(slot) {
+              if (holidayStatus === slot) {
+                eventsArray.push({ title: (slot === 'ランチ' ? '昼' : '夜') + '：休業', start: dateStr, classNames: ['holiday-event'] });
+                return;
+              }
+              var remain = data.maxSeats - (data.bookedCounts[dateStr + '_' + slot] || 0);
               eventsArray.push({ 
-                title: slot + '：' + (remain > 0 ? '残' + remain : '満'), 
+                title: (slot === 'ランチ' ? '昼' : '夜') + '：' + (remain > 0 ? '残' + remain : '満'), 
                 start: dateStr, 
                 classNames: [remain > 0 ? 'available-event' : 'full-event'],
                 extendedProps: { timeSlot: slot, remain: remain, restricted: false }
               });
-            }
-          });
+            });
+          }
         }
         dateInMonth.setDate(dateInMonth.getDate() + 1);
       }
@@ -479,9 +474,7 @@
         });
         fullCalendarInstance.render();
       }
-      
-      var currentYearMonthStr = currentCalendarDate.getFullYear() + '-' + ('0' + (currentCalendarDate.getMonth() + 1)).slice(-2);
-      fullCalendarInstance.gotoDate(currentYearMonthStr + '-01');
+      fullCalendarInstance.gotoDate(data.currentYearMonth + '-01');
       fullCalendarInstance.removeAllEvents();
       fullCalendarInstance.addEventSource(eventsArray);
     }
@@ -497,22 +490,10 @@
       var allergies = document.getElementById('input-allergies').value;
       var purpose = document.getElementById('input-purpose').value;
       if(!name || !phone || !email || !people || !document.getElementById('agree-privacy').checked) { alert("必須項目を入力してください"); return; }
-      
+      var combinedDislikes = "苦手: " + (dislikes || "なし") + " / アレルギー: " + (allergies || "なし");
       closeModal('res-modal');
       document.getElementById('loading-overlay').style.display = 'flex';
-      
-      // I列(苦手食材)・J列(アレルギー)を別々のデータとして送信
-      var payload = { 
-        date: currentBooking.date, 
-        slot: currentBooking.slot, 
-        name: name, 
-        people: people, 
-        email: email, 
-        phone: phone, 
-        purpose: purpose, 
-        dislikes: dislikes, 
-        allergy: allergies 
-      };
+      var payload = { date: currentBooking.date, slot: currentBooking.slot, name: name, people: people, email: email, phone: phone, purpose: purpose, dislikes: combinedDislikes };
 
       // POST送信 (CORS回避設定)
       fetch(WEB_APP_URL, {
