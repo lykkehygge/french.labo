@@ -554,14 +554,19 @@
         dislikes: combinedDislikes
       };
 
+// ★ fetch APIによる外部通信（POST）のCORSエラー完全回避版
       fetch(WEB_APP_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
+          // charsetの指定を外すことで、ブラウザのセキュリティ通信遮断（プレフライト）を回避します
+          'Content-Type': 'text/plain', 
         },
         body: JSON.stringify(payload)
       })
-      .then(function(response) { return response.json(); })
+      .then(function(response) { 
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json(); 
+      })
       .then(function(res) {
         if(res.status === "OK") {
           document.getElementById('msg-text').innerHTML = "予約が完了しました。";
@@ -581,6 +586,11 @@
           document.getElementById('loading-overlay').style.display = 'none'; 
         }
       })
+      .catch(function(error) {
+        console.error('Error:', error);
+        alert("通信エラーが発生しました。ブラウザをリロードして再度お試しください。");
+        document.getElementById('loading-overlay').style.display = 'none';
+      });
       .catch(function(error) {
         console.error('Error:', error);
         alert("通信エラーが発生しました。");
