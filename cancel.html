@@ -9,9 +9,11 @@
         .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; }
         .btn-cancel { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 20px; }
         .btn-cancel:disabled { background: #ccc; }
-        .success-msg { color: #27ae60; font-weight: bold; }
+        .btn-return { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 15px; }
+        .success-msg { color: #27ae60; font-weight: bold; font-size: 18px; }
         .error-msg { color: #c0392b; }
         .loading { color: #666; font-style: italic; }
+        .redirect-msg { color: #555; margin-top: 15px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -31,8 +33,11 @@
     </div>
 
     <script>
-        // いただいた新しいGASのURLを組み込み済みです
+        // 設定済みのGAS WebアプリURL
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
+        
+        // 戻る先の予約サイトURL（独自ドメインになった場合はここを変更してください）
+        const TOP_PAGE_URL = "https://lykkehygge.github.io/french.labo/";
 
         const urlParams = new URLSearchParams(window.location.search);
         const reservationId = urlParams.get('id');
@@ -44,7 +49,6 @@
             }
 
             try {
-                // 予約情報の照会
                 const response = await fetch(`${GAS_WEB_APP_URL}?action=query&id=${reservationId}`);
                 const result = await response.json();
 
@@ -76,7 +80,18 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    document.getElementById('app').innerHTML = `<p class="success-msg">キャンセルが完了しました。ご利用ありがとうございました。</p>`;
+                    // キャンセル成功時の表示切り替え（3秒後に自動遷移＋手動ボタン）
+                    document.getElementById('app').innerHTML = `
+                        <p class="success-msg">キャンセルが完了しました。ご利用ありがとうございました。</p>
+                        <p class="redirect-msg">3秒後に予約サイトのトップページへ自動で移動します...</p>
+                        <button class="btn-return" onclick="window.location.href='${TOP_PAGE_URL}'">今すぐトップページへ戻る</button>
+                    `;
+                    
+                    // 3秒（3000ミリ秒）後に自動でページ遷移
+                    setTimeout(() => {
+                        window.location.href = TOP_PAGE_URL;
+                    }, 3000);
+
                 } else {
                     alert("キャンセル処理に失敗しました。");
                     btn.disabled = false;
