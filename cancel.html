@@ -1,108 +1,92 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #fcfcfc; color: #333; text-align: center; padding: 40px 20px; }
-    .container { max-width: 500px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eee; }
-    h1 { font-weight: 300; letter-spacing: 2px; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 20px; line-height: 1.4; }
-    .details { text-align: left; margin: 20px 0; padding: 20px; background: #f9f9f9; border-radius: 6px; font-size: 1.1em; line-height: 1.8; }
-    .btn { padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 1em; border: none; width: 100%; box-sizing: border-box; margin-top: 10px; font-weight: 500; }
-    .btn-cancel { background: #555; color: #fff; }
-    .btn-cancel:disabled { background: #ccc; cursor: not-allowed; }
-    #loading { color: #999; margin: 40px 0; }
-    .status-canceled { color: #d9534f; font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>予約キャンセル | French LABO.</title>
+    <link rel="stylesheet" href="style.css"> <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; max-width: 600px; margin: auto; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; }
+        .btn-cancel { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 20px; }
+        .btn-cancel:disabled { background: #ccc; }
+        .success-msg { color: #27ae60; font-weight: bold; }
+        .error-msg { color: #c0392b; }
+        .loading { color: #666; font-style: italic; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>French LABO.<br><span style="font-size:0.5em; letter-spacing:1px;">ご予約の確認</span></h1>
-    
-    <div id="loading">ご予約情報を読み込んでいます...</div>
-    
-    <div id="content" style="display:none;">
-      <div class="details" id="res-details"></div>
-      <button id="cancelBtn" class="btn btn-cancel" onclick="doCancel()">この予約をキャンセルする</button>
-      <p style="font-size: 0.8em; color: #666; margin-top: 15px; text-align: left;">※日時の変更をご希望の場合は、一度キャンセルしていただき、再度ご予約をお願いいたします。</p>
+    <h1>ご予約のキャンセル</h1>
+    <div id="app" class="card">
+        <p id="message" class="loading">情報を照会しています...</p>
+        <div id="reservation-details" style="display:none;">
+            <p><strong>予約ID:</strong> <span id="res-id"></span></p>
+            <p><strong>お名前:</strong> <span id="res-name"></span> 様</p>
+            <p><strong>日付:</strong> <span id="res-date"></span></p>
+            <p><strong>時間:</strong> <span id="res-slot"></span></p>
+            <p><strong>人数:</strong> <span id="res-people"></span> 名</p>
+            <hr>
+            <p>上記の予約をキャンセルしますか？<br><small>※一度キャンセルすると元に戻せません。</small></p>
+            <button id="cancel-btn" class="btn-cancel" onclick="handleCancel()">予約をキャンセルする</button>
+        </div>
     </div>
-  </div>
 
-  <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzCTcMUD32sbicdsqsBe6lYCg_6Tsx_waiJAeq5u1WshizEOfiCkNPZ7m0Gaeqbo34iBQ/exec";
-    
-    // URLパラメータから予約IDを取得 (?id=R2026...)
-    const urlParams = new URLSearchParams(window.location.search);
-    const resId = urlParams.get('id');
+    <script>
+        // ★重要: あなたのGAS WebアプリURLに書き換えてください
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/XXXXX/exec";
 
-    document.addEventListener('DOMContentLoaded', function() {
-      if (!resId) {
-        document.getElementById('loading').innerText = "予約IDが指定されていません。";
-        return;
-      }
-      fetchDetails();
-    });
+        const urlParams = new URLSearchParams(window.location.search);
+        const reservationId = urlParams.get('id');
 
-    function fetchDetails() {
-      fetch(`${WEB_APP_URL}?action=query&id=${resId}`)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('loading').style.display = 'none';
-          const content = document.getElementById('content');
-          const detailsDiv = document.getElementById('res-details');
-          const btn = document.getElementById('cancelBtn');
-
-          if (!data.success) {
-            detailsDiv.innerHTML = "ご予約情報が見つかりません。<br>予約IDが正しいかご確認ください。";
-            btn.style.display = 'none';
-          } else {
-            let statusText = "ご予約確定";
-            if (data.status === 'キャンセル') {
-              statusText = "<span class='status-canceled'>キャンセル済み</span>";
-              btn.style.display = 'none';
+        window.onload = async () => {
+            if (!reservationId) {
+                document.getElementById('message').innerText = "予約IDが見つかりません。メールのリンクから再度お試しください。";
+                return;
             }
 
-            detailsDiv.innerHTML = `
-              <b>予約ID：</b>${resId}<br>
-              <b>お名前：</b>${data.name} 様<br>
-              <b>日　時：</b>${data.date.split('T')[0]} ${data.time}<br>
-              <b>人　数：</b>${data.people} 名様<br>
-              <b>状態　：</b>${statusText}
-            `;
-          }
-          content.style.display = 'block';
-        })
-        .catch(err => {
-          document.getElementById('loading').innerText = "データの取得に失敗しました。";
-        });
-    }
+            try {
+                // 予約情報の照会
+                const response = await fetch(`${GAS_WEB_APP_URL}?action=query&id=${reservationId}`);
+                const result = await response.json();
 
-    function doCancel() {
-      if (confirm("本当にこの予約をキャンセルしてもよろしいですか？\n（取り消しはできません）")) {
-        const btn = document.getElementById('cancelBtn');
-        btn.disabled = true;
-        btn.innerText = "処理中...";
-        
-        fetch(`${WEB_APP_URL}?action=cancel&id=${resId}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              const content = document.getElementById('content');
-              content.innerHTML = `
-                <h2 style='color: #d9534f; margin-top: 10px;'>キャンセルが完了しました</h2>
-                <p style='color: #555; line-height: 1.6;'>ご予約のお取り消しを承りました。<br>またのご利用を心よりお待ち申し上げております。</p>
-                <div style='margin-top: 25px;'>
-                  <a href='index.html' style='display:inline-block; padding:12px 24px; background:#4a5568; color:#fff; text-decoration:none; border-radius:4px;'>予約ページへ戻る</a>
-                </div>
-              `;
-            } else {
-              alert("キャンセルの処理に失敗しました。");
-              btn.disabled = false;
-              btn.innerText = "この予約をキャンセルする";
+                if (result.success) {
+                    document.getElementById('message').style.display = 'none';
+                    document.getElementById('reservation-details').style.display = 'block';
+                    document.getElementById('res-id').innerText = result.data[0];
+                    document.getElementById('res-name').innerText = result.data[4];
+                    document.getElementById('res-date').innerText = new Date(result.data[1]).toLocaleDateString('ja-JP');
+                    document.getElementById('res-slot').innerText = result.data[2];
+                    document.getElementById('res-people').innerText = result.data[5];
+                } else {
+                    document.getElementById('message').innerText = "予約が見つからないか、既にキャンセルされています。";
+                }
+            } catch (error) {
+                document.getElementById('message').innerText = "情報の取得に失敗しました。";
             }
-          });
-      }
-    }
-  </script>
+        };
+
+        async function handleCancel() {
+            if (!confirm("本当にキャンセルしてよろしいですか？")) return;
+
+            const btn = document.getElementById('cancel-btn');
+            btn.disabled = true;
+            btn.innerText = "処理中...";
+
+            try {
+                const response = await fetch(`${GAS_WEB_APP_URL}?action=cancel&id=${reservationId}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('app').innerHTML = `<p class="success-msg">キャンセルが完了しました。ご利用ありがとうございました。</p>`;
+                } else {
+                    alert("キャンセル処理に失敗しました。");
+                    btn.disabled = false;
+                    btn.innerText = "予約をキャンセルする";
+                }
+            } catch (error) {
+                alert("通信エラーが発生しました。");
+                btn.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>
