@@ -324,7 +324,7 @@
       </div>
     </div>
   </section>
-
+  
   <section class="store-info">
     <h2 class="section-title">INFORMATION</h2>
     <div class="info-content">
@@ -390,14 +390,15 @@
   </div>
 
   <script>
-    // ★ ここに【ステップ2】で取得した「ウェブアプリのURL」を貼り付けます！
-    const WEB_APP_URL = "ここにURLを貼り付けてください";
+    // ★ GASのウェブアプリURL
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzCTcMUD32sbicdsqsBe6lYCg_6Tsx_waiJAeq5u1WshizEOfiCkNPZ7m0Gaeqbo34iBQ/exec";
 
     var currentBooking = {};
     var currentCalendarDate = new Date();
     var fullCalendarInstance = null;
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate;
 
+    // 複数のスライドショーに対応
     var slideContainers = document.querySelectorAll('.slideshow-container, .hero-bg');
     slideContainers.forEach(function(container) {
       var slides = container.querySelectorAll('.slide');
@@ -444,7 +445,6 @@
       var today = new Date();
       document.getElementById('btn-prev-month').disabled = (dateObj.getFullYear() === today.getFullYear() && dateObj.getMonth() === today.getMonth());
       
-      // ★ fetch APIによる外部通信（GET）に変更
       fetch(WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr)
         .then(function(response) { return response.json(); })
         .then(function(data) {
@@ -554,7 +554,6 @@
         dislikes: combinedDislikes
       };
 
-      // ★ fetch APIによる外部通信（POST）に変更
       fetch(WEB_APP_URL, {
         method: 'POST',
         headers: {
