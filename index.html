@@ -21,8 +21,13 @@
     section { max-width: 1000px; margin: 140px auto; padding: 0 25px; width: 100%; }
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; }
     h2.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); }
+    .course-section { display: flex; flex-wrap: wrap; gap: 40px; align-items: stretch; }
+    .slideshow-container { flex: 1 1 400px; position: relative; height: clamp(300px, 40vw, 450px); border-radius: 4px; overflow: hidden; border: 1px solid var(--sub-color); width: 100%; }
+    .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; }
+    .slide.active { opacity: 1; }
+    .course-info { flex: 1 1 350px; display: flex; flex-direction: column; justify-content: center; }
+    .price-tag { font-size: clamp(1.5em, 3vw, 2.2em); border-bottom: 1px solid var(--sub-color); padding-bottom: 15px; margin-bottom: 25px; font-weight: 500; line-height: 1.4; letter-spacing: 1px; }
     #calendar-wrapper { background: var(--white-color); padding: 0; position: relative; }
-    #calendar { margin-bottom: 50px; }
     .calendar-header-top { text-align: center; margin-bottom: 25px; }
     #current-month-label { font-size: 1.5em; font-weight: 500; letter-spacing: 2px; color: var(--main-color); }
     .calendar-nav-bottom { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; width: 100%; }
@@ -31,24 +36,125 @@
     .cal-btn:disabled { background: var(--sub-color); cursor: not-allowed; }
     .fc-theme-standard th, .fc-theme-standard td { border-color: var(--sub-color) !important; }
     .fc-daygrid-day-frame { min-height: 90px !important; display: flex; flex-direction: column; }
+    .custom-restricted-day, .fc-day-past { background-color: var(--sub-color) !important; pointer-events: none !important; }
+    .custom-restricted-day .fc-daygrid-day-number, .fc-day-past .fc-daygrid-day-number { color: var(--white-color) !important; }
+    .fc-event { border: none !important; border-radius: 4px !important; padding: 4px 6px !important; margin: 2px 0 !important; cursor: pointer !important; }
+    .fc-event-title { font-size: 0.95em !important; font-weight: 700 !important; text-align: center !important; display: block !important; letter-spacing: 0.5px; }
     .available-event { background-color: var(--main-color) !important; color: var(--white-color) !important; }
-    .full-event, .holiday-event { background-color: var(--sub-color) !important; color: var(--main-color) !important; pointer-events: none !important; }
-    .modal-overlay { background-color: rgba(17, 17, 18, 0.6); backdrop-filter: blur(5px); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; justify-content: center; align-items: center; display: none; }
-    .modal-content { background-color: var(--white-color); padding: 40px; border-radius: 4px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
-    footer { text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; }
-    #loading-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240, 240, 240, 0.8); z-index: 50; justify-content: center; align-items: center; }
+    .full-event { background-color: var(--sub-color) !important; color: var(--main-color) !important; pointer-events: none !important; }
+    .holiday-event { background-color: var(--sub-color) !important; color: var(--main-color) !important; pointer-events: none !important; }
+    .inverted-bg { background: linear-gradient(135deg, #111112 0%, #2a2a2d 50%, #111112 100%); color: var(--white-color); width: 100%; margin: 140px 0; padding: 1px 0; }
+    .inverted-bg section { margin: 120px auto; }
+    .inverted-bg .section-title { color: var(--white-color); margin-bottom: 50px; }
+    .store-concept-container { display: flex; flex-direction: column; gap: 50px; align-items: center; text-align: center; }
+    .store-slideshow { width: 100%; height: 450px; flex: none; border-color: rgba(255, 255, 255, 0.15); }
+    .store-concept-content p { line-height: 1.8; margin-bottom: 20px; font-weight: 400; }
+    .catchphrase { font-size: 1.05em; letter-spacing: 4px; margin-bottom: 10px !important; color: var(--white-color); }
+    .brand-name { font-size: clamp(3.5em, 8vw, 5em); letter-spacing: 0; margin-bottom: 5px !important; font-weight: 400; font-family: inherit; }
+    .brand-sub { font-size: 0.9em; letter-spacing: 3px; margin-bottom: 40px !important; color: var(--sub-color); text-transform: uppercase; }
+    .pr-cards { display: flex; gap: 25px; justify-content: center; margin-top: 20px; flex-wrap: wrap; width: 100%; }
+    .pr-card { flex: 1 1 350px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; text-decoration: none; color: var(--white-color); transition: transform 0.4s ease, background 0.4s ease, border-color 0.4s ease; display: flex; flex-direction: column; }
+    .pr-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
+    .pr-card-img { width: 100%; height: 200px; background-size: cover; background-position: center; }
+    .pr-card-body { padding: 25px; display: flex; flex-direction: column; gap: 10px; text-align: left; }
+    .pr-card-date { font-size: 0.85em; color: var(--sub-color); letter-spacing: 1px; }
+    .pr-card-title { font-size: 1.05em; font-weight: 500; margin: 0; line-height: 1.6; letter-spacing: 0.5px; }
+    .chef-container { display: flex; flex-wrap: nowrap; gap: 40px; align-items: flex-start; }
+    .chef-img { flex: 0 0 45%; height: 500px; background-image: url('https://plus.unsplash.com/premium_photo-1673830185871-49bb8d6a3d09?q=80&w=700&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-size: cover; background-position: center; border-radius: 4px; }
+    .chef-bio { flex: 1 1 auto; }
+    .cv-list { list-style: none; padding: 0; font-size: 0.95em; color: var(--main-color); margin-top: 25px; }
+    .cv-item { display: flex; margin-bottom: 12px; padding-left: 15px; border-left: 2px solid var(--sub-color); }
+    .cv-year { flex: 0 0 65px; font-weight: 500; }
+    .info-content { max-width: 600px; margin: 0 auto; }
+    .info-dl { width: 100%; border-top: 1px solid var(--sub-color); margin: 0; padding: 0; }
+    .info-row { display: flex; border-bottom: 1px solid var(--sub-color); padding: 30px 0; }
+    .info-row dt { flex: 0 0 160px; font-weight: 500; letter-spacing: 2px; }
+    .info-row dd { flex: 1; margin: 0; line-height: 1.8; font-weight: 400; }
+    .map-toggle-btn { background: var(--main-color); color: var(--white-color); border: none; padding: 16px 30px; cursor: pointer; display: block; margin: 50px auto 0; border-radius: 4px; transition: background 0.3s; width: 100%; max-width: 320px; font-size: 1em; font-weight: 500; letter-spacing: 2px; }
+    .map-toggle-btn:hover { background: var(--accent-color); }
+    .map-wrapper { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; position: relative; }
+    .map-wrapper.open { max-height: 600px; margin-top: 40px; }
+    .map-wrapper iframe { width: 100%; height: 450px; border: 0; border-radius: 4px; filter: grayscale(100%) !important; -webkit-filter: grayscale(100%) !important; }
+    footer { background: var(--white-color); color: var(--sub-color); text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; letter-spacing: 1px; }
+    footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--sub-color); transition: border-color 0.3s; }
+    footer a:hover { border-color: var(--main-color); color: var(--main-color); }
+    #loading-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240, 240, 240, 0.8); z-index: 50; justify-content: center; align-items: center; font-weight: 500; letter-spacing: 2px; color: var(--main-color); }
+    .modal-overlay { background-color: rgba(17, 17, 18, 0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; justify-content: center; align-items: center; display: none; }
+    .modal-content { background-color: var(--white-color); padding: 40px; border-radius: 4px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
     @media (max-width: 767px) {
+      .hero { height: 100vh; height: 100dvh; min-height: auto; width: 100%; }
+      section { margin: 100px auto; padding: 0 20px; }
+      h2.section-title { margin-bottom: 50px; }
+      .course-section { flex-direction: column; gap: 40px; }
+      .chef-container { flex-direction: column; gap: 40px; }
+      .slideshow-container, .chef-img, .store-slideshow { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+      .inverted-bg { margin: 100px 0; }
+      .inverted-bg section { margin: 80px auto; }
+      .pr-cards { flex-wrap: nowrap; gap: 10px; }
+      .pr-card { flex: 1 1 50%; min-width: 0; }
+      .pr-card-img { height: 100px; }
+      .pr-card-body { padding: 12px 10px; gap: 5px; }
+      .pr-card-date { font-size: 0.75em; }
+      .pr-card-title { font-size: 0.8em; line-height: 1.4; }
+      .calendar-header-top { margin-bottom: 20px; }
+      .calendar-nav-bottom { justify-content: space-between; gap: 10px; margin-bottom: 25px; }
+      .cal-btn { flex: 1; min-width: 0; font-size: 0.85em; padding: 12px 0; }
+      .info-row { display: block; padding: 25px 0; }
+      .info-row dt { margin-bottom: 8px; font-size: 0.9em; color: var(--sub-color); text-transform: uppercase; }
+      .info-row dd { margin: 0; font-size: 1.05em; line-height: 1.6; }
       .fc-daygrid-day-frame { min-height: 70px !important; }
-      .fc-event-title { font-size: 0.75em !important; white-space: nowrap !important; overflow: hidden !important; }
+      .fc-daygrid-day-number { font-size: 0.85em !important; padding: 4px !important; }
+      .fc-col-header-cell-cushion { font-size: 0.8em !important; padding: 10px 0 !important; }
+      .fc-event { padding: 2px 0 !important; margin: 1px !important; border-radius: 2px !important; }
+      .fc-event-title { font-size: 0.75em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0 !important; white-space: nowrap !important; overflow: hidden !important; }
+      .modal-content { padding: 30px 20px; }
     }
   </style>
 </head>
 <body>
 
   <header class="hero">
-    <div class="hero-bg"><div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&q=100&w=1600')"></div></div>
-    <div class="hero-content"><h1>French LABO.</h1><p class="concept-text">RESERVATION</p></div>
+    <div class="hero-bg">
+      <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&q=100&w=1600')"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=100&w=1600')"></div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=100&w=1600')"></div>
+    </div>
+    <div class="hero-content">
+      <h1>French LABO.</h1>
+      <p class="concept-text">2026年秋、姫路市野里に誕生する<br>オーベルジュに先駆け<br>料理が立ち上がる過程を味わう場所<br>French LABO.です。</p>
+    </div>
   </header>
+
+  <section id="course">
+    <h2 class="section-title">COURSE</h2>
+    <div class="course-section">
+      <div class="slideshow-container">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=100&w=1200')"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?auto=format&fit=crop&q=100&w=1200')"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=100&w=1200')"></div>
+      </div>
+      <div class="course-info">
+        <div class="price-tag">旬のコース<br><span style="font-size:0.8em; font-weight:400;">16,000円 <span style="font-size:0.65em;">(税込)</span></span></div>
+        <p class="course-note" style="font-size: 1.05em; font-weight: 400;">前菜 2皿 / 魚料理 1皿 / 肉料理 1皿 / デザート 2皿<br>旬の食材が炭火の熱を帯び、皿の上で完成していく様をお愉しみください。</p>
+        <p style="font-size:0.9em; line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; margin-top: 25px; font-weight: 400;">
+          ※ご提供時間：2時間前後<br>※ランチ、ディナーは同じ内容になります。<br>※一斉スタートのため、開始時間までにお越しください。<br>※お子様は大人と同じコースを召し上がれましたらご案内可能です。
+        </p>
+      </div>
+    </div>
+    <div class="course-section" style="margin-top: 100px;">
+      <div class="slideshow-container">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=100&w=1200')"></div>
+      </div>
+      <div class="course-info">
+        <h3 style="font-weight:500; margin-bottom:20px; font-size: clamp(1.5em, 3vw, 2.2em); letter-spacing: 2px;">Drink Selection</h3>
+        <p style="font-size: 1.05em; margin-bottom: 25px; font-weight: 400;">お料理一皿ごとに厳選した4種のドリンクを少しずつお楽しみいただけます。</p>
+        <ul style="padding-left: 20px; font-size: 0.95em; line-height: 2; font-weight: 400;">
+          <li style="margin-bottom: 10px;">アルコールペアリング：8,500円 <span style="font-size:0.7em;">(税込)</span>〜</li>
+          <li>ノンアルコールペアリング：3,850円 <span style="font-size:0.7em;">(税込)</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <section id="reservation">
     <h2 class="section-title">RESERVATION</h2>
@@ -64,7 +170,76 @@
     </div>
   </section>
 
-  <footer><p>©ジーピーエム株式会社 All Rights Reserved.</p></footer>
+  <div class="inverted-bg">
+    <section id="store">
+      <h2 class="section-title">Coming 2026 Autumn</h2>
+      <div class="store-concept-container">
+        <div class="store-concept-content">
+          <p class="catchphrase">囲む。味わう。灯る。</p>
+          <p class="brand-name">ロ</p>
+          <p class="brand-sub">NOATO auberge RO</p>
+          <p>古き良き町屋の趣を残しながら、<br>洗練されたモダンな空間へと生まれ変わります。<br>特別な日のためのお食事を、非日常の空間でお愉しみください。</p>
+        </div>
+        <div class="slideshow-container store-slideshow">
+          <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&q=100&w=1200');"></div>
+          <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=100&w=1200');"></div>
+          <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=100&w=1200');"></div>
+        </div>
+        <div class="pr-cards">
+          <a href="https://prtimes.jp/main/html/rd/p/000000007.000132186.html" class="pr-card" target="_blank" rel="noopener">
+            <div class="pr-card-img" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600');"></div>
+            <div class="pr-card-body">
+              <span class="pr-card-date">2025.08.28</span>
+              <h4 class="pr-card-title">【9月2日・3日開催】姫路・野里に新たな食文化拠点誕生へ「古民家オーベルジュ」着工前内覧会を初開催</h4>
+            </div>
+          </a>
+          <a href="https://prtimes.jp/main/html/rd/p/000000011.000132186.html" class="pr-card" target="_blank" rel="noopener">
+            <div class="pr-card-img" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600');"></div>
+            <div class="pr-card-body">
+              <span class="pr-card-date">2026.03.19</span>
+              <h4 class="pr-card-title">【イベント事後レポート】姫路・野里の歴史が未来へ繋がる1日。「町家の日 in 姫路」連動企画、特別公開が大盛況！</h4>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section id="chef">
+    <h2 class="section-title">CHEF</h2>
+    <div class="chef-container">
+      <div class="chef-img"></div>
+      <div class="chef-bio">
+        <p style="font-size: clamp(1.6em, 3vw, 2.2em); letter-spacing: 4px; margin-bottom: 15px; font-weight: 500;">米田 武史</p>
+        <div class="cv-list">
+          <div class="cv-item"><div class="cv-year">1982年</div><div class="cv-desc">奈良県生まれ</div></div>
+          <div class="cv-item"><div class="cv-year">2002年</div><div class="cv-desc">リーガロイヤルホテル大阪 入社</div></div>
+          <div class="cv-item"><div class="cv-year">2013年</div><div class="cv-desc">フランス研修<br>(Maison PIC***,Jean François Piège**)</div></div>
+          <div class="cv-item"><div class="cv-year">2016年</div><div class="cv-desc">リーガロイヤルホテル小倉レストラン料理長<br>第8回エスコフィエ・フランス料理コンクール優勝</div></div>
+          <div class="cv-item"><div class="cv-year">2017年</div><div class="cv-desc">ひらまつ杯<br>ボキューズ・ドール2019日本代表選考会第3位</div></div>
+          <div class="cv-item"><div class="cv-year">2020年</div><div class="cv-desc">リーガロイヤルホテル大阪<br>レストランシャンボールスーシェフ</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="info" class="store-info">
+    <h2 class="section-title">INFORMATION</h2>
+    <div class="info-content">
+      <dl class="info-dl">
+        <div class="info-row"><dt>営業時間</dt><dd>完全予約制（カレンダーをご確認ください）</dd></div>
+        <div class="info-row"><dt>お支払い方法</dt><dd>現金、クレジットカード、QRコード決済</dd></div>
+        <div class="info-row"><dt>住所</dt><dd>兵庫県姫路市本町174<br>アネスティ七番館 1階 AND内</dd></div>
+        <div class="info-row"><dt>アクセス</dt><dd>徒歩：JR姫路駅より北へ徒歩約12分<br>車：近隣コインパーキングをご利用ください</dd></div>
+      </dl>
+    </div>
+    <button class="map-toggle-btn" onclick="toggleMap()" id="map-btn">Google mapで確認する</button>
+    <div class="map-wrapper" id="map-wrapper">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.4310565576727!2d134.69305147574635!3d34.8328404728734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3554e068c2ec6867%3A0xc3ec78e4d3a0e71c!2z44CSNjcwLTAwMTIg5YW15bqr55yM5aer6Lev5biC5pys55S677yR77yX77yU!5e0!3m2!1sja!2sjp!4v1713430000000!5m2!1sja!2sjp" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <footer><p>© <a href="https://www.gpm.co.jp/" target="_blank" rel="noopener">ジーピーエム株式会社</a> All Rights Reserved.</p></footer>
 
   <div id="res-modal" class="modal-overlay">
     <div class="modal-content">
@@ -75,97 +250,210 @@
       <div class="form-group">
         <label>人数 * (最大<span id="max-people-label">6</span>名)</label>
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; margin-top:5px;">
-          <button type="button" onclick="adjustPeople(-1)" style="width:40px; height:40px;">-</button>
-          <input type="number" id="input-people" min="1" max="6" value="1" style="width:50px; text-align:center;" readonly>
-          <button type="button" onclick="adjustPeople(1)" style="width:40px; height:40px;">+</button>
+          <button type="button" onclick="adjustPeople(-1)" style="width:45px; height:45px; background:var(--white-color); border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">-</button>
+          <input type="number" id="input-people" min="1" max="6" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly>
+          <button type="button" onclick="adjustPeople(1)" style="width:45px; height:45px; background:var(--white-color); border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">+</button>
         </div>
       </div>
       <div class="form-group"><label>ご利用目的</label><input type="text" id="input-purpose" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div>
       <div class="form-group"><label>苦手食材</label><input type="text" id="input-dislikes" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div>
       <div class="form-group"><label>アレルギー</label><input type="text" id="input-allergy" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div>
+      <p style="font-size:0.8em; color:var(--main-color); margin:15px 0;">ご入力いただきました個人情報は、レストランの予約管理にのみ使用いたします。</p>
       <label style="display:flex; align-items:center; gap:10px; margin-bottom:20px;"><input type="checkbox" id="agree-privacy"> 同意する</label>
       <div style="display:flex; gap:10px;"><button class="cal-btn" style="flex:1; background:var(--sub-color);" onclick="closeModal('res-modal')">戻る</button><button class="cal-btn" style="flex:2;" onclick="submitReservation()">予約確定</button></div>
     </div>
   </div>
 
   <div id="msg-modal" class="modal-overlay">
-    <div class="modal-content" style="text-align:center;"><div id="msg-text" style="margin-bottom:20px;"></div><button class="cal-btn" onclick="closeModal('msg-modal')">OK</button></div>
+    <div class="modal-content" style="text-align:center;">
+      <div id="msg-text" style="margin-bottom:20px;"></div>
+      <button class="cal-btn" onclick="closeModal('msg-modal')">OK</button>
+    </div>
   </div>
 
   <script>
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzCTcMUD32sbicdsqsBe6lYCg_6Tsx_waiJAeq5u1WshizEOfiCkNPZ7m0Gaeqbo34iBQ/exec";
-    var currentBooking = {}, currentCalendarDate = new Date(), fullCalendarInstance = null;
-    function adjustPeople(diff) { var input = document.getElementById('input-people'); var val = parseInt(input.value) + diff; if(val >= 1 && val <= parseInt(input.max)) input.value = val; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    var currentBooking = {};
+    var currentCalendarDate = new Date();
+    var fullCalendarInstance = null;
+    var gDeadlineDate, gMaxAcceptDate, gHardEndDate;
+
+    var slideContainers = document.querySelectorAll('.slideshow-container, .hero-bg');
+    slideContainers.forEach(function(container) {
+      var slides = container.querySelectorAll('.slide');
+      var currentSlide = 0;
+      if (slides.length > 1) {
+        setInterval(function() {
+          slides[currentSlide].classList.remove('active');
+          currentSlide = (currentSlide + 1) % slides.length;
+          slides[currentSlide].classList.add('active');
+        }, 4000);
+      }
+    });
+
+    function toggleMap() {
+      var wrapper = document.getElementById('map-wrapper');
+      var btn = document.getElementById('map-btn');
+      if (wrapper.classList.contains('open')) {
+        wrapper.classList.remove('open');
+        btn.innerText = 'Google mapで確認する';
+      } else {
+        wrapper.classList.add('open');
+        btn.innerText = '地図を閉じる';
+      }
+    }
+
+    function adjustPeople(diff) {
+      var input = document.getElementById('input-people');
+      var currentVal = parseInt(input.value) || 1;
+      var max = parseInt(input.max) || 6;
+      var newVal = currentVal + diff;
+      if(newVal >= 1 && newVal <= max) { input.value = newVal; }
+    }
+
     document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); });
-    function changeMonth(diff) { currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); loadCalendarData(currentCalendarDate); }
     function goToToday() { currentCalendarDate = new Date(); loadCalendarData(currentCalendarDate); }
+    function changeMonth(diff) { currentCalendarDate.setDate(1); currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); loadCalendarData(currentCalendarDate); }
 
     function loadCalendarData(dateObj) {
       document.getElementById('loading-overlay').style.display = 'flex';
       var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2);
       document.getElementById('current-month-label').innerText = dateObj.getFullYear() + "年 " + (dateObj.getMonth() + 1) + "月";
+      var today = new Date();
+      document.getElementById('btn-prev-month').disabled = (dateObj.getFullYear() === today.getFullYear() && dateObj.getMonth() === today.getMonth());
+      
       fetch(WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr)
-        .then(res => res.json()).then(data => renderCalendar(data))
-        .catch(() => { alert("通信エラー"); document.getElementById('loading-overlay').style.display = 'none'; });
+        .then(function(response) { return response.json(); })
+        .then(function(data) { renderCalendar(data); })
+        .catch(function(error) {
+          console.error('Error:', error);
+          alert("カレンダーの読み込みに失敗しました。");
+          document.getElementById('loading-overlay').style.display = 'none';
+        });
     }
 
     function renderCalendar(data) {
       document.getElementById('loading-overlay').style.display = 'none';
       var eventsArray = [];
       var today = new Date(); today.setHours(0,0,0,0);
+      gDeadlineDate = new Date(today); gDeadlineDate.setDate(today.getDate() + data.deadlineDays);
+      gMaxAcceptDate = new Date(today); gMaxAcceptDate.setDate(today.getDate() + data.maxDays);
+      gHardEndDate = new Date(data.endDate); gHardEndDate.setHours(23,59,59);
+
+      var displayYear = parseInt(data.currentYearMonth.split('-')[0]);
       var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1;
-      var dateInMonth = new Date(parseInt(data.currentYearMonth.split('-')[0]), displayMonth, 1);
+      var dateInMonth = new Date(displayYear, displayMonth, 1);
+      
       while(dateInMonth.getMonth() === displayMonth) {
-        var dateStr = Utilities.formatDate(dateInMonth);
-        var holidayStatus = data.holidayMap[dateStr];
-        if (holidayStatus === "終日") { eventsArray.push({ title: '休業', start: dateStr, classNames: ['holiday-event'] }); }
-        else {
-          ['ランチ', 'ディナー'].forEach(slot => {
-            if (holidayStatus === slot) { eventsArray.push({ title: slot + ':休', start: dateStr, classNames: ['holiday-event'] }); }
-            else {
+        var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2);
+        var isRestricted = (dateInMonth < gDeadlineDate) || (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
+        if (!isRestricted) {
+          var holidayStatus = data.holidayMap[dateStr];
+          if (holidayStatus === "終日") {
+            eventsArray.push({ title: '休業', start: dateStr, classNames: ['holiday-event'] });
+          } else {
+            ['ランチ', 'ディナー'].forEach(function(slot) {
+              if (holidayStatus === slot) {
+                eventsArray.push({ title: (slot === 'ランチ' ? '昼' : '夜') + '：休業', start: dateStr, classNames: ['holiday-event'] });
+                return;
+              }
               var remain = data.maxSeats - (data.bookedCounts[dateStr + '_' + slot] || 0);
-              eventsArray.push({ title: (slot === 'ランチ' ? '昼' : '夜') + ':' + (remain > 0 ? '残' + remain : '満'), start: dateStr, classNames: [remain > 0 ? 'available-event' : 'full-event'], extendedProps: { slot, remain } });
-            }
-          });
+              eventsArray.push({ 
+                title: (slot === 'ランチ' ? '昼' : '夜') + '：' + (remain > 0 ? '残' + remain : '満'), 
+                start: dateStr, 
+                classNames: [remain > 0 ? 'available-event' : 'full-event'],
+                extendedProps: { timeSlot: slot, remain: remain, restricted: false }
+              });
+            });
+          }
         }
         dateInMonth.setDate(dateInMonth.getDate() + 1);
       }
-      if (fullCalendarInstance) fullCalendarInstance.destroy();
-      fullCalendarInstance = new FullCalendar.Calendar(document.getElementById('calendar'), {
-        initialView: 'dayGridMonth', locale: 'ja', headerToolbar: false, firstDay: 1,
-        events: eventsArray,
-        eventClick: function(info) {
-          if (!info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return;
-          currentBooking = { date: info.event.startStr, slot: info.event.extendedProps.slot, remain: info.event.extendedProps.remain };
-          document.getElementById('modal-header-text').innerText = currentBooking.date + " (" + currentBooking.slot + ")";
-          document.getElementById('input-people').max = Math.min(currentBooking.remain, 6);
-          document.getElementById('res-modal').style.display = 'flex';
-        }
-      });
-      fullCalendarInstance.render();
+
+      if (!fullCalendarInstance) {
+        fullCalendarInstance = new FullCalendar.Calendar(document.getElementById('calendar'), {
+          initialView: 'dayGridMonth', locale: 'ja', contentHeight: 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1,
+          dayCellClassNames: function(arg) {
+            if (!gDeadlineDate) return [];
+            if (arg.date < gDeadlineDate || arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day'];
+            return [];
+          },
+          eventClick: function(info) {
+            if (info.event.extendedProps.restricted || !info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return;
+            currentBooking = { date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain };
+            document.getElementById('modal-header-text').innerText = currentBooking.date + " (" + currentBooking.slot + ")";
+            var currentMax = Math.min(currentBooking.remain, 6);
+            document.getElementById('input-people').max = currentMax;
+            document.getElementById('max-people-label').innerText = currentMax;
+            document.getElementById('input-people').value = 1;
+            document.getElementById('res-modal').style.display = 'flex';
+          }
+        });
+        fullCalendarInstance.render();
+      }
+      fullCalendarInstance.gotoDate(data.currentYearMonth + '-01');
+      fullCalendarInstance.removeAllEvents();
+      fullCalendarInstance.addEventSource(eventsArray);
     }
 
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    
     function submitReservation() {
-      var payload = {
-        date: currentBooking.date, slot: currentBooking.slot,
-        name: document.getElementById('input-name').value,
-        phone: document.getElementById('input-phone').value,
-        email: document.getElementById('input-email').value,
-        people: document.getElementById('input-people').value,
-        purpose: document.getElementById('input-purpose').value,
-        dislikes: document.getElementById('input-dislikes').value, // ★独立して送信
-        allergy: document.getElementById('input-allergy').value   // ★独立して送信
-      };
-      if(!payload.name || !payload.phone || !payload.email || !document.getElementById('agree-privacy').checked) { alert("必須項目を確認してください"); return; }
+      var name = document.getElementById('input-name').value;
+      var phone = document.getElementById('input-phone').value;
+      var email = document.getElementById('input-email').value;
+      var people = document.getElementById('input-people').value;
+      var purpose = document.getElementById('input-purpose').value;
+      var dislikes = document.getElementById('input-dislikes').value;
+      var allergy = document.getElementById('input-allergy').value;
+      
+      if(!name || !phone || !email || !people || !document.getElementById('agree-privacy').checked) { alert("必須項目を入力してください"); return; }
+      
+      closeModal('res-modal');
       document.getElementById('loading-overlay').style.display = 'flex';
-      fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) })
-        .then(res => res.json()).then(res => {
-          if(res.status === "OK") { document.getElementById('msg-text').innerHTML = "予約完了<br>ID: " + res.reservationId; document.getElementById('msg-modal').style.display = 'flex'; closeModal('res-modal'); loadCalendarData(currentCalendarDate); }
-          else { alert("エラー: " + res.message); document.getElementById('loading-overlay').style.display = 'none'; }
-        }).catch(() => { alert("通信エラー"); document.getElementById('loading-overlay').style.display = 'none'; });
+      
+      var payload = {
+        date: currentBooking.date,
+        slot: currentBooking.slot,
+        name: name,
+        people: people,
+        email: email,
+        phone: phone,
+        purpose: purpose,
+        dislikes: dislikes,
+        allergy: allergy
+      };
+
+      fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(response) { 
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json(); 
+      })
+      .then(function(res) {
+        if(res.status === "OK") {
+          document.getElementById('msg-text').innerHTML = "予約が完了しました。<br>予約ID: " + res.reservationId;
+          document.getElementById('msg-modal').style.display = 'flex';
+          document.getElementById('input-name').value = '';
+          document.getElementById('input-phone').value = '';
+          document.getElementById('input-email').value = '';
+          document.getElementById('input-purpose').value = '';
+          document.getElementById('input-dislikes').value = '';
+          document.getElementById('input-allergy').value = '';
+          document.getElementById('agree-privacy').checked = false;
+          loadCalendarData(currentCalendarDate);
+        } else { alert("エラー: " + res.message); document.getElementById('loading-overlay').style.display = 'none'; }
+      })
+      .catch(function(error) {
+        console.error('Error:', error);
+        alert("通信エラーが発生しました。");
+        document.getElementById('loading-overlay').style.display = 'none';
+      });
     }
-    const Utilities = { formatDate: (d) => d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) };
   </script>
 </body>
 </html>
