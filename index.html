@@ -118,7 +118,10 @@
     .pr-card-title { font-size: 1.05em; font-weight: 500; margin: 0; line-height: 1.6; letter-spacing: 0.5px; }
 
     .chef-container { display: flex; flex-wrap: nowrap; gap: 40px; align-items: flex-start; }
-    .chef-img { flex: 0 0 45%; height: 500px; background-image: url('https://plus.unsplash.com/premium_photo-1673830185871-49bb8d6a3d09?q=80&w=700&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-size: cover; background-position: center; border-radius: 4px; }
+    
+    /* シェフ画像スライドショー用のスタイルを追加 */
+    .chef-slideshow { flex: 0 0 45%; height: 500px; position: relative; overflow: hidden; border-radius: 4px; }
+    
     .chef-bio { flex: 1 1 auto; }
     .cv-list { list-style: none; padding: 0; font-size: 0.95em; color: var(--main-color); margin-top: 25px; }
     .cv-item { display: flex; margin-bottom: 12px; padding-left: 15px; border-left: 2px solid var(--sub-color); }
@@ -151,7 +154,8 @@
       h2.section-title { margin-bottom: 50px; }
       .course-section { flex-direction: column; gap: 40px; }
       .chef-container { flex-direction: column; gap: 40px; }
-      .slideshow-container, .chef-img, .store-slideshow { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+      /* シェフスライドショーのスマホ対応を追加 */
+      .slideshow-container, .store-slideshow, .chef-slideshow { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; }
       .inverted-bg { margin: 100px 0; }
       .inverted-bg section { margin: 80px auto; }
       .pr-cards { flex-wrap: nowrap; gap: 10px; }
@@ -179,11 +183,9 @@
 
   <header class="hero">
     <div class="hero-bg">
-      <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&q=100&w=1600')"></div>
-      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=100&w=1600')"></div>
-      <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-top_1.jpg')"></div>
-      <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-top_2.jpg')"></div>
-      <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-top_3.jpg')"></div>
+      <div class="slide active" style="background-image: url('./fl-top_1.jpg')"></div>
+      <div class="slide" style="background-image: url('./fl-top_2.jpg')"></div>
+      <div class="slide" style="background-image: url('./fl-top_3.jpg')"></div>
     </div>
     <div class="hero-content">
       <h1>French LABO.</h1>
@@ -195,13 +197,13 @@
     <h2 class="section-title">COURSE</h2>
     <div class="course-section">
       <div class="slideshow-container">
-        <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-dish_1.jpg')"></div>
-        <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-dish_2.jpg')"></div>
-        <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-dish_3.jpg')"></div>
-        <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-dish_4.jpg')"></div>
-        <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-dish_5.jpg')"></div>
-        <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-dish_6.jpg')"></div>
-        <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-dish_7.jpg')"></div>
+        <div class="slide active" style="background-image: url('./fl-dish_1.jpg')"></div>
+        <div class="slide" style="background-image: url('./fl-dish_2.jpg')"></div>
+        <div class="slide" style="background-image: url('./fl-dish_3.jpg')"></div>
+        <div class="slide" style="background-image: url('./fl-dish_4.jpg')"></div>
+        <div class="slide" style="background-image: url('./fl-dish_5.jpg')"></div>
+        <div class="slide" style="background-image: url('./fl-dish_6.jpg')"></div>
+        <div class="slide" style="background-image: url('./fl-dish_7.jpg')"></div>
       </div>
       <div class="course-info">
         <div class="price-tag">旬のコース<br><span style="font-size:0.8em; font-weight:400;">16,000円 <span style="font-size:0.65em;">(税込)</span></span></div>
@@ -255,20 +257,20 @@
           <p>古き良き町屋の趣を残しながら、<br>洗練されたモダンな空間へと生まれ変わります。<br>特別な日のためのお食事を、非日常の空間でお愉しみください。</p>
         </div>
         <div class="slideshow-container store-slideshow">
-          <div class="slide active" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-img_1.jpg');"></div>
-          <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-img_2.jpg');"></div>
-          <div class="slide" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-img_3.jpg');"></div>
+          <div class="slide active" style="background-image: url('./fl-img_1.jpg');"></div>
+          <div class="slide" style="background-image: url('./fl-img_2.jpg');"></div>
+          <div class="slide" style="background-image: url('./fl-img_3.jpg');"></div>
         </div>
         <div class="pr-cards">
           <a href="https://prtimes.jp/main/html/rd/p/000000007.000132186.html" class="pr-card" target="_blank" rel="noopener">
-            <div class="pr-card-img" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-news_1.jpg');"></div>
+            <div class="pr-card-img" style="background-image: url('./fl-news_1.jpg');"></div>
             <div class="pr-card-body">
               <span class="pr-card-date">2025.08.28</span>
               <h4 class="pr-card-title">【9月2日・3日開催】姫路・野里に新たな食文化拠点誕生へ「古民家オーベルジュ」着工前内覧会を初開催</h4>
             </div>
           </a>
           <a href="https://prtimes.jp/main/html/rd/p/000000011.000132186.html" class="pr-card" target="_blank" rel="noopener">
-            <div class="pr-card-img" style="background-image: url('https://github.com/lykkehygge/french.labo/blob/main/fl-news_2.jpg');"></div>
+            <div class="pr-card-img" style="background-image: url('./fl-news_2.jpg');"></div>
             <div class="pr-card-body">
               <span class="pr-card-date">2026.03.19</span>
               <h4 class="pr-card-title">【イベント事後レポート】姫路・野里の歴史が未来へ繋がる1日。「町家の日 in 姫路」連動企画、特別公開が大盛況！</h4>
@@ -282,7 +284,13 @@
   <section>
     <h2 class="section-title">CHEF</h2>
     <div class="chef-container">
-      <div class="chef-img"></div>
+      
+      <div class="chef-slideshow">
+        <div class="slide active" style="background-image: url('./fl-chef_1.jpg');"></div>
+        <div class="slide" style="background-image: url('./fl-chef_2.jpg');"></div>
+        <div class="slide" style="background-image: url('./fl-chef_3.jpg');"></div>
+      </div>
+
       <div class="chef-bio">
         <p style="font-size: clamp(1.6em, 3vw, 2.2em); letter-spacing: 4px; margin-bottom: 15px; font-weight: 500;">米田 武史</p>
         <div class="cv-list">
@@ -366,7 +374,8 @@
     var fullCalendarInstance = null;
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate;
 
-    var slideContainers = document.querySelectorAll('.slideshow-container, .hero-bg');
+    // ★ .chef-slideshow をスライドショーの対象に追加
+    var slideContainers = document.querySelectorAll('.slideshow-container, .hero-bg, .chef-slideshow');
     slideContainers.forEach(function(container) {
       var slides = container.querySelectorAll('.slide');
       var currentSlide = 0;
@@ -427,7 +436,6 @@
       var eventsArray = [];
       var today = new Date(); today.setHours(0,0,0,0);
       
-      // シート2：管理設定の反映
       gDeadlineDate = new Date(today); 
       gDeadlineDate.setDate(today.getDate() + (parseInt(data.deadlineDays) || 0));
       gMaxAcceptDate = new Date(today); 
@@ -446,10 +454,8 @@
         var isRestricted = (dateInMonth < gDeadlineDate) || (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
         
         if (!isRestricted) {
-          // 「昼・夜」の枠ごとに休業と満席を判定
           ['昼', '夜'].forEach(function(slot) {
             var slotKey = dateStr + '_' + slot;
-            // シート3：休業日判定（終日、または個別枠）
             var isHoliday = (data.holidayMap[dateStr] === "終日") || (data.holidayMap[slotKey] === "休業");
 
             if (isHoliday) {
@@ -510,7 +516,6 @@
       closeModal('res-modal');
       document.getElementById('loading-overlay').style.display = 'flex';
       
-      // GASの仕様に合わせて苦手食材とアレルギーを分離
       var payload = { 
         date: currentBooking.date, 
         slot: currentBooking.slot, 
@@ -523,7 +528,6 @@
         allergy: allergies 
       };
 
-      // POST送信 (CORS回避設定)
       fetch(WEB_APP_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
