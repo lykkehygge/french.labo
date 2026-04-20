@@ -3,40 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>予約キャンセル | French LABO.</title>
-    <link rel="stylesheet" href="style.css"> <style>
-        body { font-family: sans-serif; padding: 20px; line-height: 1.6; max-width: 600px; margin: auto; }
-        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; }
-        .btn-cancel { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 20px; }
-        .btn-cancel:disabled { background: #ccc; }
-        .btn-return { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 15px; }
-        .success-msg { color: #27ae60; font-weight: bold; font-size: 18px; }
-        .error-msg { color: #c0392b; }
-        .loading { color: #666; font-style: italic; }
-        .redirect-msg { color: #555; margin-top: 15px; font-size: 14px; }
+    <title>予約の確認・キャンセル | French LABO.</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --main-color: #111112;
+            --sub-color: #AFB6BB;
+            --accent-color: #CC4900;
+            --white-color: #F0F0F0;
+        }
+
+        body { 
+            font-family: 'Lora', 'Shippori Mincho', "Hiragino Mincho ProN", serif; 
+            font-size: 16px; padding: 0; background-color: var(--white-color); color: var(--main-color); 
+            margin: 0; line-height: 1.8; -webkit-font-smoothing: antialiased; 
+        }
+        
+        .cancel-wrapper { max-width: 600px; margin: 80px auto; padding: 20px; }
+        h1.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.5em, 4vw, 2.2em); text-align: center; margin-bottom: 50px; position: relative; padding-bottom: 15px; color: var(--main-color); text-transform: uppercase; }
+        h1.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); }
+        
+        .cancel-card { border: 1px solid var(--sub-color); padding: 40px; border-radius: 4px; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        
+        /* 10項目の表示リストデザイン */
+        .info-list { list-style: none; padding: 0; margin: 0 0 30px 0; border-top: 1px solid var(--sub-color); }
+        .info-list li { display: flex; padding: 15px 0; border-bottom: 1px dashed var(--sub-color); flex-wrap: wrap; }
+        .info-label { font-weight: 500; width: 140px; color: var(--main-color); flex-shrink: 0; letter-spacing: 1px;}
+        .info-value { flex-grow: 1; color: #333; }
+        
+        .btn-cancel { background: var(--main-color); color: var(--white-color); border: none; padding: 18px; border-radius: 4px; cursor: pointer; width: 100%; font-size: 1em; margin-top: 20px; transition: background 0.3s; font-family: inherit; font-weight: 500; letter-spacing: 2px;}
+        .btn-cancel:hover { background: var(--accent-color); }
+        .btn-cancel:disabled { background: var(--sub-color); cursor: not-allowed; }
+        
+        .btn-return { background: var(--sub-color); color: var(--main-color); border: none; padding: 18px; border-radius: 4px; cursor: pointer; width: 100%; font-size: 1em; margin-top: 15px; font-family: inherit; font-weight: 500; letter-spacing: 2px;}
+        
+        .success-msg { color: var(--accent-color); font-weight: 500; font-size: 1.2em; text-align: center; margin-bottom: 20px;}
+        .loading { color: var(--sub-color); text-align: center; font-style: italic; letter-spacing: 2px;}
+        .redirect-msg { color: var(--main-color); margin-top: 15px; font-size: 0.9em; text-align: center; letter-spacing: 1px;}
+
+        @media (max-width: 600px) {
+            .cancel-card { padding: 25px 15px; }
+            .info-list li { flex-direction: column; padding: 10px 0;}
+            .info-label { width: 100%; font-size: 0.85em; color: var(--sub-color); margin-bottom: 5px; }
+        }
     </style>
 </head>
 <body>
-    <h1>ご予約のキャンセル</h1>
-    <div id="app" class="card">
-        <p id="message" class="loading">情報を照会しています...</p>
-        <div id="reservation-details" style="display:none;">
-            <p><strong>予約ID:</strong> <span id="res-id"></span></p>
-            <p><strong>お名前:</strong> <span id="res-name"></span> 様</p>
-            <p><strong>日付:</strong> <span id="res-date"></span></p>
-            <p><strong>時間:</strong> <span id="res-slot"></span></p>
-            <p><strong>人数:</strong> <span id="res-people"></span> 名</p>
-            <hr>
-            <p>上記の予約をキャンセルしますか？<br><small>※一度キャンセルすると元に戻せません。</small></p>
-            <button id="cancel-btn" class="btn-cancel" onclick="handleCancel()">予約をキャンセルする</button>
+
+    <main class="cancel-wrapper">
+        <h1 class="section-title">RESERVATION INFO</h1>
+        
+        <div id="app" class="cancel-card">
+            <p id="message" class="loading">ご予約情報を照会しています...</p>
+            
+            <div id="reservation-details" style="display:none;">
+                <p style="text-align: center; font-size: 1.1em; margin-bottom: 20px; font-weight: 500; letter-spacing: 1px;">以下のご予約内容をご確認ください。</p>
+                
+                <ul class="info-list">
+                    <li><div class="info-label">予約ID</div><div class="info-value" id="res-id"></div></li>
+                    <li><div class="info-label">予約日</div><div class="info-value" id="res-date"></div></li>
+                    <li><div class="info-label">時間枠</div><div class="info-value" id="res-slot"></div></li>
+                    <li><div class="info-label">お名前</div><div class="info-value"><span id="res-name"></span> 様</div></li>
+                    <li><div class="info-label">人数</div><div class="info-value"><span id="res-people"></span> 名</div></li>
+                    <li><div class="info-label">メールアドレス</div><div class="info-value" id="res-email"></div></li>
+                    <li><div class="info-label">電話番号</div><div class="info-value" id="res-phone"></div></li>
+                    <li><div class="info-label">苦手食材</div><div class="info-value" id="res-dislikes"></div></li>
+                    <li><div class="info-label">アレルギー</div><div class="info-value" id="res-allergy"></div></li>
+                    <li><div class="info-label">ご利用目的</div><div class="info-value" id="res-purpose"></div></li>
+                </ul>
+
+                <p style="text-align: center; margin-top: 30px;"><small style="color: var(--accent-color);">※上記の予約をキャンセルする場合はボタンを押してください。<br>※一度キャンセルすると元に戻せません。</small></p>
+                <button id="cancel-btn" class="btn-cancel" onclick="handleCancel()">この予約をキャンセルする</button>
+            </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        // 設定済みのGAS WebアプリURL
+        // ★新しいGASのURL
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
-        
-        // 戻る先の予約サイトURL（独自ドメインになった場合はここを変更してください）
+        // ★独自ドメインのトップページ
         const TOP_PAGE_URL = "https://french-labo.jp/";
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -44,7 +93,7 @@
 
         window.onload = async () => {
             if (!reservationId) {
-                document.getElementById('message').innerText = "予約IDが見つかりません。メールのリンクから再度お試しください。";
+                document.getElementById('message').innerText = "予約IDが見つかりません。メールのリンクから再度アクセスしてください。";
                 return;
             }
 
@@ -53,49 +102,57 @@
                 const result = await response.json();
 
                 if (result.success) {
+                    const data = result.data;
                     document.getElementById('message').style.display = 'none';
                     document.getElementById('reservation-details').style.display = 'block';
-                    document.getElementById('res-id').innerText = result.data[0];
-                    document.getElementById('res-name').innerText = result.data[4];
-                    document.getElementById('res-date').innerText = new Date(result.data[1]).toLocaleDateString('ja-JP');
-                    document.getElementById('res-slot').innerText = result.data[2];
-                    document.getElementById('res-people').innerText = result.data[5];
+                    
+                    // スプレッドシートの列番号に合わせてデータを表示
+                    // A列(0):ID, B(1):日付, C(2):時間枠, D(3):確定/キャンセル, E(4):名前, F(5):人数, G(6):メール, H(7):電話, I(8):苦手, J(9):アレルギー, K(10):目的
+                    document.getElementById('res-id').innerText = data[0];
+                    document.getElementById('res-date').innerText = new Date(data[1]).toLocaleDateString('ja-JP');
+                    document.getElementById('res-slot').innerText = data[2];
+                    document.getElementById('res-name').innerText = data[4];
+                    document.getElementById('res-people').innerText = data[5];
+                    document.getElementById('res-email').innerText = data[6];
+                    document.getElementById('res-phone').innerText = data[7] || "未入力";
+                    document.getElementById('res-dislikes').innerText = data[8] || "なし";
+                    document.getElementById('res-allergy').innerText = data[9] || "なし";
+                    document.getElementById('res-purpose').innerText = data[10] || "なし";
+
                 } else {
                     document.getElementById('message').innerText = "予約が見つからないか、既にキャンセルされています。";
                 }
             } catch (error) {
-                document.getElementById('message').innerText = "情報の取得に失敗しました。";
+                document.getElementById('message').innerText = "通信エラーが発生しました。";
             }
         };
 
         async function handleCancel() {
-            if (!confirm("本当にキャンセルしてよろしいですか？")) return;
+            if (!confirm("本当にご予約をキャンセルしてよろしいですか？")) return;
 
             const btn = document.getElementById('cancel-btn');
             btn.disabled = true;
-            btn.innerText = "処理中...";
+            btn.innerText = "キャンセル処理中...";
 
             try {
                 const response = await fetch(`${GAS_WEB_APP_URL}?action=cancel&id=${reservationId}`);
                 const result = await response.json();
 
                 if (result.success) {
-                    // キャンセル成功時の表示切り替え（3秒後に自動遷移＋手動ボタン）
                     document.getElementById('app').innerHTML = `
-                        <p class="success-msg">キャンセルが完了しました。ご利用ありがとうございました。</p>
-                        <p class="redirect-msg">3秒後に予約サイトのトップページへ自動で移動します...</p>
-                        <button class="btn-return" onclick="window.location.href='${TOP_PAGE_URL}'">今すぐトップページへ戻る</button>
+                        <p class="success-msg">ご予約のキャンセルが完了しました。</p>
+                        <p class="redirect-msg">5秒後にトップページへ自動で戻ります...</p>
+                        <button class="btn-return" onclick="window.location.href='${TOP_PAGE_URL}'">トップページへ戻る</button>
                     `;
                     
-                    // 3秒（3000ミリ秒）後に自動でページ遷移
                     setTimeout(() => {
                         window.location.href = TOP_PAGE_URL;
-                    }, 3000);
+                    }, 5000);
 
                 } else {
                     alert("キャンセル処理に失敗しました。");
                     btn.disabled = false;
-                    btn.innerText = "予約をキャンセルする";
+                    btn.innerText = "この予約をキャンセルする";
                 }
             } catch (error) {
                 alert("通信エラーが発生しました。");
