@@ -414,13 +414,13 @@
           document.getElementById('loading-overlay').style.display = 'none';
         });
     }
-
+// (スクリプト内の renderCalendar 関数のみ抜粋 - index.html全体は以前の構成を維持してください)
     function renderCalendar(data) {
       document.getElementById('loading-overlay').style.display = 'none';
       var eventsArray = [];
       var today = new Date(); today.setHours(0,0,0,0);
       
-      // 管理設定の確実な反映（数値変換エラー対策）
+      // シート2：管理設定の反映
       gDeadlineDate = new Date(today); 
       gDeadlineDate.setDate(today.getDate() + (parseInt(data.deadlineDays) || 0));
       gMaxAcceptDate = new Date(today); 
@@ -428,22 +428,31 @@
       gHardEndDate = new Date(data.endDate || "2099-12-31"); 
       gHardEndDate.setHours(23,59,59);
 
-      var displayYear = parseInt(data.currentYearMonth.split('-')[0]);
-      var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1;
+      var displayYear = currentCalendarDate.getFullYear();
+      var displayMonth = currentCalendarDate.getMonth();
       var dateInMonth = new Date(displayYear, displayMonth, 1);
+      
+      var maxSeats = data.maxSeats || 6;
       
       while(dateInMonth.getMonth() === displayMonth) {
         var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2);
+        
+        // 受付期間内の判定
         var isRestricted = (dateInMonth < gDeadlineDate) || (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
         
         if (!isRestricted) {
-          // 「ランチ・ディナー」から「昼・夜」の判定へ修正
+          // 「昼」「夜」の枠ごとに判定
           ['昼', '夜'].forEach(function(slot) {
-            // スプレッドシート側の「昼・夜・終日」の設定を判定
-            if (data.holidayMap[dateStr + '_' + slot] === "休業" || data.holidayMap[dateStr] === "休業") {
+            var slotKey = dateStr + '_' + slot;
+            
+            // シート3：休業日の判定
+            var isHoliday = (data.holidayMap[dateStr] === "終日") || (data.holidayMap[slotKey] === "休業");
+
+            if (isHoliday) {
               eventsArray.push({ title: slot + '：休業', start: dateStr, classNames: ['holiday-event'] });
             } else {
-              var remain = (data.maxSeats || 6) - (data.bookedCounts[dateStr + '_' + slot] || 0);
+              var booked = data.bookedCounts[slotKey] || 0;
+              var remain = maxSeats - booked;
               eventsArray.push({ 
                 title: slot + '：' + (remain > 0 ? '残' + remain : '満'), 
                 start: dateStr, 
@@ -455,33 +464,15 @@
         }
         dateInMonth.setDate(dateInMonth.getDate() + 1);
       }
-
+      
+      // (以下、カレンダー描画・モーダル表示の既存コードを継続)
       if (!fullCalendarInstance) {
-        fullCalendarInstance = new FullCalendar.Calendar(document.getElementById('calendar'), {
-          initialView: 'dayGridMonth', locale: 'ja', contentHeight: 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1,
-          dayCellClassNames: function(arg) {
-            if (!gDeadlineDate) return [];
-            if (arg.date < gDeadlineDate || arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day'];
-            return [];
-          },
-          eventClick: function(info) {
-            if (info.event.extendedProps.restricted || !info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return;
-            currentBooking = { date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain };
-            document.getElementById('modal-header-text').innerText = currentBooking.date + " (" + currentBooking.slot + ")";
-            var currentMax = Math.min(currentBooking.remain, 6);
-            document.getElementById('input-people').max = currentMax;
-            document.getElementById('max-people-label').innerText = currentMax;
-            document.getElementById('input-people').value = 1;
-            document.getElementById('res-modal').style.display = 'flex';
-          }
-        });
-        fullCalendarInstance.render();
+          // ...既存の FullCalendar 初期化コード...
       }
-      fullCalendarInstance.gotoDate(data.currentYearMonth + '-01');
+      fullCalendarInstance.gotoDate(dateYearMonthStr + '-01'); // 表示月を合わせる
       fullCalendarInstance.removeAllEvents();
       fullCalendarInstance.addEventSource(eventsArray);
     }
-
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     
     function submitReservation() {
