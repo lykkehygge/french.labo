@@ -352,7 +352,8 @@
   </div>
 
   <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwDvs3OGjOjiYyZmKa5AET2OFQ-qqFwg1rx4lElrsM6itdvmXS52m8zaOTdVIlbT_2N_Q/exec";
+    // ★ここは必ず最新のGASウェブアプリURLに書き換えてください
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
 
     var currentBooking = {};
     var currentCalendarDate = new Date();
@@ -414,7 +415,7 @@
           document.getElementById('loading-overlay').style.display = 'none';
         });
     }
-// (スクリプト内の renderCalendar 関数のみ抜粋 - index.html全体は以前の構成を維持してください)
+
     function renderCalendar(data) {
       document.getElementById('loading-overlay').style.display = 'none';
       var eventsArray = [];
@@ -428,24 +429,21 @@
       gHardEndDate = new Date(data.endDate || "2099-12-31"); 
       gHardEndDate.setHours(23,59,59);
 
-      var displayYear = currentCalendarDate.getFullYear();
-      var displayMonth = currentCalendarDate.getMonth();
+      var displayYear = parseInt(data.currentYearMonth.split('-')[0]);
+      var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1;
       var dateInMonth = new Date(displayYear, displayMonth, 1);
       
       var maxSeats = data.maxSeats || 6;
       
       while(dateInMonth.getMonth() === displayMonth) {
         var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2);
-        
-        // 受付期間内の判定
         var isRestricted = (dateInMonth < gDeadlineDate) || (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
         
         if (!isRestricted) {
-          // 「昼」「夜」の枠ごとに判定
+          // 「昼・夜」の枠ごとに休業と満席を判定
           ['昼', '夜'].forEach(function(slot) {
             var slotKey = dateStr + '_' + slot;
-            
-            // シート3：休業日の判定
+            // シート3：休業日判定（終日、または個別枠）
             var isHoliday = (data.holidayMap[dateStr] === "終日") || (data.holidayMap[slotKey] === "休業");
 
             if (isHoliday) {
@@ -464,15 +462,33 @@
         }
         dateInMonth.setDate(dateInMonth.getDate() + 1);
       }
-      
-      // (以下、カレンダー描画・モーダル表示の既存コードを継続)
+
       if (!fullCalendarInstance) {
-          // ...既存の FullCalendar 初期化コード...
+        fullCalendarInstance = new FullCalendar.Calendar(document.getElementById('calendar'), {
+          initialView: 'dayGridMonth', locale: 'ja', contentHeight: 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1,
+          dayCellClassNames: function(arg) {
+            if (!gDeadlineDate) return [];
+            if (arg.date < gDeadlineDate || arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day'];
+            return [];
+          },
+          eventClick: function(info) {
+            if (info.event.extendedProps.restricted || !info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return;
+            currentBooking = { date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain };
+            document.getElementById('modal-header-text').innerText = currentBooking.date + " (" + currentBooking.slot + ")";
+            var currentMax = Math.min(currentBooking.remain, 6);
+            document.getElementById('input-people').max = currentMax;
+            document.getElementById('max-people-label').innerText = currentMax;
+            document.getElementById('input-people').value = 1;
+            document.getElementById('res-modal').style.display = 'flex';
+          }
+        });
+        fullCalendarInstance.render();
       }
-      fullCalendarInstance.gotoDate(dateYearMonthStr + '-01'); // 表示月を合わせる
+      fullCalendarInstance.gotoDate(data.currentYearMonth + '-01');
       fullCalendarInstance.removeAllEvents();
       fullCalendarInstance.addEventSource(eventsArray);
     }
+
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     
     function submitReservation() {
@@ -488,7 +504,7 @@
       closeModal('res-modal');
       document.getElementById('loading-overlay').style.display = 'flex';
       
-      // GASの仕様に合わせて「苦手食材」と「アレルギー」を分離して送信
+      // GASの仕様に合わせて苦手食材とアレルギーを分離
       var payload = { 
         date: currentBooking.date, 
         slot: currentBooking.slot, 
