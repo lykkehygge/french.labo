@@ -3,9 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>French LABO. (フレンチラボ) | 姫路・野里のフレンチレストラン・オーベルジュ</title>
+  <meta name="description" content="2026年秋、兵庫県姫路市野里に誕生する古民家オーベルジュ「NOATO auberge RO」に先駆け、料理が立ち上がる過程を味わう場所「French LABO. (フレンチラボ)」。旬の食材が炭火の熱を帯びる特別なコース料理をお愉しみください。">
+  <meta name="keywords" content="French LABO, フレンチラボ, 姫路, 野里, フレンチ, レストラン, オーベルジュ, 古民家, 予約, 米田武史">
+  <link rel="canonical" href="https://french-labo.jp/">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="French LABO. | 姫路・野里のフレンチレストラン">
+  <meta property="og:description" content="料理が立ち上がる過程を味わう場所。旬の食材が炭火の熱を帯び、皿の上で完成していく様をお愉しみください。完全予約制。">
+  <meta property="og:url" content="https://french-labo.jp/">
+  <meta property="og:site_name" content="French LABO.">
+  <meta property="og:image" content="https://french-labo.jp/fl-top_1.jpg"> <meta name="twitter:card" content="summary_large_image">
+  
   <base target="_top">
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -118,10 +131,7 @@
     .pr-card-title { font-size: 1.05em; font-weight: 500; margin: 0; line-height: 1.6; letter-spacing: 0.5px; }
 
     .chef-container { display: flex; flex-wrap: nowrap; gap: 40px; align-items: flex-start; }
-    
-    /* シェフ画像スライドショー用のスタイルを追加 */
     .chef-slideshow { flex: 0 0 45%; height: 500px; position: relative; overflow: hidden; border-radius: 4px; }
-    
     .chef-bio { flex: 1 1 auto; }
     .cv-list { list-style: none; padding: 0; font-size: 0.95em; color: var(--main-color); margin-top: 25px; }
     .cv-item { display: flex; margin-bottom: 12px; padding-left: 15px; border-left: 2px solid var(--sub-color); }
@@ -154,7 +164,6 @@
       h2.section-title { margin-bottom: 50px; }
       .course-section { flex-direction: column; gap: 40px; }
       .chef-container { flex-direction: column; gap: 40px; }
-      /* シェフスライドショーのスマホ対応を追加 */
       .slideshow-container, .store-slideshow, .chef-slideshow { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; }
       .inverted-bg { margin: 100px 0; }
       .inverted-bg section { margin: 80px auto; }
@@ -182,10 +191,10 @@
 <body>
 
   <header class="hero">
-    <div class="hero-bg">
-      <div class="slide active" style="background-image: url('./fl-top_1.jpg')"></div>
-      <div class="slide" style="background-image: url('./fl-top_2.jpg')"></div>
-      <div class="slide" style="background-image: url('./fl-top_3.jpg')"></div>
+    <div class="hero-bg" aria-hidden="true">
+      <div class="slide active" style="background-image: url('./fl-top_1.jpg')" title="フレンチラボ メイン画像1"></div>
+      <div class="slide" style="background-image: url('./fl-top_2.jpg')" title="フレンチラボ メイン画像2"></div>
+      <div class="slide" style="background-image: url('./fl-top_3.jpg')" title="フレンチラボ メイン画像3"></div>
     </div>
     <div class="hero-content">
       <h1>French LABO.</h1>
@@ -193,144 +202,147 @@
     </div>
   </header>
 
-  <section>
-    <h2 class="section-title">COURSE</h2>
-    <div class="course-section">
-      <div class="slideshow-container">
-        <div class="slide active" style="background-image: url('./fl-dish_1.jpg')"></div>
-        <div class="slide" style="background-image: url('./fl-dish_2.jpg')"></div>
-        <div class="slide" style="background-image: url('./fl-dish_3.jpg')"></div>
-        <div class="slide" style="background-image: url('./fl-dish_4.jpg')"></div>
-        <div class="slide" style="background-image: url('./fl-dish_5.jpg')"></div>
-        <div class="slide" style="background-image: url('./fl-dish_6.jpg')"></div>
-        <div class="slide" style="background-image: url('./fl-dish_7.jpg')"></div>
-      </div>
-      <div class="course-info">
-        <div class="price-tag">旬のコース<br><span style="font-size:0.8em; font-weight:400;">16,000円 <span style="font-size:0.65em;">(税込)</span></span></div>
-        <p class="course-note" style="font-size: 1.05em; font-weight: 400;">前菜 2皿 / 魚料理 1皿 / 肉料理 1皿 / デザート 2皿<br>旬の食材が炭火の熱を帯び、皿の上で完成していく様をお愉しみください。</p>
-        <p style="font-size:0.9em; line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; margin-top: 25px; font-weight: 400;">
-          ※ご提供時間：2時間前後<br>
-          ※ランチ、ディナーは同じ内容になります。<br>
-          ※一斉スタートのため、開始時間までにお越しください。<br>
-          ※お子様は大人と同じコースを召し上がれましたらご案内可能です。
-        </p>
-      </div>
-    </div>
-    
-    <div class="course-section" style="margin-top: 100px;">
-      <div class="slideshow-container">
-        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=100&w=1200')"></div>
-      </div>
-      <div class="course-info">
-        <h3 style="font-weight:500; margin-bottom:20px; font-size: clamp(1.5em, 3vw, 2.2em); letter-spacing: 2px;">Drink Selection</h3>
-        <p style="font-size: 1.05em; margin-bottom: 25px; font-weight: 400;">お料理一皿ごとに厳選した4種のドリンクを少しずつお楽しみいただけます。</p>
-        <ul style="padding-left: 20px; font-size: 0.95em; line-height: 2; font-weight: 400;">
-          <li style="margin-bottom: 10px;">アルコールペアリング：8,500円 <span style="font-size:0.7em;">(税込)</span>〜</li>
-          <li>ノンアルコールペアリング：3,850円 <span style="font-size:0.7em;">(税込)</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="reservation">
-    <h2 class="section-title">RESERVATION</h2>
-    <div id="calendar-wrapper">
-      <div id="loading-overlay">LOADING...</div>
-      <div class="calendar-header-top"><div id="current-month-label"></div></div>
-      <div class="calendar-nav-bottom">
-        <button class="cal-btn" id="btn-prev-month" onclick="changeMonth(-1)">◀ 前の月</button>
-        <button class="cal-btn" onclick="goToToday()">今日</button>
-        <button class="cal-btn" id="btn-next-month" onclick="changeMonth(1)">次の月 ▶</button>
-      </div>
-      <div id="calendar"></div>
-    </div>
-  </section>
-
-  <div class="inverted-bg">
-    <section id="store">
-      <h2 class="section-title">Coming 2026 Autumn</h2>
-      <div class="store-concept-container">
-        <div class="store-concept-content">
-          <p class="catchphrase">囲む。味わう。灯る。</p>
-          <p class="brand-name">ロ</p>
-          <p class="brand-sub">NOATO auberge RO</p>
-          <p>古き良き町屋の趣を残しながら、<br>洗練されたモダンな空間へと生まれ変わります。<br>特別な日のためのお食事を、非日常の空間でお愉しみください。</p>
+  <main>
+    <section id="course">
+      <h2 class="section-title">COURSE</h2>
+      <div class="course-section">
+        <div class="slideshow-container" aria-hidden="true">
+          <div class="slide active" style="background-image: url('./fl-dish_1.jpg')" title="コース料理イメージ1"></div>
+          <div class="slide" style="background-image: url('./fl-dish_2.jpg')" title="コース料理イメージ2"></div>
+          <div class="slide" style="background-image: url('./fl-dish_3.jpg')" title="コース料理イメージ3"></div>
+          <div class="slide" style="background-image: url('./fl-dish_4.jpg')" title="コース料理イメージ4"></div>
+          <div class="slide" style="background-image: url('./fl-dish_5.jpg')" title="コース料理イメージ5"></div>
+          <div class="slide" style="background-image: url('./fl-dish_6.jpg')" title="コース料理イメージ6"></div>
+          <div class="slide" style="background-image: url('./fl-dish_7.jpg')" title="コース料理イメージ7"></div>
         </div>
-        <div class="slideshow-container store-slideshow">
-          <div class="slide active" style="background-image: url('./fl-img_1.jpg');"></div>
-          <div class="slide" style="background-image: url('./fl-img_2.jpg');"></div>
-          <div class="slide" style="background-image: url('./fl-img_3.jpg');"></div>
+        <div class="course-info">
+          <h3 class="price-tag">旬のコース<br><span style="font-size:0.8em; font-weight:400;">16,000円 <span style="font-size:0.65em;">(税込)</span></span></h3>
+          <p class="course-note" style="font-size: 1.05em; font-weight: 400;">前菜 2皿 / 魚料理 1皿 / 肉料理 1皿 / デザート 2皿<br>旬の食材が炭火の熱を帯び、皿の上で完成していく様をお愉しみください。</p>
+          <p style="font-size:0.9em; line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; margin-top: 25px; font-weight: 400;">
+            ※ご提供時間：2時間前後<br>
+            ※ランチ、ディナーは同じ内容になります。<br>
+            ※一斉スタートのため、開始時間までにお越しください。<br>
+            ※お子様は大人と同じコースを召し上がれましたらご案内可能です。
+          </p>
         </div>
-        <div class="pr-cards">
-          <a href="https://prtimes.jp/main/html/rd/p/000000007.000132186.html" class="pr-card" target="_blank" rel="noopener">
-            <div class="pr-card-img" style="background-image: url('./fl-news_2.jpg');"></div>
-            <div class="pr-card-body">
-              <span class="pr-card-date">2025.08.28</span>
-              <h4 class="pr-card-title">【9月2日・3日開催】姫路・野里に新たな食文化拠点誕生へ「古民家オーベルジュ」着工前内覧会を初開催</h4>
-            </div>
-          </a>
-          <a href="https://prtimes.jp/main/html/rd/p/000000011.000132186.html" class="pr-card" target="_blank" rel="noopener">
-            <div class="pr-card-img" style="background-image: url('./fl-news_1.jpg');"></div>
-            <div class="pr-card-body">
-              <span class="pr-card-date">2026.03.19</span>
-              <h4 class="pr-card-title">【イベント事後レポート】姫路・野里の歴史が未来へ繋がる1日。「町家の日 in 姫路」連動企画、特別公開が大盛況！</h4>
-            </div>
-          </a>
+      </div>
+      
+      <div class="course-section" style="margin-top: 100px;">
+        <div class="slideshow-container" aria-hidden="true">
+          <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=100&w=1200')" title="ワインペアリング"></div>
+        </div>
+        <div class="course-info">
+          <h3 style="font-weight:500; margin-bottom:20px; font-size: clamp(1.5em, 3vw, 2.2em); letter-spacing: 2px;">Drink Selection</h3>
+          <p style="font-size: 1.05em; margin-bottom: 25px; font-weight: 400;">お料理一皿ごとに厳選した4種のドリンクを少しずつお楽しみいただけます。</p>
+          <ul style="padding-left: 20px; font-size: 0.95em; line-height: 2; font-weight: 400;">
+            <li style="margin-bottom: 10px;">アルコールペアリング：8,500円 <span style="font-size:0.7em;">(税込)</span>〜</li>
+            <li>ノンアルコールペアリング：3,850円 <span style="font-size:0.7em;">(税込)</span></li>
+          </ul>
         </div>
       </div>
     </section>
-  </div>
 
-  <section>
-    <h2 class="section-title">CHEF</h2>
-    <div class="chef-container">
-      
-      <div class="chef-slideshow">
-        <div class="slide active" style="background-image: url('./fl-chef_1.jpg');"></div>
-        <div class="slide" style="background-image: url('./fl-chef_2.jpg');"></div>
+    <section id="reservation">
+      <h2 class="section-title">RESERVATION</h2>
+      <div id="calendar-wrapper">
+        <div id="loading-overlay">LOADING...</div>
+        <div class="calendar-header-top"><div id="current-month-label"></div></div>
+        <div class="calendar-nav-bottom">
+          <button class="cal-btn" id="btn-prev-month" onclick="changeMonth(-1)">◀ 前の月</button>
+          <button class="cal-btn" onclick="goToToday()">今日</button>
+          <button class="cal-btn" id="btn-next-month" onclick="changeMonth(1)">次の月 ▶</button>
+        </div>
+        <div id="calendar"></div>
       </div>
+    </section>
 
-      <div class="chef-bio">
-        <p style="font-size: clamp(1.6em, 3vw, 2.2em); letter-spacing: 4px; margin-bottom: 15px; font-weight: 500;">米田 武史</p>
-        <div class="cv-list">
-          <div class="cv-item"><div class="cv-year">1982年</div><div class="cv-desc">奈良県生まれ</div></div>
-          <div class="cv-item"><div class="cv-year">2002年</div><div class="cv-desc">リーガロイヤルホテル大阪 入社</div></div>
-          <div class="cv-item"><div class="cv-year">2013年</div><div class="cv-desc">フランス研修<br>(Maison PIC,Jean François Piège)</div></div>
-          <div class="cv-item"><div class="cv-year">2016年</div><div class="cv-desc">リーガロイヤルホテル小倉レストラン料理長<br>第8回エスコフィエ・フランス料理コンクール優勝</div></div>
-          <div class="cv-item"><div class="cv-year">2017年</div><div class="cv-desc">ひらまつ杯<br>ボキューズ・ドール2019日本代表選考会第3位</div></div>
-          <div class="cv-item"><div class="cv-year">2020年</div><div class="cv-desc">リーガロイヤルホテル大阪<br>レストランシャンボールスーシェフ</div></div>
+    <div class="inverted-bg">
+      <section id="store">
+        <h2 class="section-title">Coming 2026 Autumn</h2>
+        <div class="store-concept-container">
+          <div class="store-concept-content">
+            <p class="catchphrase">囲む。味わう。灯る。</p>
+            <p class="brand-name">ロ</p>
+            <p class="brand-sub">NOATO auberge RO</p>
+            <p>古き良き町屋の趣を残しながら、<br>洗練されたモダンな空間へと生まれ変わります。<br>特別な日のためのお食事を、非日常の空間でお愉しみください。</p>
+          </div>
+          <div class="slideshow-container store-slideshow" aria-hidden="true">
+            <div class="slide active" style="background-image: url('./fl-img_1.jpg');" title="オーベルジュ完成予想1"></div>
+            <div class="slide" style="background-image: url('./fl-img_2.jpg');" title="オーベルジュ完成予想2"></div>
+            <div class="slide" style="background-image: url('./fl-img_3.jpg');" title="オーベルジュ完成予想3"></div>
+          </div>
+          
+          <div class="pr-cards">
+            <a href="https://prtimes.jp/main/html/rd/p/000000007.000132186.html" class="pr-card" target="_blank" rel="noopener">
+              <div class="pr-card-img" style="background-image: url('./fl-news_2.jpg');" title="PR記事画像1"></div>
+              <div class="pr-card-body">
+                <span class="pr-card-date">2025.08.28</span>
+                <h4 class="pr-card-title">【9月2日・3日開催】姫路・野里に新たな食文化拠点誕生へ「古民家オーベルジュ」着工前内覧会を初開催</h4>
+              </div>
+            </a>
+            <a href="https://prtimes.jp/main/html/rd/p/000000011.000132186.html" class="pr-card" target="_blank" rel="noopener">
+              <div class="pr-card-img" style="background-image: url('./fl-news_1.jpg');" title="PR記事画像2"></div>
+              <div class="pr-card-body">
+                <span class="pr-card-date">2026.03.19</span>
+                <h4 class="pr-card-title">【イベント事後レポート】姫路・野里の歴史が未来へ繋がる1日。「町家の日 in 姫路」連動企画、特別公開が大盛況！</h4>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section id="chef">
+      <h2 class="section-title">CHEF</h2>
+      <div class="chef-container">
+        
+        <div class="chef-slideshow" aria-hidden="true">
+          <div class="slide active" style="background-image: url('./fl-chef_1.jpg');" title="シェフ 米田武史 1"></div>
+          <div class="slide" style="background-image: url('./fl-chef_2.jpg');" title="シェフ 米田武史 2"></div>
+        </div>
+
+        <div class="chef-bio">
+          <h3 style="font-size: clamp(1.6em, 3vw, 2.2em); letter-spacing: 4px; margin-bottom: 15px; font-weight: 500;">米田 武史</h3>
+          <div class="cv-list">
+            <div class="cv-item"><div class="cv-year">1982年</div><div class="cv-desc">奈良県生まれ</div></div>
+            <div class="cv-item"><div class="cv-year">2002年</div><div class="cv-desc">リーガロイヤルホテル大阪 入社</div></div>
+            <div class="cv-item"><div class="cv-year">2013年</div><div class="cv-desc">フランス研修<br>(Maison PIC,Jean François Piège)</div></div>
+            <div class="cv-item"><div class="cv-year">2016年</div><div class="cv-desc">リーガロイヤルホテル小倉レストラン料理長<br>第8回エスコフィエ・フランス料理コンクール優勝</div></div>
+            <div class="cv-item"><div class="cv-year">2017年</div><div class="cv-desc">ひらまつ杯<br>ボキューズ・ドール2019日本代表選考会第3位</div></div>
+            <div class="cv-item"><div class="cv-year">2020年</div><div class="cv-desc">リーガロイヤルホテル大阪<br>レストランシャンボールスーシェフ</div></div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  
-  <section class="store-info">
-    <h2 class="section-title">INFORMATION</h2>
-    <div class="info-content">
-      <dl class="info-dl">
-        <div class="info-row">
-          <dt>営業時間</dt>
-          <dd>完全予約制（カレンダーをご確認ください）</dd>
-        </div>
-        <div class="info-row">
-          <dt>お支払い方法</dt>
-          <dd>現金、クレジットカード、QRコード決済</dd>
-        </div>
-        <div class="info-row">
-          <dt>住所</dt>
-          <dd>兵庫県姫路市本町174<br>アネスティ七番館 1階 AND内</dd>
-        </div>
-        <div class="info-row">
-          <dt>アクセス</dt>
-          <dd>徒歩：JR姫路駅より北へ徒歩約12分<br>車：近隣コインパーキングをご利用ください</dd>
-        </div>
-      </dl>
-    </div>
-    <button class="map-toggle-btn" onclick="toggleMap()" id="map-btn">Google mapで確認する</button>
-    <div class="map-wrapper" id="map-wrapper">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d204.68317167983992!2d134.6887622647888!3d34.83283369459892!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3554e100150484a9%3A0xd860494fb7fc4538!2sFrench%20LABO.!5e0!3m2!1sja!2sus!4v1776145220767!5m2!1sja!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </section>
+    </section>
+    
+    <section id="information" class="store-info">
+      <h2 class="section-title">INFORMATION</h2>
+      <div class="info-content">
+        <dl class="info-dl">
+          <div class="info-row">
+            <dt>営業時間</dt>
+            <dd>完全予約制（カレンダーをご確認ください）</dd>
+          </div>
+          <div class="info-row">
+            <dt>お支払い方法</dt>
+            <dd>現金、クレジットカード、QRコード決済</dd>
+          </div>
+          <div class="info-row">
+            <dt>住所</dt>
+            <dd>兵庫県姫路市本町174<br>アネスティ七番館 1階 AND内</dd>
+          </div>
+          <div class="info-row">
+            <dt>アクセス</dt>
+            <dd>徒歩：JR姫路駅より北へ徒歩約12分<br>車：近隣コインパーキングをご利用ください</dd>
+          </div>
+        </dl>
+      </div>
+      <button class="map-toggle-btn" onclick="toggleMap()" id="map-btn">Google mapで確認する</button>
+      <div class="map-wrapper" id="map-wrapper">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.435742516413!2d134.69315061523315!3d34.8364843803998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3554e00b8bfaf6d9%3A0x6b77227d88c2274a!2z44CSNjcwLTAwMTIg5YW15bqr55yM5aer6Lev5biC5pys55S677yR77yX77yU!5e0!3m2!1sja!2sjp!4v1713500000000!5m2!1sja!2sjp" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+  </main>
 
   <footer><p>© <a href="https://www.gpm.co.jp/" target="_blank" rel="noopener">ジーピーエム株式会社</a> All Rights Reserved.</p></footer>
 
@@ -373,7 +385,6 @@
     var fullCalendarInstance = null;
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate;
 
-    // ★ .chef-slideshow をスライドショーの対象に追加
     var slideContainers = document.querySelectorAll('.slideshow-container, .hero-bg, .chef-slideshow');
     slideContainers.forEach(function(container) {
       var slides = container.querySelectorAll('.slide');
