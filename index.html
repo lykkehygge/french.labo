@@ -419,9 +419,14 @@
       document.getElementById('loading-overlay').style.display = 'none';
       var eventsArray = [];
       var today = new Date(); today.setHours(0,0,0,0);
-      gDeadlineDate = new Date(today); gDeadlineDate.setDate(today.getDate() + data.deadlineDays);
-      gMaxAcceptDate = new Date(today); gMaxAcceptDate.setDate(today.getDate() + data.maxDays);
-      gHardEndDate = new Date(data.endDate); gHardEndDate.setHours(23,59,59);
+      
+      // 管理設定の確実な反映（数値変換エラー対策）
+      gDeadlineDate = new Date(today); 
+      gDeadlineDate.setDate(today.getDate() + (parseInt(data.deadlineDays) || 0));
+      gMaxAcceptDate = new Date(today); 
+      gMaxAcceptDate.setDate(today.getDate() + (parseInt(data.maxDays) || 60));
+      gHardEndDate = new Date(data.endDate || "2099-12-31"); 
+      gHardEndDate.setHours(23,59,59);
 
       var displayYear = parseInt(data.currentYearMonth.split('-')[0]);
       var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1;
@@ -430,25 +435,23 @@
       while(dateInMonth.getMonth() === displayMonth) {
         var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2);
         var isRestricted = (dateInMonth < gDeadlineDate) || (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
+        
         if (!isRestricted) {
-          var holidayStatus = data.holidayMap[dateStr];
-          if (holidayStatus === "終日") {
-            eventsArray.push({ title: '休業', start: dateStr, classNames: ['holiday-event'] });
-          } else {
-            ['ランチ', 'ディナー'].forEach(function(slot) {
-              if (holidayStatus === slot) {
-                eventsArray.push({ title: (slot === 'ランチ' ? '昼' : '夜') + '：休業', start: dateStr, classNames: ['holiday-event'] });
-                return;
-              }
-              var remain = data.maxSeats - (data.bookedCounts[dateStr + '_' + slot] || 0);
+          // 「ランチ・ディナー」から「昼・夜」の判定へ修正
+          ['昼', '夜'].forEach(function(slot) {
+            // スプレッドシート側の「昼・夜・終日」の設定を判定
+            if (data.holidayMap[dateStr + '_' + slot] === "休業" || data.holidayMap[dateStr] === "休業") {
+              eventsArray.push({ title: slot + '：休業', start: dateStr, classNames: ['holiday-event'] });
+            } else {
+              var remain = (data.maxSeats || 6) - (data.bookedCounts[dateStr + '_' + slot] || 0);
               eventsArray.push({ 
-                title: (slot === 'ランチ' ? '昼' : '夜') + '：' + (remain > 0 ? '残' + remain : '満'), 
+                title: slot + '：' + (remain > 0 ? '残' + remain : '満'), 
                 start: dateStr, 
                 classNames: [remain > 0 ? 'available-event' : 'full-event'],
                 extendedProps: { timeSlot: slot, remain: remain, restricted: false }
               });
-            });
-          }
+            }
+          });
         }
         dateInMonth.setDate(dateInMonth.getDate() + 1);
       }
@@ -490,10 +493,22 @@
       var allergies = document.getElementById('input-allergies').value;
       var purpose = document.getElementById('input-purpose').value;
       if(!name || !phone || !email || !people || !document.getElementById('agree-privacy').checked) { alert("必須項目を入力してください"); return; }
-      var combinedDislikes = "苦手: " + (dislikes || "なし") + " / アレルギー: " + (allergies || "なし");
+      
       closeModal('res-modal');
       document.getElementById('loading-overlay').style.display = 'flex';
-      var payload = { date: currentBooking.date, slot: currentBooking.slot, name: name, people: people, email: email, phone: phone, purpose: purpose, dislikes: combinedDislikes };
+      
+      // GASの仕様に合わせて「苦手食材」と「アレルギー」を分離して送信
+      var payload = { 
+        date: currentBooking.date, 
+        slot: currentBooking.slot, 
+        name: name, 
+        people: people, 
+        email: email, 
+        phone: phone, 
+        purpose: purpose, 
+        dislikes: dislikes, 
+        allergy: allergies 
+      };
 
       // POST送信 (CORS回避設定)
       fetch(WEB_APP_URL, {
