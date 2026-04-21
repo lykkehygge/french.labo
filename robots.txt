@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://french-labo.jp/sitemap.xml
