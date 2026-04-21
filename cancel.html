@@ -10,7 +10,6 @@
 
   gtag('config', 'G-0LLZ5ZXX9P');
 </script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>予約の確認・キャンセル | French LABO.</title>
@@ -77,6 +76,7 @@
                     <li><div class="info-label">予約ID</div><div class="info-value" id="res-id"></div></li>
                     <li><div class="info-label">予約日</div><div class="info-value" id="res-date"></div></li>
                     <li><div class="info-label">時間枠</div><div class="info-value" id="res-slot"></div></li>
+                    <li><div class="info-label">開始時間</div><div class="info-value" id="res-start-time"></div></li>
                     <li><div class="info-label">お名前</div><div class="info-value"><span id="res-name"></span> 様</div></li>
                     <li><div class="info-label">人数</div><div class="info-value"><span id="res-people"></span> 名</div></li>
                     <li><div class="info-label">メールアドレス</div><div class="info-value" id="res-email"></div></li>
@@ -120,7 +120,19 @@
                     // A列(0):ID, B(1):日付, C(2):時間枠, D(3):確定/キャンセル, E(4):名前, F(5):人数, G(6):メール, H(7):電話, I(8):苦手, J(9):アレルギー, K(10):目的
                     document.getElementById('res-id').innerText = data[0];
                     document.getElementById('res-date').innerText = new Date(data[1]).toLocaleDateString('ja-JP');
-                    document.getElementById('res-slot').innerText = data[2];
+                    
+                    const slot = data[2];
+                    document.getElementById('res-slot').innerText = slot;
+                    
+                    // 昼・夜で開始時間テキストを切り替え
+                    let startTimeStr = "";
+                    if (slot === "昼") {
+                        startTimeStr = "12:00<br><small style='color: var(--accent-color);'>※一斉スタートのため、開始時間までにお越しください。</small>";
+                    } else if (slot === "夜") {
+                        startTimeStr = "18:00<br><small style='color: var(--accent-color);'>※一斉スタートのため、開始時間までにお越しください。</small>";
+                    }
+                    document.getElementById('res-start-time').innerHTML = startTimeStr;
+                    
                     document.getElementById('res-name').innerText = data[4];
                     document.getElementById('res-people').innerText = data[5];
                     document.getElementById('res-email').innerText = data[6];
