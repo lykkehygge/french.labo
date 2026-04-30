@@ -489,7 +489,7 @@
             var isHoliday = (data.holidayMap[dateStr] === "終日") || (data.holidayMap[slotKey] === "休業");
 
             if (isHoliday) {
-              eventsArray.push({ title: slot + '：休業', start: dateStr, classNames: ['holiday-event'] });
+              eventsArray.push({ title: slot + '：Prep Day', start: dateStr, classNames: ['holiday-event'] });
             } else {
               var booked = data.bookedCounts[slotKey] || 0;
               var remain = maxSeats - booked;
