@@ -402,6 +402,10 @@
 
     var currentBooking = {};
     var currentCalendarDate = new Date();
+    // 2026年5月以前の場合は初期表示を6月に固定
+    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 5) {
+      currentCalendarDate = new Date(2026, 5, 1);
+    }
     var fullCalendarInstance = null;
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate;
 
@@ -441,15 +445,27 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); });
-    function goToToday() { currentCalendarDate = new Date(); loadCalendarData(currentCalendarDate); }
+    function goToToday() { 
+      var d = new Date();
+      if (d.getFullYear() === 2026 && d.getMonth() < 5) {
+        currentCalendarDate = new Date(2026, 5, 1);
+      } else {
+        currentCalendarDate = d;
+      }
+      loadCalendarData(currentCalendarDate); 
+    }
     function changeMonth(diff) { currentCalendarDate.setDate(1); currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); loadCalendarData(currentCalendarDate); }
 
     function loadCalendarData(dateObj) {
       document.getElementById('loading-overlay').style.display = 'flex';
       var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2);
       document.getElementById('current-month-label').innerText = dateObj.getFullYear() + "年 " + (dateObj.getMonth() + 1) + "月";
-      var today = new Date();
-      document.getElementById('btn-prev-month').disabled = (dateObj.getFullYear() === today.getFullYear() && dateObj.getMonth() === today.getMonth());
+      
+      var baseDate = new Date();
+      if (baseDate.getFullYear() === 2026 && baseDate.getMonth() < 5) {
+        baseDate = new Date(2026, 5, 1);
+      }
+      document.getElementById('btn-prev-month').disabled = (dateObj.getFullYear() === baseDate.getFullYear() && dateObj.getMonth() === baseDate.getMonth());
       
       fetch(WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr)
         .then(function(response) { return response.json(); })
