@@ -112,8 +112,10 @@
     .fc-daygrid-day-frame { min-height: 90px !important; display: flex; flex-direction: column; }
     .custom-restricted-day, .fc-day-past { background-color: var(--sub-color) !important; pointer-events: none !important; }
     .custom-restricted-day .fc-daygrid-day-number, .fc-day-past .fc-daygrid-day-number { color: var(--white-color) !important; }
-    .fc-event { border: none !important; border-radius: 4px !important; padding: 4px 6px !important; margin: 2px 0 !important; cursor: pointer !important; }
     
+    /* 枠自体に改行を許可する設定を追加 */
+    .fc-event { border: none !important; border-radius: 4px !important; padding: 4px 6px !important; margin: 2px 0 !important; cursor: pointer !important; white-space: normal !important; }
+    .fc-event-main { white-space: normal !important; }
     /* 改行を許可するように white-space を変更 */
     .fc-event-title { font-size: 0.95em !important; font-weight: 700 !important; text-align: center !important; display: block !important; letter-spacing: 0.5px; white-space: pre-wrap !important; }
 
@@ -194,10 +196,13 @@
       .fc-daygrid-day-frame { min-height: 75px !important; }
       .fc-daygrid-day-number { font-size: 0.95em !important; padding: 6px !important; }
       .fc-col-header-cell-cushion { font-size: 0.9em !important; padding: 12px 0 !important; }
-      .fc-event { padding: 4px 0 !important; margin: 2px !important; }
+      
       /* SP時の改行対応と、2段フル用の文字サイズ調整 */
-      .fc-event-title { font-size: 0.85em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0.5px; white-space: pre-wrap !important; line-height: 1.3 !important; }
-      .full-day-holiday .fc-event-title { font-size: 0.72em !important; line-height: 1.4 !important; }
+      .fc-event { padding: 2px 0 !important; margin: 2px !important; white-space: normal !important; }
+      .fc-event-main { white-space: normal !important; }
+      .fc-event-title { font-size: 0.85em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0 !important; white-space: pre-wrap !important; line-height: 1.2 !important; word-break: break-all !important; }
+      .full-day-holiday .fc-event-title { font-size: 0.65em !important; line-height: 1.2 !important; padding: 2px 0 !important; }
+      
       .modal-content { padding: 30px 20px; }
     }
   </style>
