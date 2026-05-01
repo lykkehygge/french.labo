@@ -113,7 +113,9 @@
     .custom-restricted-day, .fc-day-past { background-color: var(--sub-color) !important; pointer-events: none !important; }
     .custom-restricted-day .fc-daygrid-day-number, .fc-day-past .fc-daygrid-day-number { color: var(--white-color) !important; }
     .fc-event { border: none !important; border-radius: 4px !important; padding: 4px 6px !important; margin: 2px 0 !important; cursor: pointer !important; }
-    .fc-event-title { font-size: 0.95em !important; font-weight: 700 !important; text-align: center !important; display: block !important; letter-spacing: 0.5px; }
+    
+    /* 改行を許可するように white-space を変更 */
+    .fc-event-title { font-size: 0.95em !important; font-weight: 700 !important; text-align: center !important; display: block !important; letter-spacing: 0.5px; white-space: pre-wrap !important; }
 
     .available-event { background-color: var(--main-color) !important; color: var(--white-color) !important; }
     .full-event { background-color: var(--sub-color) !important; color: var(--main-color) !important; pointer-events: none !important; }
@@ -193,7 +195,9 @@
       .fc-daygrid-day-number { font-size: 0.95em !important; padding: 6px !important; }
       .fc-col-header-cell-cushion { font-size: 0.9em !important; padding: 12px 0 !important; }
       .fc-event { padding: 4px 0 !important; margin: 2px !important; }
-      .fc-event-title { font-size: 0.85em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0.5px; }
+      /* SP時の改行対応と、2段フル用の文字サイズ調整 */
+      .fc-event-title { font-size: 0.85em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0.5px; white-space: pre-wrap !important; line-height: 1.3 !important; }
+      .full-day-holiday .fc-event-title { font-size: 0.72em !important; line-height: 1.4 !important; }
       .modal-content { padding: 30px 20px; }
     }
   </style>
@@ -500,23 +504,33 @@
         var isRestricted = (dateInMonth < gDeadlineDate) || (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
         
         if (!isRestricted) {
-          ['昼', '夜'].forEach(function(slot) {
-            var slotKey = dateStr + '_' + slot;
-            var isHoliday = (data.holidayMap[dateStr] === "終日") || (data.holidayMap[slotKey] === "休業");
+          // 「終日」の場合は1つの枠として2段で表示
+          if (data.holidayMap[dateStr] === "終日") {
+            eventsArray.push({
+              title: 'Prep Day\n(開業準備)',
+              start: dateStr,
+              classNames: ['holiday-event', 'full-day-holiday']
+            });
+          } else {
+            // それ以外（個別枠）の場合は通常通り判定
+            ['昼', '夜'].forEach(function(slot) {
+              var slotKey = dateStr + '_' + slot;
+              var isHoliday = (data.holidayMap[slotKey] === "休業");
 
-            if (isHoliday) {
-              eventsArray.push({ title: slot + '：Prep Day', start: dateStr, classNames: ['holiday-event'] });
-            } else {
-              var booked = data.bookedCounts[slotKey] || 0;
-              var remain = maxSeats - booked;
-              eventsArray.push({ 
-                title: slot + '：' + (remain > 0 ? '残' + remain : '満'), 
-                start: dateStr, 
-                classNames: [remain > 0 ? 'available-event' : 'full-event'],
-                extendedProps: { timeSlot: slot, remain: remain, restricted: false }
-              });
-            }
-          });
+              if (isHoliday) {
+                eventsArray.push({ title: slot + '：Prep Day', start: dateStr, classNames: ['holiday-event'] });
+              } else {
+                var booked = data.bookedCounts[slotKey] || 0;
+                var remain = maxSeats - booked;
+                eventsArray.push({ 
+                  title: slot + '：' + (remain > 0 ? '残' + remain : '満'), 
+                  start: dateStr, 
+                  classNames: [remain > 0 ? 'available-event' : 'full-event'],
+                  extendedProps: { timeSlot: slot, remain: remain, restricted: false }
+                });
+              }
+            });
+          }
         }
         dateInMonth.setDate(dateInMonth.getDate() + 1);
       }
