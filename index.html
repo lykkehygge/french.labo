@@ -506,9 +506,13 @@
       
       while(dateInMonth.getMonth() === displayMonth) {
         var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2);
-        var isRestricted = (dateInMonth < gDeadlineDate) || (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
         
-        if (!isRestricted) {
+        // 追加: 制限の判定を2つに分割（未来の制限期間か、締切が過ぎたか）
+        var isFutureRestricted = (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
+        var isDeadlinePassed = (dateInMonth < gDeadlineDate);
+        
+        // 未来の制限期間でなければイベントを描画（締切後の日付にも表示を出す）
+        if (!isFutureRestricted) {
           // 「終日」の場合は1つの枠として2段で表示
           if (data.holidayMap[dateStr] === "終日") {
             eventsArray.push({
@@ -527,11 +531,20 @@
               } else {
                 var booked = data.bookedCounts[slotKey] || 0;
                 var remain = maxSeats - booked;
+                
+                var titleText = slot + '：' + (remain > 0 ? '残' + remain : '満');
+                
+                // 予約締切を過ぎていて、かつ残席がある場合は「受付終了」とする
+                if (isDeadlinePassed && remain > 0) {
+                  titleText = slot + '：受付終了';
+                }
+
                 eventsArray.push({ 
-                  title: slot + '：' + (remain > 0 ? '残' + remain : '満'), 
+                  title: titleText, 
                   start: dateStr, 
-                  classNames: [remain > 0 ? 'available-event' : 'full-event'],
-                  extendedProps: { timeSlot: slot, remain: remain, restricted: false }
+                  // 締切を過ぎているか、満席の場合はグレーのイベントにする
+                  classNames: [(isDeadlinePassed || remain <= 0) ? 'full-event' : 'available-event'],
+                  extendedProps: { timeSlot: slot, remain: remain, restricted: isDeadlinePassed }
                 });
               }
             });
@@ -545,7 +558,8 @@
           initialView: 'dayGridMonth', locale: 'ja', contentHeight: 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1,
           dayCellClassNames: function(arg) {
             if (!gDeadlineDate) return [];
-            if (arg.date < gDeadlineDate || arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day'];
+            // 締切日前であってもマスのグレーアウトはしない。未来の受付期間外のみグレーアウト
+            if (arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day'];
             return [];
           },
           eventClick: function(info) {
