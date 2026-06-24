@@ -2,8 +2,7 @@
 <html lang="ja">
 <head>
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="CzEATMgG4Ka9IIE5KuN/Lg" async></script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0LLZ5ZXX9P"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0LLZ5ZXX9P"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -244,7 +243,7 @@
             ※内容は季節の食材によって変更となる場合がございます。<br>
             ※一斉スタートのため、開始時間までにお越しください。<br>
             ※お子様のご利用について<br>
-            　大人の方と同じ料理を召し上がれるお子様に限ります。
+             大人の方と同じ料理を召し上がれるお子様に限ります。
           </p>
         </div>
       </div>
@@ -286,11 +285,7 @@
       <section id="store">
         <h2 class="section-title">Coming 2026 Autumn</h2>
         <div class="store-concept-container">
-          <div class="store-concept-content"><!--
-            <p class="catchphrase">囲む。味わう。灯る。</p>
-            <p class="brand-name">ロ</p>
-            <p class="brand-sub">NOATO auberge RO</p>-->
-            <p>古き良き町屋の趣を残しながら、<br>洗練されたモダンな空間へと生まれ変わります。<br>特別な日のためのお食事を、非日常の空間でお愉しみください。</p>
+          <div class="store-concept-content"><p>古き良き町屋の趣を残しながら、<br>洗練されたモダンな空間へと生まれ変わります。<br>特別な日のためのお食事を、非日常の空間でお愉しみください。</p>
           </div>
           <div class="slideshow-container store-slideshow" aria-hidden="true">
             <div class="slide active" style="background-image: url('./fl-img_1.jpg');" title="オーベルジュ完成予想1"></div>
@@ -412,9 +407,9 @@
 
     var currentBooking = {};
     var currentCalendarDate = new Date();
-    // 2026年5月以前の場合は初期表示を6月に固定
-    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 5) {
-      currentCalendarDate = new Date(2026, 5, 1);
+    // 2026年6月以前の場合は初期表示を7月に固定（★変更箇所1）
+    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 6) {
+      currentCalendarDate = new Date(2026, 6, 1);
     }
     var fullCalendarInstance = null;
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate;
@@ -457,8 +452,9 @@
     document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); });
     function goToToday() { 
       var d = new Date();
-      if (d.getFullYear() === 2026 && d.getMonth() < 5) {
-        currentCalendarDate = new Date(2026, 5, 1);
+      // （★変更箇所2）
+      if (d.getFullYear() === 2026 && d.getMonth() < 6) {
+        currentCalendarDate = new Date(2026, 6, 1);
       } else {
         currentCalendarDate = d;
       }
@@ -472,8 +468,9 @@
       document.getElementById('current-month-label').innerText = dateObj.getFullYear() + "年 " + (dateObj.getMonth() + 1) + "月";
       
       var baseDate = new Date();
-      if (baseDate.getFullYear() === 2026 && baseDate.getMonth() < 5) {
-        baseDate = new Date(2026, 5, 1);
+      // （★変更箇所3）
+      if (baseDate.getFullYear() === 2026 && baseDate.getMonth() < 6) {
+        baseDate = new Date(2026, 6, 1);
       }
       document.getElementById('btn-prev-month').disabled = (dateObj.getFullYear() === baseDate.getFullYear() && dateObj.getMonth() === baseDate.getMonth());
       
