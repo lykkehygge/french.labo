@@ -1,82 +1,94 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>キャンセルポリシー | French LABO.</title>
-    <style>
-        body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            color: #333;
-            line-height: 1.8;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-        }
-        .policy-section {
-            padding: 80px 20px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .policy-title {
-            font-size: 1.8rem;
-            margin-bottom: 50px;
-            text-align: center;
-            letter-spacing: 0.05em;
-            font-weight: 300;
-        }
-        .sub-title {
-            font-size: 1.1rem;
-            margin: 40px 0 20px;
-            font-weight: bold;
-        }
-        .policy-list {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 40px;
-        }
-        .policy-list li {
-            margin-bottom: 8px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
-        }
-        .small-text {
-            font-size: 0.8rem;
-            color: #777;
-            margin-top: 25px;
-            line-height: 1.6;
-        }
-        @media (max-width: 600px) {
-            .policy-section { padding: 40px 20px; }
-            .policy-title { font-size: 1.5rem; margin-bottom: 30px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>キャンセルポリシー | French LABO.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --main-color: #111112;
+      --sub-color: #AFB6BB;
+      --accent-color: #CC4900;
+      --white-color: #F0F0F0;
+    }
+
+    body { 
+      font-family: 'Lora', 'Shippori Mincho', "Hiragino Mincho ProN", serif; 
+      font-size: 16px; padding: 0; background-color: var(--white-color); color: var(--main-color); 
+      margin: 0; line-height: 1.8; -webkit-font-smoothing: antialiased; 
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+
+    /* 既存のレイアウト構成を踏襲 */
+    .policy-container { max-width: 800px; margin: 140px auto; padding: 0 25px; width: 100%; }
+    
+    h1.page-title { 
+      font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); 
+      text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; 
+      color: var(--main-color); text-transform: uppercase; 
+    }
+    h1.page-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); }
+
+    .policy-content { margin-bottom: 50px; }
+    .policy-content p { margin-bottom: 25px; }
+
+    .policy-table-title { font-size: 1.2em; font-weight: 500; margin: 40px 0 20px; letter-spacing: 2px; }
+    
+    .policy-list { list-style: none; padding: 0; border-top: 1px solid var(--sub-color); }
+    .policy-list li { border-bottom: 1px solid var(--sub-color); padding: 20px 0; display: flex; }
+    .policy-list li span:first-child { flex: 0 0 180px; font-weight: 500; }
+
+    .small-text { font-size: 0.8em; color: var(--main-color); margin-top: 25px; line-height: 1.8; opacity: 0.8; }
+
+    footer { background: var(--white-color); color: var(--sub-color); text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; letter-spacing: 1px; }
+
+    @media (max-width: 767px) {
+      .policy-container { margin: 100px auto; padding: 0 20px; }
+      h1.page-title { margin-bottom: 50px; font-size: 1.8em; }
+      .policy-list li { flex-direction: column; gap: 5px; }
+      .policy-list li span:first-child { flex: none; }
+    }
+  </style>
 </head>
 <body>
 
-<section class="policy-section">
-    <h1 class="policy-title">キャンセルポリシー</h1>
+  <main class="policy-container">
+    <h1 class="page-title">キャンセルポリシー</h1>
     
-    <p>French LABO.では、お客様により良いお食事の時間をお過ごしいただけますよう、限られたお席と食材を大切にご用意しております。</p>
-    
-    <p>ご予約後に人数変更・日程変更・キャンセルなどがございました場合は、恐れ入りますが、ご予約日の5日前までにご連絡をお願いいたします。</p>
-    
-    <p>ご予約日が近づいてからのお客様都合によるキャンセルにつきましては、食材の仕入れや仕込みの都合上、下記の通りキャンセル料を頂戴致します。</p>
+    <div class="policy-content">
+      <p>French LABO.では、お客様により良いお食事の時間をお過ごしいただけますよう、限られたお席と食材を大切にご用意しております。</p>
+      
+      <p>ご予約後に人数変更・日程変更・キャンセルなどがございました場合は、恐れ入りますが、ご予約日の5日前までにご連絡をお願いいたします。</p>
+      
+      <p>ご予約日が近づいてからのお客様都合によるキャンセルにつきましては、食材の仕入れや仕込みの都合上、下記の通りキャンセル料を頂戴致します。</p>
 
-    <div class="sub-title">【キャンセル料】</div>
-    <ul class="policy-list">
-        <li>5日前まで：無料</li>
-        <li>4日前：ご予約料金の50％</li>
-        <li>3日前〜2日前：ご予約料金の75％</li>
-        <li>前日・当日：ご予約料金の100％</li>
-        <li>無断キャンセル：ご予約料金の100％</li>
-    </ul>
+      <div class="policy-table-title">【キャンセル料】</div>
+      <ul class="policy-list">
+        <li><span>5日前まで</span><span>無料</span></li>
+        <li><span>4日前</span><span>ご予約料金の50％</span></li>
+        <li><span>3日前〜2日前</span><span>ご予約料金の75％</span></li>
+        <li><span>前日・当日</span><span>ご予約料金の100％</span></li>
+        <li><span>無断キャンセル</span><span>ご予約料金の100％</span></li>
+      </ul>
 
-    <p class="small-text">※人数変更につきましても、同様にご予約日の5日前までにご連絡をお願いいたします。<br>
-    5日前を過ぎての人数減少につきましては、減少人数分についてキャンセル料の対象となる場合がございます。</p>
+      <p class="small-text">
+        ※人数変更につきましても、同様にご予約日の5日前までにご連絡をお願いいたします。<br>
+        5日前を過ぎての人数減少につきましては、減少人数分についてキャンセル料の対象となる場合がございます。
+      </p>
 
-    <p class="small-text">※台風・大雪・地震等の自然災害、交通機関の大幅な運休、その他やむを得ない事情により、French LABO.が営業困難と判断した場合は、当方よりご予約のお客様へご連絡のうえ、キャンセル料は頂戴いたしません。</p>
-</section>
+      <p class="small-text">
+        ※台風・大雪・地震等の自然災害、交通機関の大幅な運休、その他やむを得ない事情により、French LABO.が営業困難と判断した場合は、当方よりご予約のお客様へご連絡のうえ、キャンセル料は頂戴いたしません。
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© ジーピーエム株式会社 All Rights Reserved.</p>
+  </footer>
 
 </body>
 </html>
