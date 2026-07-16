@@ -359,7 +359,7 @@ style="font-size:0.65em;">(税込)</span></span></h3>
           <p style="font-size:0.8em; line-height: 1.8; border: 1px 
 solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 
 400;"> 
-            各日２部制一斉スタート 13:00〜 / 15:00〜<br> 
+            各日２部制一斉スタート 13:30〜 / 15:30〜<br> 
             ※完全予約制<br> 
            ※１部につき6席まで 
           </p> 
@@ -372,20 +372,20 @@ margin-bottom: 20px; letter-spacing: 2px;">デセールご予約</h4>
               <!-- ★ 初期状態はonclickを外し、JSロード後に付与することでフライング予約を防ぐ -->
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月21日(金)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;">13:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;">15:30</button> 
               </div> 
 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月22日(土)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;">13:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;">15:30</button> 
               </div> 
 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月23日(日)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;">13:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;">15:30</button> 
               </div> 
             </div> 
           </div> 
@@ -844,12 +844,12 @@ loadCalendarData(currentCalendarDate); }
     function updateDessertButtons(dessertBookedCounts) {
       const maxSeats = 6;
       const dessertSlots = [
-        { date: '2026-08-21', slot: '13:00', id: 'btn-dessert-2026-08-21-13' },
-        { date: '2026-08-21', slot: '15:00', id: 'btn-dessert-2026-08-21-15' },
-        { date: '2026-08-22', slot: '13:00', id: 'btn-dessert-2026-08-22-13' },
-        { date: '2026-08-22', slot: '15:00', id: 'btn-dessert-2026-08-22-15' },
-        { date: '2026-08-23', slot: '13:00', id: 'btn-dessert-2026-08-23-13' },
-        { date: '2026-08-23', slot: '15:00', id: 'btn-dessert-2026-08-23-15' },
+        { date: '2026-08-21', slot: '13:30', id: 'btn-dessert-2026-08-21-13' },
+        { date: '2026-08-21', slot: '15:30', id: 'btn-dessert-2026-08-21-15' },
+        { date: '2026-08-22', slot: '13:30', id: 'btn-dessert-2026-08-22-13' },
+        { date: '2026-08-22', slot: '15:30', id: 'btn-dessert-2026-08-22-15' },
+        { date: '2026-08-23', slot: '13:30', id: 'btn-dessert-2026-08-23-13' },
+        { date: '2026-08-23', slot: '15:30', id: 'btn-dessert-2026-08-23-15' },
       ];
 
       dessertSlots.forEach(function(s) {
