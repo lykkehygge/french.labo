@@ -71,18 +71,19 @@
       overflow: hidden; 
     } 
     
+    /* ★ scale(1.6) で拡大し、top: 70% で下へズラす。これで中央のUIは完全に画面外へ */
     .video-background iframe { 
       width: 100vw; 
       height: 56.25vw; 
       min-height: 100vh; 
       min-width: 177.77vh; 
       position: absolute; 
-      top: 50%; left: 50%; 
-      transform: translate(-50%, -50%) scale(1.3); 
+      top: 70%; left: 50%; 
+      transform: translate(-50%, -50%) scale(1.6); 
       pointer-events: none; 
     }
 
-    /* ★ 動画のUIを完全に隠し、時間差で動画を見せるカバー */
+    /* ★ 最初の2秒間は真っ黒でUIを隠し、その後フェードアウト */
     .hero-black-cover {
       position: absolute; 
       top: 0; left: 0; 
@@ -90,7 +91,6 @@
       background: #111112; 
       z-index: 2; 
       pointer-events: none; 
-      /* 0秒〜5秒は真っ暗、5秒から2秒かけてフェードアウト */
       animation: fadeOutCover 2s 5s forwards; 
     }
     
@@ -104,7 +104,7 @@
       pointer-events: auto; 
     }
     
-    /* ★ ロゴとテキスト（2秒から3秒にかけてフェードイン） */
+    /* ロゴとテキスト（2秒から3秒にかけてフェードイン） */
     .hero-content { 
       position: relative; 
       z-index: 4; 
@@ -118,18 +118,18 @@
     } 
 
     .hero-content img {
-      width: 230px; 
+      width: 130px; 
       margin-bottom: 20px;
     }
 
     .hero h1 { 
       font-family: 'Lora', serif; 
       font-weight: 400; 
-      letter-spacing: 0.25em; 
+      letter-spacing: 0.35em; 
       font-size: clamp(22px, 3.5vw, 28px); 
       margin: 0; 
       color: #fff; 
-      line-height: 1.1; 
+      line-height: 1.8; 
     } 
 
     /* ★ スクロールインジケーター（7秒からフェードイン） */
@@ -155,6 +155,8 @@
       font-weight: 400;
       color: rgba(255,255,255,0.8);
     }
+    
+    /* ★ ご指定の参考サイトと全く同じスクロールアニメーション */
     .scroll-indicator .line { 
       width: 1px; 
       height: 60px; 
@@ -171,7 +173,14 @@
       animation: scrollAnim 1.5s cubic-bezier(0.8, 0, 0.2, 1) infinite;
     }
     
-    /* ★ 右下 アクションボタン（7秒からフェードイン） */
+    @keyframes scrollAnim {
+      0% { transform-origin: top; transform: scaleY(0); }
+      50% { transform-origin: top; transform: scaleY(1); }
+      50.1% { transform-origin: bottom; transform: scaleY(1); }
+      100% { transform-origin: bottom; transform: scaleY(0); }
+    }
+
+    /* 右下 アクションボタン（7秒からフェードイン） */
     .hero-actions { 
       position: absolute; 
       bottom: 40px; 
@@ -181,7 +190,7 @@
       align-items: center; 
       gap: 15px; 
       opacity: 0;
-      pointer-events: none;
+      pointer-events: auto; /* フェードイン後はクリック可能にする */
       animation: fadeInElements 1s 7s forwards;
     }
     .circle-btn { 
@@ -224,14 +233,8 @@
       100% { opacity: 1; }
     }
     @keyframes fadeInElements {
-      0% { opacity: 0; pointer-events: none; }
-      100% { opacity: 1; pointer-events: auto; }
-    }
-    @keyframes scrollAnim {
-      0% { transform-origin: top; transform: scaleY(0); }
-      50% { transform-origin: top; transform: scaleY(1); }
-      50.1% { transform-origin: bottom; transform: scaleY(1); }
-      100% { transform-origin: bottom; transform: scaleY(0); }
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
 
     /* =========================================
@@ -278,7 +281,7 @@
 
     @media (max-width: 767px) { 
       .hero { height: 100vh; height: 100dvh; min-height: auto; width: 100%; } 
-      .hero-content img { width: 180px; margin-bottom: 15px; }
+      .hero-content img { width: 100px; margin-bottom: 15px; }
       .hero h1 { font-size: 20px; letter-spacing: 0.25em; }
       
       .scroll-indicator { left: 20px; bottom: 20px; }
@@ -306,14 +309,14 @@
 <body> 
 
   <header class="hero"> 
-    <!-- ★ YouTube動画背景 -->
+    <!-- ★ YouTube動画背景（完全な直接埋め込み方式） -->
     <div class="video-background" aria-hidden="true"> 
-      <iframe src="https://www.youtube.com/embed/rumHJa8ntdU?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;loop=1&amp;playlist=rumHJa8ntdU&amp;mute=1&amp;playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/rumHJa8ntdU?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;loop=1&amp;playlist=rumHJa8ntdU&amp;mute=1&amp;playsinline=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div> 
     
-    <!-- ★ YouTubeの初期ローディング時のUIを隠蔽するカバー -->
+    <!-- YouTubeの初期ローディング時のUIを隠蔽するカバー -->
     <div class="hero-black-cover"></div>
-    <!-- ★ 画面タップによって動画が停止し、UIが表示されるのを防ぐオーバーレイ -->
+    <!-- 画面タップによって動画が停止し、UIが表示されるのを防ぐオーバーレイ -->
     <div class="hero-overlay"></div>
 
     <div class="hero-content"> 
@@ -323,7 +326,7 @@
       </div>
     </div> 
 
-    <!-- ★ スクロール指示アニメーション -->
+    <!-- スクロール指示アニメーション -->
     <div class="scroll-indicator">
       <span>Scroll</span>
       <div class="line"></div>
@@ -610,7 +613,7 @@
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
       var payload = {  
-        type: 'course', 
+        type: 'course', // 常にコース扱い
         date: currentBooking.date,  
         slot: currentBooking.slot,  
         name: name,  
