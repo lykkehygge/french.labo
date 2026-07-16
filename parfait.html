@@ -328,8 +328,7 @@ class="concept-text">2026年秋、姫路市野里に誕生する<br>オーベル
       <h2 class="section-title">Dessert Event</h2> 
       <div class="course-section"> 
         
-        <!-- ★ 画像比率を合わせるために構造をシンプル化 -->
-        <div style="flex: 1 1 400px;">
+        <div style="flex: 1 1 400px; max-width: 100%;">
           <div class="slideshow-container" aria-hidden="true" style="flex: none; width: 100%;"> 
             <div class="slide active" style="background-image: url('./parfait-1c.jpg')" title="パフェイメージ1"></div> 
             <div class="slide" style="background-image: url('./parfait-2.jpg')" title="パフェイメージ2"></div> 
@@ -371,25 +370,23 @@ solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight:
 margin-bottom: 20px; letter-spacing: 2px;">デセールご予約</h4> 
             <div style="display: flex; flex-direction: column; gap: 15px;"> 
 
-              <div style="display: flex; justify-content: 
-space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
+              <!-- ★ 初期状態はonclickを外し、JSロード後に付与することでフライング予約を防ぐ -->
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月21日(金)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;" onclick="openDessertModal('2026-08-21', '13:00', 6)">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;" onclick="openDessertModal('2026-08-21', '15:00', 6)">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;">15:00</button> 
               </div> 
 
-              <div style="display: flex; justify-content: 
-space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月22日(土)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;" onclick="openDessertModal('2026-08-22', '13:00', 6)">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;" onclick="openDessertModal('2026-08-22', '15:00', 6)">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;">15:00</button> 
               </div> 
 
-              <div style="display: flex; justify-content: 
-space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月23日(日)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;" onclick="openDessertModal('2026-08-23', '13:00', 6)">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;" onclick="openDessertModal('2026-08-23', '15:00', 6)">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;">15:00</button> 
               </div> 
             </div> 
           </div> 
@@ -844,6 +841,7 @@ justify-content:center; align-items:center;">
 currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); 
 loadCalendarData(currentCalendarDate); } 
 
+    // ★ 残席数を計算し、ゼロの場合はグレーアウト（disabled）する
     function updateDessertButtons(dessertBookedCounts) {
       const maxSeats = 6;
       const dessertSlots = [
@@ -1057,10 +1055,16 @@ dateInMonth.getDate()).slice(-2);
         return; 
       } 
       
-      // ★ フロントエンド側での強力なメールアドレスチェック（エラー時は送信処理を中断）
+      // ★ フロントエンド側での強力なメールアドレスチェック
       var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email)) {
         alert("有効なメールアドレスを入力してください");
+        return;
+      }
+
+      // ★ 残席数を超えた予約を強制ブロック
+      if (people > currentBooking.remain) {
+        alert("予約人数が残席数（" + currentBooking.remain + "席）を超えています。");
         return;
       }
       
@@ -1128,7 +1132,6 @@ dateInMonth.getDate()).slice(-2);
           
           loadCalendarData(currentCalendarDate); 
         } else { 
-          // GASでエラー弾かれた場合（念のため）
           alert("エラー: " + res.message); 
           document.getElementById('loading-overlay').style.display = 'none'; 
         } 
