@@ -411,10 +411,10 @@
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
 
     var currentBooking = {}; 
+    
+    // ★ 初期表示用の日付オブジェクト（あとでGASからのデータに従って上書きされる）
     var currentCalendarDate = new Date(); 
-    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 6) { 
-      currentCalendarDate = new Date(2026, 6, 1); 
-    } 
+
     var fullCalendarInstance = null; 
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate; 
 
@@ -428,15 +428,15 @@
       } 
     } 
 
-    document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); }); 
+    // 画面ロード時に自動的にカレンダーのデータを読み込む
+    document.addEventListener('DOMContentLoaded', function() { 
+      // ここではパラメータとして年・月を渡さずにリクエストし、GAS側で自動判定された「初期表示月」を取得する
+      loadCalendarData(null); 
+    }); 
+    
     function goToToday() {  
-      var d = new Date(); 
-      if (d.getFullYear() === 2026 && d.getMonth() < 6) { 
-        currentCalendarDate = new Date(2026, 6, 1); 
-      } else { 
-        currentCalendarDate = d; 
-      } 
-      loadCalendarData(currentCalendarDate);  
+      // 今日の日付に戻る（このボタンを押した場合は今日を起点とする）
+      loadCalendarData(new Date());  
     } 
 
     function changeMonth(diff) { 
@@ -447,21 +447,23 @@
 
     function loadCalendarData(dateObj) { 
       document.getElementById('loading-overlay').style.display = 'flex'; 
-      var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2); 
-
-      document.getElementById('current-month-label').innerText = dateObj.getFullYear() + "年 " + (dateObj.getMonth() + 1) + "月"; 
       
-      var baseDate = new Date(); 
-      if (baseDate.getFullYear() === 2026 && baseDate.getMonth() < 6) { 
-        baseDate = new Date(2026, 6, 1); 
-      } 
-
-      document.getElementById('btn-prev-month').disabled = (dateObj.getFullYear() === baseDate.getFullYear() && dateObj.getMonth() === baseDate.getMonth()); 
+      // dateObjが渡された場合はその月を、nullの場合は初期表示用としてパラメータなしでリクエスト
+      var urlParams = '?action=getCalendarData&page=limited';
+      if (dateObj) {
+        var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2); 
+        urlParams += '&yearMonth=' + yearMonthStr;
+      }
       
-      // ★ 限定ページからのリクエストであることをGASに伝えるパラメータ &page=limited を追加
-      fetch(WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr + '&page=limited') 
+      fetch(WEB_APP_URL + urlParams) 
         .then(function(response) { return response.json(); }) 
         .then(function(data) { 
+          // GASから返ってきた currentYearMonth ("YYYY-MM" 形式) をもとに、現在のカレンダーの日付を更新する
+          var parts = data.currentYearMonth.split('-');
+          currentCalendarDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
+          
+          document.getElementById('current-month-label').innerText = currentCalendarDate.getFullYear() + "年 " + (currentCalendarDate.getMonth() + 1) + "月"; 
+          
           renderCalendar(data); 
         }) 
         .catch(function(error) { 
@@ -543,7 +545,7 @@
           eventClick: function(info) { 
             if (info.event.extendedProps.restricted || !info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return; 
 
-            currentBooking = { type: 'course', date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain }; 
+            currentBooking = { type: 'limited', date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain }; 
             document.getElementById('modal-header-text').innerText = "コースご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
             var currentMax = Math.min(currentBooking.remain, 6); 
             document.getElementById('input-people').max = currentMax; 
