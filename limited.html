@@ -7,7 +7,6 @@
   window.dataLayer = window.dataLayer || []; 
   function gtag(){dataLayer.push(arguments);} 
   gtag('js', new Date()); 
-
   gtag('config', 'G-0LLZ5ZXX9P'); 
 </script> 
 
@@ -24,13 +23,9 @@
   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script> 
   <link rel="preconnect" href="https://fonts.googleapis.com"> 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
   
   <style> 
-    /* ========================================= 
-        絶対指定の4色カラーパレット (反転仕様)
-        ========================================= */ 
     :root { 
       --main-color: #F0F0F0; 
       --sub-color: #AFB6BB; 
@@ -38,7 +33,6 @@
       --white-color: #111112; 
     } 
 
-    /* 全体デザイン */ 
     body {  
       font-family: 'Lora', 'Shippori Mincho', "Hiragino Mincho ProN", serif;  
       font-size: 16px; padding: 0; background-color: var(--white-color); color: var(--main-color);  
@@ -47,17 +41,13 @@
     *, *::before, *::after { box-sizing: border-box; } 
     
     input, button, textarea, select { font-family: inherit; } 
-
     input[type="number"]::-webkit-outer-spin-button, 
-    input[type="number"]::-webkit-inner-spin-button { 
-      -webkit-appearance: none; 
-      margin: 0; 
-    } 
-    input[type="number"] { 
-      -moz-appearance: textfield; 
-    } 
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; } 
+    input[type="number"] { -moz-appearance: textfield; } 
     
-    /* ヒーローセクション（動画背景用） */
+    /* =========================================
+       ヒーローセクション（動画背景）
+       ========================================= */
     .hero { 
       position: relative; 
       height: 100vh; 
@@ -69,46 +59,58 @@
       text-align: center; 
       color: #fff; 
       overflow: hidden; 
-      background: #000; 
+      background: #111112; 
     } 
+    
     .video-background { 
       position: absolute; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
+      top: 0; left: 0; 
+      width: 100%; height: 100%; 
       z-index: 1; 
       pointer-events: none; 
       overflow: hidden; 
     } 
     
-    /* iframeによる動画の配置と拡大 */
+    /* ★ scale(1.3) で動画の端にあるYouTubeロゴ等を画面外へ押し出す */
     .video-background iframe { 
       width: 100vw; 
       height: 56.25vw; 
       min-height: 100vh; 
       min-width: 177.77vh; 
       position: absolute; 
-      top: 50%; 
-      left: 50%; 
-      transform: translate(-50%, -50%) scale(1.2); /* 端のロゴ等を消すための拡大 */
-      pointer-events: none; /* クリック等を完全に無効化 */
+      top: 50%; left: 50%; 
+      transform: translate(-50%, -50%) scale(1.3); 
+      pointer-events: none; 
     }
 
-    .hero-overlay { 
+    /* ★ 完璧なノイズ対策：最初の2秒間は真っ黒でUIを隠し、その後フェードアウトさせる */
+    .hero-black-cover {
       position: absolute; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
-      background: rgba(0, 0, 0, 0.4); 
+      top: 0; left: 0; 
+      width: 100%; height: 100%; 
+      background: #111112; 
       z-index: 2; 
       pointer-events: none; 
+      animation: fadeOutCover 1.5s 2s forwards; /* 2秒待ってから1.5秒かけて消える */
+    }
+    @keyframes fadeOutCover {
+      0% { opacity: 1; visibility: visible; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
+    /* ★ pointer-events: auto; によって、ユーザーのタップが動画に届くのを「完全に」防ぐ */
+    .hero-overlay { 
+      position: absolute; 
+      top: 0; left: 0; 
+      width: 100%; height: 100%; 
+      background: rgba(0, 0, 0, 0.4); 
+      z-index: 3; 
+      pointer-events: auto; 
     }
     
     .hero-content { 
       position: relative; 
-      z-index: 3; 
+      z-index: 4; 
       padding: 0 20px; 
       width: 100%; 
       display: flex; 
@@ -116,36 +118,41 @@
       align-items: center; 
     } 
 
+    .hero-content img {
+      width: 130px; 
+      margin-bottom: 20px;
+    }
+
     .hero h1 { 
       font-family: 'Lora', serif; 
       font-weight: 400; 
-      letter-spacing: 0.3em; 
-      font-size: clamp(20px, 4vw, 28px); 
+      letter-spacing: 0.35em; 
+      font-size: clamp(22px, 3.5vw, 28px); 
       margin: 0; 
       color: #fff; 
-      line-height: 1.6; 
+      line-height: 1.8; 
     } 
 
-    /* オーバーレイ装飾 */
+    /* ★ スクロールインジケーター（完全再現アニメーション） */
     .scroll-indicator { 
       position: absolute; 
       bottom: 40px; 
       left: 40px; 
-      z-index: 3; 
+      z-index: 4; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
-      gap: 10px; 
+      gap: 12px; 
       color: #fff; 
     }
     .scroll-indicator span { 
       writing-mode: vertical-rl; 
-      font-size: 0.8em; 
-      letter-spacing: 2px; 
+      font-size: 0.75em; 
+      letter-spacing: 3px; 
       margin-bottom: 5px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.8);
     }
-    
-    /* Scrollラインのアニメーション */
     .scroll-indicator .line { 
       width: 1px; 
       height: 60px; 
@@ -156,10 +163,8 @@
     .scroll-indicator .line::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: #fff;
       animation: scrollAnim 1.5s cubic-bezier(0.8, 0, 0.2, 1) infinite;
     }
@@ -175,7 +180,7 @@
       position: absolute; 
       bottom: 40px; 
       right: 40px; 
-      z-index: 3; 
+      z-index: 4; 
       display: flex; 
       align-items: center; 
       gap: 15px; 
@@ -210,6 +215,9 @@
     }
     .reserve-btn:hover { background: rgba(139, 90, 43, 0.9); }
 
+    /* =========================================
+       各セクション
+       ========================================= */
     section { max-width: 800px; margin: 140px auto; padding: 0 25px; width: 100%; } 
     
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; } 
@@ -251,6 +259,7 @@
 
     @media (max-width: 767px) { 
       .hero { height: 100vh; height: 100dvh; min-height: auto; width: 100%; } 
+      .hero-content img { width: 100px; margin-bottom: 15px; }
       .hero h1 { font-size: 20px; letter-spacing: 0.25em; }
       
       .scroll-indicator { left: 20px; bottom: 20px; }
@@ -278,26 +287,31 @@
 <body> 
 
   <header class="hero"> 
-    <!-- ★ 直接 iframe を記述する方法に変更 -->
+    <!-- ★ YouTube動画背景 -->
     <div class="video-background" aria-hidden="true"> 
+      <!-- ご提示いただいたコードをそのまま利用し、CSSでコントロールしています -->
       <iframe src="https://www.youtube.com/embed/rumHJa8ntdU?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;loop=1&amp;playlist=rumHJa8ntdU&amp;mute=1&amp;playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div> 
+    
+    <!-- ★ YouTubeの初期ローディング時のUIを隠蔽するカバー -->
+    <div class="hero-black-cover"></div>
+    <!-- ★ 画面タップによって動画が停止し、UIが表示されるのを防ぐオーバーレイ -->
     <div class="hero-overlay"></div>
 
     <div class="hero-content"> 
       <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="./ro-logo-mark.png" alt="Logo" style="width: 180px; margin-bottom: 25px;">
+        <img src="./ro-logo-mark.png" alt="Logo">
         <h1>RO AUBERGE<br>HIMEJI</h1>
       </div>
     </div> 
 
-    <!-- Scroll指示 -->
+    <!-- ★ スクロール指示アニメーション -->
     <div class="scroll-indicator">
       <span>Scroll</span>
       <div class="line"></div>
     </div>
 
-    <!-- アクションボタン群 -->
+    <!-- アクションボタン -->
     <div class="hero-actions">
       <a href="https://www.instagram.com/french__labo/" target="_blank" rel="noopener" class="circle-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -578,7 +592,7 @@
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
       var payload = {  
-        type: 'course', // 常にコース扱い
+        type: 'course', 
         date: currentBooking.date,  
         slot: currentBooking.slot,  
         name: name,  
