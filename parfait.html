@@ -327,13 +327,11 @@ class="concept-text">2026年秋、姫路市野里に誕生する<br>オーベル
     <section id="dessert-event"> 
       <h2 class="section-title">Dessert Event</h2> 
       <div class="course-section"> 
-        <!-- 画像と注意書きをまとめるラッパー -->
         <div style="flex: 1 1 400px; width: 100%; display: flex; flex-direction: column;">
           <div class="slideshow-container" aria-hidden="true" style="width: 100%; flex: 1;"> 
             <div class="slide active" style="background-image: url('./parfait-1c.jpg')" title="パフェイメージ1"></div> 
             <div class="slide" style="background-image: url('./parfait-2.jpg')" title="パフェイメージ2"></div> 
           </div>
-          <!-- 画像下の注意文 -->
           <p style="font-size: 0.85em; color: var(--sub-color); text-align: right; margin-top: 8px; margin-bottom: 0;">※写真はイメージです。</p>
         </div>
         
@@ -374,22 +372,22 @@ margin-bottom: 20px; letter-spacing: 2px;">デセールご予約</h4>
               <div style="display: flex; justify-content: 
 space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月21日(金)</strong> 
-                <button class="cal-btn" style="flex: 1;" onclick="openDessertModal('2026-08-21', '13:00')">13:00</button> 
-                <button class="cal-btn" style="flex: 1;" onclick="openDessertModal('2026-08-21', '15:00')">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;" onclick="openDessertModal('2026-08-21', '13:00', 6)">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;" onclick="openDessertModal('2026-08-21', '15:00', 6)">15:00</button> 
               </div> 
 
               <div style="display: flex; justify-content: 
 space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月22日(土)</strong> 
-                <button class="cal-btn" style="flex: 1;" onclick="openDessertModal('2026-08-22', '13:00')">13:00</button> 
-                <button class="cal-btn" style="flex: 1;" onclick="openDessertModal('2026-08-22', '15:00')">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;" onclick="openDessertModal('2026-08-22', '13:00', 6)">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;" onclick="openDessertModal('2026-08-22', '15:00', 6)">15:00</button> 
               </div> 
 
               <div style="display: flex; justify-content: 
 space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月23日(日)</strong> 
-                <button class="cal-btn" style="flex: 1;" onclick="openDessertModal('2026-08-23', '13:00')">13:00</button> 
-                <button class="cal-btn" style="flex: 1;" onclick="openDessertModal('2026-08-23', '15:00')">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;" onclick="openDessertModal('2026-08-23', '13:00', 6)">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;" onclick="openDessertModal('2026-08-23', '15:00', 6)">15:00</button> 
               </div> 
             </div> 
           </div> 
@@ -633,6 +631,30 @@ font-weight:500; text-align:center; margin-bottom:20px;
 border-bottom:1px solid var(--sub-color); 
 padding-bottom:15px;">予約フォーム</div> 
 
+      <!-- デザート選択メニュー -->
+      <div id="dessert-options" style="display:none; margin-bottom:15px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(0,0,0,0.02);">
+        <p style="margin-top:0; margin-bottom:15px; font-weight:500; font-size:1.1em;">デセール メニュー選択</p>
+        <div class="form-group">
+          <label>パフェの選択 *</label>
+          <select id="input-parfait" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; font-size: 1em; background: #fff;">
+            <option value="">選択してください</option>
+            <option value="白桃">白桃</option>
+            <option value="マンゴー">マンゴー</option>
+            <option value="マスカット">マスカット</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>お飲み物の選択 *</label>
+          <select id="input-drink" style="width:100%; padding:10px; border:1px solid var(--sub-color); border-radius:4px; font-size: 1em; background: #fff;">
+            <option value="">選択してください</option>
+            <option value="シャンパーニュ">シャンパーニュ</option>
+            <option value="貴腐ワイン">貴腐ワイン</option>
+            <option value="ノンアルコールスパークリング">ノンアルコールスパークリング</option>
+            <option value="フレッシュハーブティー">フレッシュハーブティー</option>
+          </select>
+        </div>
+      </div>
+
       <div class="form-group"><label>お名前 
 *</label><input type="text" id="input-name" style="width:100%; 
 padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); 
@@ -716,14 +738,11 @@ justify-content:center; align-items:center;">
 
   <script> 
     // ★ここは必ず最新のGASウェブアプリURLに書き換えてください 
-
     const WEB_APP_URL = 
 "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
- 
 
     var currentBooking = {}; 
     var currentCalendarDate = new Date(); 
-    // 2026年6月以前の場合は初期表示を7月に固定（★変更箇所1） 
     if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 6) { 
       currentCalendarDate = new Date(2026, 6, 1); 
     } 
@@ -768,7 +787,6 @@ justify-content:center; align-items:center;">
     document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); }); 
     function goToToday() {  
       var d = new Date(); 
-      // （★変更箇所2） 
       if (d.getFullYear() === 2026 && d.getMonth() < 6) { 
         currentCalendarDate = new Date(2026, 6, 1); 
       } else { 
@@ -781,6 +799,43 @@ justify-content:center; align-items:center;">
 currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); 
 loadCalendarData(currentCalendarDate); } 
 
+    // デザートの予約ボタンを動的に更新する関数
+    function updateDessertButtons(dessertBookedCounts) {
+      const maxSeats = 6;
+      const dessertSlots = [
+        { date: '2026-08-21', slot: '13:00', id: 'btn-dessert-2026-08-21-13' },
+        { date: '2026-08-21', slot: '15:00', id: 'btn-dessert-2026-08-21-15' },
+        { date: '2026-08-22', slot: '13:00', id: 'btn-dessert-2026-08-22-13' },
+        { date: '2026-08-22', slot: '15:00', id: 'btn-dessert-2026-08-22-15' },
+        { date: '2026-08-23', slot: '13:00', id: 'btn-dessert-2026-08-23-13' },
+        { date: '2026-08-23', slot: '15:00', id: 'btn-dessert-2026-08-23-15' },
+      ];
+
+      dessertSlots.forEach(function(s) {
+        var key = s.date + '_' + s.slot;
+        var booked = dessertBookedCounts[key] || 0;
+        var remain = maxSeats - booked;
+        var btn = document.getElementById(s.id);
+        
+        if (btn) {
+          if (remain <= 0) {
+            btn.innerText = s.slot + ' (満席)';
+            btn.disabled = true;
+            btn.style.background = 'var(--sub-color)';
+            btn.style.color = 'var(--main-color)';
+            btn.style.pointerEvents = 'none';
+          } else {
+            btn.innerText = s.slot + ' (残' + remain + ')';
+            btn.disabled = false;
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.pointerEvents = '';
+            btn.onclick = function() { openDessertModal(s.date, s.slot, remain); };
+          }
+        }
+      });
+    }
+
     function loadCalendarData(dateObj) { 
       document.getElementById('loading-overlay').style.display = 'flex'; 
       var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2); 
@@ -789,7 +844,6 @@ loadCalendarData(currentCalendarDate); }
 dateObj.getFullYear() + "年 " + (dateObj.getMonth() + 1) + "月"; 
       
       var baseDate = new Date(); 
-      // （★変更箇所3） 
       if (baseDate.getFullYear() === 2026 && baseDate.getMonth() < 6) { 
         baseDate = new Date(2026, 6, 1); 
       } 
@@ -800,7 +854,11 @@ dateObj.getMonth() === baseDate.getMonth());
       
       fetch(WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr) 
         .then(function(response) { return response.json(); }) 
-        .then(function(data) { renderCalendar(data); }) 
+        .then(function(data) { 
+          renderCalendar(data); 
+          // ★取得した情報からデザートのボタンも更新する
+          updateDessertButtons(data.dessertBookedCounts || {});
+        }) 
         .catch(function(error) { 
           console.error('Error:', error); 
           alert("カレンダーの読み込みに失敗しました。"); 
@@ -832,13 +890,10 @@ dateObj.getMonth() === baseDate.getMonth());
 (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + 
 dateInMonth.getDate()).slice(-2); 
         
-        // 追加: 制限の判定を2つに分割（未来の制限期間か、締切が過ぎたか） 
         var isFutureRestricted = (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate); 
         var isDeadlinePassed = (dateInMonth < gDeadlineDate); 
         
-        // 未来の制限期間でなければイベントを描画（締切後の日付にも表示を出す） 
         if (!isFutureRestricted) { 
-          // 「終日」の場合は1つの枠として2段で表示 
           if (data.holidayMap[dateStr] === "終日") { 
             eventsArray.push({ 
               title: 'Prep Day\n(開業準備)', 
@@ -846,7 +901,6 @@ dateInMonth.getDate()).slice(-2);
               classNames: ['holiday-event', 'full-day-holiday'] 
             }); 
           } else { 
-            // それ以外（個別枠）の場合は通常通り判定 
             ['昼', '夜'].forEach(function(slot) { 
               var slotKey = dateStr + '_' + slot; 
               var isHoliday = (data.holidayMap[slotKey] === "休業"); 
@@ -859,7 +913,6 @@ dateInMonth.getDate()).slice(-2);
                 
                 var titleText = slot + '：' + (remain > 0 ? '残' + remain : '満'); 
                 
-                // 予約締切を過ぎていて、かつ残席がある場合は「受付終了」とする 
                 if (isDeadlinePassed && remain > 0) { 
                   titleText = slot + '：受付終了'; 
                 } 
@@ -867,7 +920,6 @@ dateInMonth.getDate()).slice(-2);
                 eventsArray.push({  
                   title: titleText,  
                   start: dateStr,  
-                  // 締切を過ぎているか、満席の場合はグレーのイベントにする 
                   classNames: [(isDeadlinePassed || remain <= 0) ? 'full-event' : 'available-event'], 
                   extendedProps: { timeSlot: slot, remain: remain, restricted: isDeadlinePassed } 
                 }); 
@@ -880,28 +932,27 @@ dateInMonth.getDate()).slice(-2);
 
       if (!fullCalendarInstance) { 
         fullCalendarInstance = new FullCalendar.Calendar(document.getElementById('calendar'), { 
-
           initialView: 'dayGridMonth', locale: 'ja', contentHeight: 
 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1, 
           dayCellClassNames: function(arg) { 
             if (!gDeadlineDate) return []; 
-            // 締切日前であってもマスのグレーアウトはしない。未来の受付期間外のみグレーアウト 
             if (arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day']; 
             return []; 
           }, 
           eventClick: function(info) { 
-
             if (info.event.extendedProps.restricted || 
-!info.event.extendedProps.remain || info.event.extendedProps.remain 
-<= 0) return; 
+!info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return; 
 
-            // ★ カレンダーからの予約は 'course' として扱う
             currentBooking = { type: 'course', date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain }; 
             document.getElementById('modal-header-text').innerText = "コースご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
             var currentMax = Math.min(currentBooking.remain, 6); 
             document.getElementById('input-people').max = currentMax; 
             document.getElementById('max-people-label').innerText = currentMax; 
             document.getElementById('input-people').value = 1; 
+
+            // コース予約時はデザート選択を隠す
+            document.getElementById('dessert-options').style.display = 'none';
+
             document.getElementById('res-modal').style.display = 'flex'; 
           } 
         }); 
@@ -912,16 +963,17 @@ dateInMonth.getDate()).slice(-2);
       fullCalendarInstance.addEventSource(eventsArray); 
     } 
 
-    function openDessertModal(date, time) { 
-      // ★ デザート用の予約ボタンは 'dessert' として扱う
-      currentBooking = { type: 'dessert', date: date, slot: time, remain: 6 }; 
-
-      document.getElementById('modal-header-text').innerText = 
-"デセールご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
-      var currentMax = 6; 
+    function openDessertModal(date, time, remain) { 
+      currentBooking = { type: 'dessert', date: date, slot: time, remain: remain }; 
+      document.getElementById('modal-header-text').innerText = "デセールご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
+      var currentMax = Math.min(remain, 6); 
       document.getElementById('input-people').max = currentMax; 
       document.getElementById('max-people-label').innerText = currentMax; 
       document.getElementById('input-people').value = 1; 
+
+      // デセール予約時はデザート選択を表示
+      document.getElementById('dessert-options').style.display = 'block';
+
       document.getElementById('res-modal').style.display = 'flex'; 
     } 
 
@@ -950,16 +1002,29 @@ dateInMonth.getDate()).slice(-2);
       var dislikes = document.getElementById('input-dislikes').value; 
       var allergies = document.getElementById('input-allergies').value; 
       var purpose = document.getElementById('input-purpose').value; 
+      
+      var parfait = document.getElementById('input-parfait').value;
+      var drink = document.getElementById('input-drink').value;
 
       if(!name || !phone || !email || !people || 
 !document.getElementById('agree-privacy').checked) { 
-alert("必須項目を入力してください"); return; } 
+        alert("必須項目を入力してください"); 
+        return; 
+      } 
+      
+      // デセール予約時はパフェ・お飲み物が必須
+      if (currentBooking.type === 'dessert') {
+        if (!parfait || !drink) {
+          alert("パフェとお飲み物を選択してください"); 
+          return; 
+        }
+      }
       
       closeModal('res-modal'); 
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
       var payload = { 
-        type: currentBooking.type || 'course', // ★ ここで予約種別を送信
+        type: currentBooking.type || 'course',
         date: currentBooking.date,  
         slot: currentBooking.slot,  
         name: name,  
@@ -968,7 +1033,9 @@ alert("必須項目を入力してください"); return; }
         phone: phone,  
         purpose: purpose,  
         dislikes: dislikes,  
-        allergy: allergies  
+        allergy: allergies,
+        parfait: parfait,
+        drink: drink
       }; 
 
       fetch(WEB_APP_URL, { 
@@ -984,13 +1051,18 @@ alert("必須項目を入力してください"); return; }
         if(res.status === "OK") { 
           document.getElementById('msg-text').innerHTML = "予約が完了しました。"; 
           document.getElementById('msg-modal').style.display = 'flex'; 
+          
+          // 入力フォームのリセット
           document.getElementById('input-name').value = ''; 
           document.getElementById('input-phone').value = ''; 
           document.getElementById('input-email').value = ''; 
           document.getElementById('input-purpose').value = ''; 
           document.getElementById('input-dislikes').value = ''; 
           document.getElementById('input-allergies').value = ''; 
+          document.getElementById('input-parfait').value = ''; 
+          document.getElementById('input-drink').value = ''; 
           document.getElementById('agree-privacy').checked = false; 
+          
           loadCalendarData(currentCalendarDate); 
         } else { alert("エラー: " + res.message); document.getElementById('loading-overlay').style.display = 'none'; } 
       }) 
