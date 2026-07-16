@@ -82,17 +82,17 @@
       overflow: hidden; 
     } 
     
-    /* ★ scale(1.6) に拡大し、top: 70% で下方向にズラすことで中央のボタンを画面外へ追放する */
-    #yt-player {
+    /* iframeによる動画の配置と拡大 */
+    .video-background iframe { 
       width: 100vw; 
       height: 56.25vw; 
       min-height: 100vh; 
       min-width: 177.77vh; 
       position: absolute; 
-      top: 70%; 
+      top: 50%; 
       left: 50%; 
-      transform: translate(-50%, -50%) scale(1.6); 
-      pointer-events: none; 
+      transform: translate(-50%, -50%) scale(1.2); /* 端のロゴ等を消すための拡大 */
+      pointer-events: none; /* クリック等を完全に無効化 */
     }
 
     .hero-overlay { 
@@ -145,6 +145,7 @@
       margin-bottom: 5px;
     }
     
+    /* Scrollラインのアニメーション */
     .scroll-indicator .line { 
       width: 1px; 
       height: 60px; 
@@ -164,22 +165,10 @@
     }
     
     @keyframes scrollAnim {
-      0% {
-        transform-origin: top;
-        transform: scaleY(0);
-      }
-      50% {
-        transform-origin: top;
-        transform: scaleY(1);
-      }
-      50.1% {
-        transform-origin: bottom;
-        transform: scaleY(1);
-      }
-      100% {
-        transform-origin: bottom;
-        transform: scaleY(0);
-      }
+      0% { transform-origin: top; transform: scaleY(0); }
+      50% { transform-origin: top; transform: scaleY(1); }
+      50.1% { transform-origin: bottom; transform: scaleY(1); }
+      100% { transform-origin: bottom; transform: scaleY(0); }
     }
 
     .hero-actions { 
@@ -226,6 +215,7 @@
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; } 
     h2.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); } 
 
+    /* カレンダーのスタイル */
     #calendar-wrapper { background: #ffffff; color: #111112; padding: 40px; border-radius: 8px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } 
     .calendar-header-top { text-align: center; margin-bottom: 25px; } 
     #current-month-label { font-size: 1.5em; font-weight: 600; letter-spacing: 2px; color: #111112; } 
@@ -288,23 +278,26 @@
 <body> 
 
   <header class="hero"> 
+    <!-- ★ 直接 iframe を記述する方法に変更 -->
     <div class="video-background" aria-hidden="true"> 
-      <div id="yt-player"></div>
+      <iframe src="https://www.youtube.com/embed/rumHJa8ntdU?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;loop=1&amp;playlist=rumHJa8ntdU&amp;mute=1&amp;playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div> 
     <div class="hero-overlay"></div>
 
     <div class="hero-content"> 
       <div style="display: flex; flex-direction: column; align-items: center;">
-        <img src="./ro-logo-mark.png" alt="Logo" style="width: 140px; margin-bottom: 25px;">
+        <img src="./ro-logo-mark.png" alt="Logo" style="width: 180px; margin-bottom: 25px;">
         <h1>RO AUBERGE<br>HIMEJI</h1>
       </div>
     </div> 
 
+    <!-- Scroll指示 -->
     <div class="scroll-indicator">
       <span>Scroll</span>
       <div class="line"></div>
     </div>
 
+    <!-- アクションボタン群 -->
     <div class="hero-actions">
       <a href="https://www.instagram.com/french__labo/" target="_blank" rel="noopener" class="circle-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
@@ -317,6 +310,7 @@
   </header> 
 
   <main> 
+    <!-- コンセプトセクション -->
     <section id="concept" style="margin: 120px auto; text-align: center;">
       <p style="font-family: 'Shippori Mincho', serif; font-size: 1.1em; line-height: 2.4; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
         料理には、<br>
@@ -340,6 +334,7 @@
       </p>
     </section>
 
+    <!-- 予約カレンダーセクション -->
     <section id="reservation"> 
       <h2 class="section-title">RESERVATION</h2> 
       <div id="calendar-wrapper"> 
@@ -400,37 +395,7 @@
     </div> 
   </div> 
 
-  <!-- YouTube Iframe API 読み込み -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-  
   <script> 
-    var ytPlayer;
-    function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('yt-player', {
-        videoId: 'rumHJa8ntdU',
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          iv_load_policy: 3,
-          modestbranding: 1,
-          rel: 0,
-          playsinline: 1,
-          mute: 1,
-          playlist: 'rumHJa8ntdU', // ループ再生のためにプレイリストにも指定
-          loop: 1                  // ループ有効化
-        },
-        events: {
-          'onReady': onPlayerReady
-        }
-      });
-    }
-
-    function onPlayerReady(event) {
-      event.target.playVideo();
-    }
-
     // ★ここは必ず最新のGASウェブアプリURLに書き換えてください 
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
 
