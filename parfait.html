@@ -327,7 +327,6 @@ class="concept-text">2026年秋、姫路市野里に誕生する<br>オーベル
     <section id="dessert-event"> 
       <h2 class="section-title">Dessert Event</h2> 
       <div class="course-section"> 
-        <!-- ★ 他のメニューと比率が合うように構造を修正 -->
         <div style="flex: 1 1 400px; max-width: 100%;">
           <div class="slideshow-container" aria-hidden="true" style="width: 100%;"> 
             <div class="slide active" style="background-image: url('./parfait-1c.jpg')" title="パフェイメージ1"></div> 
@@ -632,27 +631,11 @@ font-weight:500; text-align:center; margin-bottom:20px;
 border-bottom:1px solid var(--sub-color); 
 padding-bottom:15px;">予約フォーム</div> 
 
-      <!-- デザート選択メニュー -->
+      <!-- デザート選択メニュー（人数に応じてJSで動的に生成される） -->
       <div id="dessert-options" style="display:none; margin-bottom:15px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(0,0,0,0.02);">
         <p style="margin-top:0; margin-bottom:15px; font-weight:500; font-size:1.1em;">デセール メニュー選択</p>
-        <div class="form-group">
-          <label>パフェの選択 *</label>
-          <select id="input-parfait" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; font-size: 1em; background: #fff;">
-            <option value="">選択してください</option>
-            <option value="白桃">白桃</option>
-            <option value="マンゴー">マンゴー</option>
-            <option value="マスカット">マスカット</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>お飲み物の選択 *</label>
-          <select id="input-drink" style="width:100%; padding:10px; border:1px solid var(--sub-color); border-radius:4px; font-size: 1em; background: #fff;">
-            <option value="">選択してください</option>
-            <option value="シャンパーニュ">シャンパーニュ</option>
-            <option value="貴腐ワイン">貴腐ワイン</option>
-            <option value="ノンアルコールスパークリング">ノンアルコールスパークリング</option>
-            <option value="フレッシュハーブティー">フレッシュハーブティー</option>
-          </select>
+        <div id="dessert-selections-container">
+          <!-- JSで自動挿入されます -->
         </div>
       </div>
 
@@ -775,6 +758,57 @@ justify-content:center; align-items:center;">
       } 
     } 
 
+    // 人数変更に合わせてデザートの選択肢を増減させる関数
+    function renderDessertSelections(count) {
+      const container = document.getElementById('dessert-selections-container');
+      const currentCount = container.children.length;
+      
+      if (count > currentCount) {
+        // 足りない分を追加
+        for (let i = currentCount; i < count; i++) {
+          const div = document.createElement('div');
+          div.className = 'dessert-person-block';
+          div.style.marginBottom = '15px';
+          div.style.paddingBottom = '15px';
+          
+          div.innerHTML = `
+            <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.95em;">【 ${i + 1}名様目 】</p>
+            <div class="form-group">
+              <label style="font-size: 0.9em;">パフェの選択 *</label>
+              <select class="input-parfait" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid var(--sub-color); border-radius:4px; font-size: 1em; background: #fff;">
+                <option value="">選択してください</option>
+                <option value="白桃">白桃</option>
+                <option value="マンゴー">マンゴー</option>
+                <option value="マスカット">マスカット</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label style="font-size: 0.9em;">お飲み物の選択 *</label>
+              <select class="input-drink" style="width:100%; padding:8px; border:1px solid var(--sub-color); border-radius:4px; font-size: 1em; background: #fff;">
+                <option value="">選択してください</option>
+                <option value="シャンパーニュ">シャンパーニュ</option>
+                <option value="貴腐ワイン">貴腐ワイン</option>
+                <option value="ノンアルコールスパークリング">ノンアルコールスパークリング</option>
+                <option value="フレッシュハーブティー">フレッシュハーブティー</option>
+              </select>
+            </div>
+          `;
+          container.appendChild(div);
+        }
+      } else if (count < currentCount) {
+        // 多い分を削除
+        for (let i = currentCount; i > count; i--) {
+          container.removeChild(container.lastChild);
+        }
+      }
+      
+      // 最後の要素のボーダーボトムを消す
+      const blocks = container.querySelectorAll('.dessert-person-block');
+      blocks.forEach((block, index) => {
+        block.style.borderBottom = index < count - 1 ? '1px dashed var(--sub-color)' : 'none';
+      });
+    }
+
     function adjustPeople(diff) { 
       var input = document.getElementById('input-people'); 
       var currentVal = parseInt(input.value) || 1; 
@@ -782,6 +816,11 @@ justify-content:center; align-items:center;">
       var newVal = currentVal + diff; 
       if(newVal >= 1 && newVal <= max) { 
         input.value = newVal; 
+        
+        // デザート予約時の選択肢も人数に合わせて更新
+        if (currentBooking.type === 'dessert') {
+          renderDessertSelections(newVal);
+        }
       } 
     } 
 
@@ -800,7 +839,6 @@ justify-content:center; align-items:center;">
 currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); 
 loadCalendarData(currentCalendarDate); } 
 
-    // デザートの予約ボタンを動的に更新する関数
     function updateDessertButtons(dessertBookedCounts) {
       const maxSeats = 6;
       const dessertSlots = [
@@ -857,7 +895,6 @@ dateObj.getMonth() === baseDate.getMonth());
         .then(function(response) { return response.json(); }) 
         .then(function(data) { 
           renderCalendar(data); 
-          // ★取得した情報からデザートのボタンも更新する
           updateDessertButtons(data.dessertBookedCounts || {});
         }) 
         .catch(function(error) { 
@@ -974,6 +1011,9 @@ dateInMonth.getDate()).slice(-2);
 
       // デセール予約時はデザート選択を表示
       document.getElementById('dessert-options').style.display = 'block';
+      // 初期化（1人分作成）
+      document.getElementById('dessert-selections-container').innerHTML = '';
+      renderDessertSelections(1);
 
       document.getElementById('res-modal').style.display = 'flex'; 
     } 
@@ -1004,8 +1044,8 @@ dateInMonth.getDate()).slice(-2);
       var allergies = document.getElementById('input-allergies').value; 
       var purpose = document.getElementById('input-purpose').value; 
       
-      var parfait = document.getElementById('input-parfait').value;
-      var drink = document.getElementById('input-drink').value;
+      var parfaitStr = "";
+      var drinkStr = "";
 
       if(!name || !phone || !email || !people || 
 !document.getElementById('agree-privacy').checked) { 
@@ -1013,12 +1053,25 @@ dateInMonth.getDate()).slice(-2);
         return; 
       } 
       
-      // デセール予約時はパフェ・お飲み物が必須
+      // デセール予約時は人数分のパフェ・お飲み物が必須
       if (currentBooking.type === 'dessert') {
-        if (!parfait || !drink) {
-          alert("パフェとお飲み物を選択してください"); 
-          return; 
+        let parfaits = [];
+        let drinks = [];
+        let parfaitSelects = document.querySelectorAll('.input-parfait');
+        let drinkSelects = document.querySelectorAll('.input-drink');
+        
+        for (let i = 0; i < people; i++) {
+          if (!parfaitSelects[i].value || !drinkSelects[i].value) {
+            alert((i+1) + "名様目のパフェとお飲み物を選択してください"); 
+            return; 
+          }
+          parfaits.push((i+1) + "人目: " + parfaitSelects[i].value);
+          drinks.push((i+1) + "人目: " + drinkSelects[i].value);
         }
+        
+        // 文字列として結合（改行コードで区切る）
+        parfaitStr = parfaits.join("\n");
+        drinkStr = drinks.join("\n");
       }
       
       closeModal('res-modal'); 
@@ -1035,8 +1088,8 @@ dateInMonth.getDate()).slice(-2);
         purpose: purpose,  
         dislikes: dislikes,  
         allergy: allergies,
-        parfait: parfait,
-        drink: drink
+        parfait: parfaitStr, // 結合した文字列を送信
+        drink: drinkStr      // 結合した文字列を送信
       }; 
 
       fetch(WEB_APP_URL, { 
@@ -1060,8 +1113,6 @@ dateInMonth.getDate()).slice(-2);
           document.getElementById('input-purpose').value = ''; 
           document.getElementById('input-dislikes').value = ''; 
           document.getElementById('input-allergies').value = ''; 
-          document.getElementById('input-parfait').value = ''; 
-          document.getElementById('input-drink').value = ''; 
           document.getElementById('agree-privacy').checked = false; 
           
           loadCalendarData(currentCalendarDate); 
