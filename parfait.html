@@ -314,7 +314,8 @@ center !important; font-weight: 700 !important; letter-spacing: 0
       <div class="slide" style="background-image: url('./fl-top_3.jpg')" title="フレンチラボ メイン画像3"></div> 
     </div> 
     <div class="hero-content"> 
-      <h1 onclick="openPwModal()" style="cursor: pointer;">French LABO.</h1>
+      <h1 onclick="openPwModal()" style="cursor: pointer;">French LABO.</h1> 
+
       <p 
 class="concept-text">2026年秋、姫路市野里に誕生する<br>オーベルジュに先駆け<br>料理が立ち上がる過程を味わう場所<br>French
  LABO.です。</p> 
@@ -359,7 +360,7 @@ style="font-size:0.65em;">(税込)</span></span></h3>
           <p style="font-size:0.8em; line-height: 1.8; border: 1px 
 solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 
 400;"> 
-            各日２部制一斉スタート 13:30〜 / 15:30〜<br> 
+            各日２部制一斉スタート 13:00〜 / 15:00〜<br> 
             ※完全予約制<br> 
            ※１部につき6席まで 
           </p> 
@@ -369,23 +370,22 @@ solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight:
 margin-bottom: 20px; letter-spacing: 2px;">デセールご予約</h4> 
             <div style="display: flex; flex-direction: column; gap: 15px;"> 
 
-              <!-- ★ 初期状態はonclickを外し、JSロード後に付与することでフライング予約を防ぐ -->
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月21日(金)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;">13:30</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;">15:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;">15:00</button> 
               </div> 
 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月22日(土)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;">13:30</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;">15:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;">15:00</button> 
               </div> 
 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月23日(日)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;">13:30</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;">15:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;">15:00</button> 
               </div> 
             </div> 
           </div> 
@@ -629,7 +629,6 @@ font-weight:500; text-align:center; margin-bottom:20px;
 border-bottom:1px solid var(--sub-color); 
 padding-bottom:15px;">予約フォーム</div> 
 
-      <!-- ★ 順番の変更：一番上に人数選択を配置 -->
       <div class="form-group"> 
         <label>人数 * (最大<span id="max-people-label">6</span>名)</label> 
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; margin-top:5px;"> 
@@ -654,67 +653,37 @@ justify-content:center; align-items:center;">+</button>
         </div> 
       </div> 
 
-      <!-- ★ 人数の次にデザート選択メニュー（人数に応じてJSで動的に生成される） -->
       <div id="dessert-options" style="display:none; margin-bottom:15px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(0,0,0,0.02);">
         <p style="margin-top:0; margin-bottom:15px; font-weight:500; font-size:1.1em;">デセール メニュー選択</p>
         <div id="dessert-selections-container">
-          <!-- JSで自動挿入されます -->
         </div>
       </div>
 
-      <!-- ★ その次にお名前などの基本情報 -->
-      <div class="form-group"><label>お名前 
-*</label><input type="text" id="input-name" style="width:100%; 
-padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); 
-border-radius:4px;"></div> 
+      <div class="form-group"><label>お名前 *</label><input type="text" id="input-name" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
+      
+      <!-- ★ 追加：郵便番号と住所 -->
+      <div class="form-group"><label>郵便番号</label><input type="text" id="input-zip" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
+      <div class="form-group"><label>住所</label><input type="text" id="input-address" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
 
-      <div class="form-group"><label>電話番号 
-*</label><input type="tel" id="input-phone" style="width:100%; 
-padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); 
-border-radius:4px;"></div> 
+      <div class="form-group"><label>電話番号 *</label><input type="tel" id="input-phone" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
 
-      <div class="form-group"><label>メールアドレス 
-*</label><input type="email" id="input-email" 
-style="width:100%; padding:10px; margin-bottom:15px; border:1px solid 
-var(--sub-color); border-radius:4px;"></div> 
+      <div class="form-group"><label>メールアドレス *</label><input type="email" id="input-email" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
 
-      <div 
-class="form-group"><label>ご利用目的</label><input 
-type="text" id="input-purpose" style="width:100%; padding:10px; 
-margin-bottom:15px; border:1px solid var(--sub-color); 
-border-radius:4px;"></div> 
+      <div class="form-group"><label>ご利用目的</label><input type="text" id="input-purpose" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
 
-      <div 
-class="form-group"><label>苦手食材</label><input 
-type="text" id="input-dislikes" style="width:100%; padding:10px; 
-margin-bottom:15px; border:1px solid var(--sub-color); 
-border-radius:4px;"></div> 
+      <div class="form-group"><label>苦手食材</label><input type="text" id="input-dislikes" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
 
-      <div 
-class="form-group"><label>アレルギー</label><input 
-type="text" id="input-allergies" style="width:100%; padding:10px; 
-margin-bottom:15px; border:1px solid var(--sub-color); 
-border-radius:4px;"></div> 
+      <div class="form-group"><label>アレルギー</label><input type="text" id="input-allergies" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
 
-      <p style="font-size:0.8em; color:var(--main-color); 
-margin:15px 0;">ご入力いただきました個人情報は、レストランの予約管理にのみ使用いたします。</p> 
+      <p style="font-size:0.8em; color:var(--main-color); margin:15px 0;">ご入力いただきました個人情報は、レストランの予約管理にのみ使用いたします。</p> 
 
-      <label style="display:flex; align-items:center; gap:10px; 
-margin-bottom:20px;"><input type="checkbox" id="agree-privacy">
- 同意する</label> 
+      <label style="display:flex; align-items:center; gap:10px; margin-bottom:20px;"><input type="checkbox" id="agree-privacy"> 同意する</label> 
 
-      <div style="display:flex; gap:10px;"><button 
-class="cal-btn" style="flex:1; background:var(--sub-color);" 
-onclick="closeModal('res-modal')">戻る</button><button 
-class="cal-btn" style="flex:2;" 
-onclick="submitReservation()">予約確定</button></div> 
+      <div style="display:flex; gap:10px;"><button class="cal-btn" style="flex:1; background:var(--sub-color);" onclick="closeModal('res-modal')">戻る</button><button class="cal-btn" style="flex:2;" onclick="submitReservation()">予約確定</button></div> 
     </div> 
   </div> 
 
-
-  <div id="msg-modal" class="modal-overlay" style="display:none; 
-position:fixed; top:0; left:0; width:100%; height:100%; z-index:1100; 
-justify-content:center; align-items:center;"> 
+  <div id="msg-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:1100; justify-content:center; align-items:center;"> 
     <div class="modal-content" style="text-align:center;"> 
       <div id="msg-text" style="margin-bottom:20px;"></div> 
       <button class="cal-btn" onclick="closeModal('msg-modal')">OK</button> 
@@ -723,8 +692,7 @@ justify-content:center; align-items:center;">
 
   <script> 
     // ★ここは必ず最新のGASウェブアプリURLに書き換えてください 
-    const WEB_APP_URL = 
-"https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
 
     var currentBooking = {}; 
     var currentCalendarDate = new Date(); 
@@ -759,13 +727,11 @@ justify-content:center; align-items:center;">
       } 
     } 
 
-    // 人数変更に合わせてデザートの選択肢を増減させる関数
     function renderDessertSelections(count) {
       const container = document.getElementById('dessert-selections-container');
       const currentCount = container.children.length;
       
       if (count > currentCount) {
-        // 足りない分を追加
         for (let i = currentCount; i < count; i++) {
           const div = document.createElement('div');
           div.className = 'dessert-person-block';
@@ -797,13 +763,11 @@ justify-content:center; align-items:center;">
           container.appendChild(div);
         }
       } else if (count < currentCount) {
-        // 多い分を削除
         for (let i = currentCount; i > count; i--) {
           container.removeChild(container.lastChild);
         }
       }
       
-      // 最後の要素のボーダーボトムを消す
       const blocks = container.querySelectorAll('.dessert-person-block');
       blocks.forEach((block, index) => {
         block.style.borderBottom = index < count - 1 ? '1px dashed var(--sub-color)' : 'none';
@@ -817,8 +781,6 @@ justify-content:center; align-items:center;">
       var newVal = currentVal + diff; 
       if(newVal >= 1 && newVal <= max) { 
         input.value = newVal; 
-        
-        // デザート予約時の選択肢も人数に合わせて更新
         if (currentBooking.type === 'dessert') {
           renderDessertSelections(newVal);
         }
@@ -836,25 +798,26 @@ justify-content:center; align-items:center;">
       loadCalendarData(currentCalendarDate);  
     } 
 
-    function changeMonth(diff) { currentCalendarDate.setDate(1); 
-currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); 
-loadCalendarData(currentCalendarDate); } 
+    function changeMonth(diff) { 
+      currentCalendarDate.setDate(1); 
+      currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); 
+      loadCalendarData(currentCalendarDate); 
+    } 
 
-    // ★ 残席数を計算し、ゼロの場合はグレーアウト（disabled）する
     function updateDessertButtons(dessertBookedCounts) {
       const maxSeats = 6;
       const dessertSlots = [
-        { date: '2026-08-21', slot: '13:30', id: 'btn-dessert-2026-08-21-13' },
-        { date: '2026-08-21', slot: '15:30', id: 'btn-dessert-2026-08-21-15' },
-        { date: '2026-08-22', slot: '13:30', id: 'btn-dessert-2026-08-22-13' },
-        { date: '2026-08-22', slot: '15:30', id: 'btn-dessert-2026-08-22-15' },
-        { date: '2026-08-23', slot: '13:30', id: 'btn-dessert-2026-08-23-13' },
-        { date: '2026-08-23', slot: '15:30', id: 'btn-dessert-2026-08-23-15' },
+        { date: '2026-08-21', slot: '13:00', id: 'btn-dessert-2026-08-21-13' },
+        { date: '2026-08-21', slot: '15:00', id: 'btn-dessert-2026-08-21-15' },
+        { date: '2026-08-22', slot: '13:00', id: 'btn-dessert-2026-08-22-13' },
+        { date: '2026-08-22', slot: '15:00', id: 'btn-dessert-2026-08-22-15' },
+        { date: '2026-08-23', slot: '13:00', id: 'btn-dessert-2026-08-23-13' },
+        { date: '2026-08-23', slot: '15:00', id: 'btn-dessert-2026-08-23-15' },
       ];
 
       dessertSlots.forEach(function(s) {
         var key = s.date + '_' + s.slot;
-        var booked = dessertBookedCounts[key] || 0;
+        var booked = dessertBookedCounts ? (dessertBookedCounts[key] || 0) : 0;
         var remain = maxSeats - booked;
         var btn = document.getElementById(s.id);
         
@@ -862,8 +825,8 @@ loadCalendarData(currentCalendarDate); }
           if (remain <= 0) {
             btn.innerText = s.slot + ' (満席)';
             btn.disabled = true;
-            btn.style.background = 'var(--sub-color)';
-            btn.style.color = 'var(--main-color)';
+            btn.style.background = '#2a2a2d'; 
+            btn.style.color = '#888888';
             btn.style.pointerEvents = 'none';
           } else {
             btn.innerText = s.slot + ' (残' + remain + ')';
@@ -879,25 +842,24 @@ loadCalendarData(currentCalendarDate); }
 
     function loadCalendarData(dateObj) { 
       document.getElementById('loading-overlay').style.display = 'flex'; 
-      var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2); 
-
-      document.getElementById('current-month-label').innerText = 
-dateObj.getFullYear() + "年 " + (dateObj.getMonth() + 1) + "月"; 
       
-      var baseDate = new Date(); 
-      if (baseDate.getFullYear() === 2026 && baseDate.getMonth() < 6) { 
-        baseDate = new Date(2026, 6, 1); 
-      } 
+      var urlParams = '?action=getCalendarData';
+      if (dateObj) {
+        var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2); 
+        urlParams += '&yearMonth=' + yearMonthStr;
+      }
 
-      document.getElementById('btn-prev-month').disabled = 
-(dateObj.getFullYear() === baseDate.getFullYear() && 
-dateObj.getMonth() === baseDate.getMonth()); 
-      
-      fetch(WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr) 
+      fetch(WEB_APP_URL + urlParams) 
         .then(function(response) { return response.json(); }) 
         .then(function(data) { 
+          var parts = data.currentYearMonth.split('-');
+          currentCalendarDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
+          document.getElementById('current-month-label').innerText = currentCalendarDate.getFullYear() + "年 " + (currentCalendarDate.getMonth() + 1) + "月"; 
+          
+          document.getElementById('btn-prev-month').disabled = (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() === 6); 
+
           renderCalendar(data); 
-          updateDessertButtons(data.dessertBookedCounts || {});
+          updateDessertButtons(data.dessertBookedCounts);
         }) 
         .catch(function(error) { 
           console.error('Error:', error); 
@@ -926,9 +888,7 @@ dateObj.getMonth() === baseDate.getMonth());
       
       while(dateInMonth.getMonth() === displayMonth) { 
 
-        var dateStr = dateInMonth.getFullYear() + '-' + ('0' + 
-(dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + 
-dateInMonth.getDate()).slice(-2); 
+        var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2); 
         
         var isFutureRestricted = (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate); 
         var isDeadlinePassed = (dateInMonth < gDeadlineDate); 
@@ -972,16 +932,14 @@ dateInMonth.getDate()).slice(-2);
 
       if (!fullCalendarInstance) { 
         fullCalendarInstance = new FullCalendar.Calendar(document.getElementById('calendar'), { 
-          initialView: 'dayGridMonth', locale: 'ja', contentHeight: 
-'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1, 
+          initialView: 'dayGridMonth', locale: 'ja', contentHeight: 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1, 
           dayCellClassNames: function(arg) { 
             if (!gDeadlineDate) return []; 
             if (arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day']; 
             return []; 
           }, 
           eventClick: function(info) { 
-            if (info.event.extendedProps.restricted || 
-!info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return; 
+            if (info.event.extendedProps.restricted || !info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return; 
 
             currentBooking = { type: 'course', date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain }; 
             document.getElementById('modal-header-text').innerText = "コースご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
@@ -989,10 +947,7 @@ dateInMonth.getDate()).slice(-2);
             document.getElementById('input-people').max = currentMax; 
             document.getElementById('max-people-label').innerText = currentMax; 
             document.getElementById('input-people').value = 1; 
-
-            // コース予約時はデザート選択を隠す
             document.getElementById('dessert-options').style.display = 'none';
-
             document.getElementById('res-modal').style.display = 'flex'; 
           } 
         }); 
@@ -1011,7 +966,6 @@ dateInMonth.getDate()).slice(-2);
       document.getElementById('max-people-label').innerText = currentMax; 
       document.getElementById('input-people').value = 1; 
 
-      // デセール予約時はデザート選択を表示し、1人分で初期化
       document.getElementById('dessert-options').style.display = 'block';
       document.getElementById('dessert-selections-container').innerHTML = '';
       renderDessertSelections(1);
@@ -1029,7 +983,7 @@ dateInMonth.getDate()).slice(-2);
     function checkPw() {
       var pw = document.getElementById('secret-pw').value;
       if (pw === "202611-ro") {
-        window.location.href = "https://french-labo.jp/limited.html";
+        window.location.href = "https://www.instagram.com/french__labo/";
       } else {
         alert("PWが異なります");
         document.getElementById('secret-pw').value = '';
@@ -1045,29 +999,29 @@ dateInMonth.getDate()).slice(-2);
       var allergies = document.getElementById('input-allergies').value; 
       var purpose = document.getElementById('input-purpose').value; 
       
+      // ★ 追加：郵便番号と住所
+      var zip = document.getElementById('input-zip').value;
+      var address = document.getElementById('input-address').value;
+      
       var parfaitStr = "";
       var drinkStr = "";
 
-      if(!name || !phone || !email || !people || 
-!document.getElementById('agree-privacy').checked) { 
+      if(!name || !phone || !email || !people || !document.getElementById('agree-privacy').checked) { 
         alert("必須項目を入力し、同意チェックを入れてください。"); 
         return; 
       } 
       
-      // ★ フロントエンド側での強力なメールアドレスチェック
       var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email)) {
         alert("有効なメールアドレスを入力してください");
         return;
       }
 
-      // ★ 残席数を超えた予約を強制ブロック
-      if (people > currentBooking.remain) {
+      if (currentBooking.remain !== undefined && people > currentBooking.remain) {
         alert("予約人数が残席数（" + currentBooking.remain + "席）を超えています。");
         return;
       }
       
-      // デセール予約時は人数分のパフェ・お飲み物が必須
       if (currentBooking.type === 'dessert') {
         let parfaits = [];
         let drinks = [];
@@ -1083,7 +1037,6 @@ dateInMonth.getDate()).slice(-2);
           drinks.push((i+1) + "人目: " + drinkSelects[i].value);
         }
         
-        // 文字列として結合（改行コードで区切る）
         parfaitStr = parfaits.join("\n");
         drinkStr = drinks.join("\n");
       }
@@ -1099,6 +1052,8 @@ dateInMonth.getDate()).slice(-2);
         people: people,  
         email: email,  
         phone: phone,  
+        zip: zip,           // ★ payload に追加
+        address: address,   // ★ payload に追加
         purpose: purpose,  
         dislikes: dislikes,  
         allergy: allergies,
@@ -1120,10 +1075,11 @@ dateInMonth.getDate()).slice(-2);
           document.getElementById('msg-text').innerHTML = "予約が完了しました。"; 
           document.getElementById('msg-modal').style.display = 'flex'; 
           
-          // 入力フォームのリセット
           document.getElementById('input-name').value = ''; 
           document.getElementById('input-phone').value = ''; 
           document.getElementById('input-email').value = ''; 
+          document.getElementById('input-zip').value = '';     // ★ リセット処理追加
+          document.getElementById('input-address').value = ''; // ★ リセット処理追加
           document.getElementById('input-purpose').value = ''; 
           document.getElementById('input-dislikes').value = ''; 
           document.getElementById('input-allergies').value = ''; 
