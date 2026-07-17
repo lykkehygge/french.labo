@@ -374,10 +374,12 @@
       <div id="modal-notice" style="display:none; background-color: rgba(139, 90, 43, 0.15); border: 1px solid rgba(139, 90, 43, 0.5); border-radius: 4px; padding: 15px; margin-bottom: 20px; font-size: 0.9em; line-height: 1.6; color: var(--main-color);"></div>
       
       <div class="form-group"> 
-        <label style="color:var(--main-color);">人数 * (最大<span id="max-people-label">6</span>名)</label> 
+        <!-- ★ 最大人数表記を14に変更 -->
+        <label style="color:var(--main-color);">人数 * (最大<span id="max-people-label">14</span>名)</label> 
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; margin-top:5px;"> 
           <button type="button" onclick="adjustPeople(-1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">-</button> 
-          <input type="number" id="input-people" min="1" max="6" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly> 
+          <!-- ★ inputのmaxを14に変更 -->
+          <input type="number" id="input-people" min="1" max="14" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly> 
           <button type="button" onclick="adjustPeople(1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">+</button> 
         </div> 
       </div> 
@@ -418,7 +420,7 @@
 
     var currentBooking = {}; 
     var currentCalendarDate = new Date(); 
-    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 6) { 
+    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 10) { 
       currentCalendarDate = new Date(2026, 10, 1); 
     } 
     var fullCalendarInstance = null; 
@@ -427,7 +429,8 @@
     function adjustPeople(diff) { 
       var input = document.getElementById('input-people'); 
       var currentVal = parseInt(input.value) || 1; 
-      var max = parseInt(input.max) || 6; 
+      // ★ デフォルトの最大値を14に変更
+      var max = parseInt(input.max) || 14; 
       var newVal = currentVal + diff; 
       if(newVal >= 1 && newVal <= max) { 
         input.value = newVal; 
@@ -437,8 +440,8 @@
     document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); }); 
     function goToToday() {  
       var d = new Date(); 
-      if (d.getFullYear() === 2026 && d.getMonth() < 6) { 
-        currentCalendarDate = new Date(2026, 6, 1); 
+      if (d.getFullYear() === 2026 && d.getMonth() < 10) { 
+        currentCalendarDate = new Date(2026, 10, 1); 
       } else { 
         currentCalendarDate = d; 
       } 
@@ -493,7 +496,8 @@
       var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1; 
       var dateInMonth = new Date(displayYear, displayMonth, 1); 
       
-      var maxSeats = data.maxSeats || 6; 
+      // ★ サーバーからmaxSeatsが取得できない場合のデフォルト値を14に変更
+      var maxSeats = data.maxSeats || 14; 
       
       while(dateInMonth.getMonth() === displayMonth) { 
         var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2); 
@@ -509,7 +513,6 @@
               classNames: ['holiday-event', 'full-day-holiday'] 
             }); 
           } else { 
-            // ★ 変更：枠を「17:30」「18:00」に変更
             ['17:30', '18:00'].forEach(function(slot) { 
               var slotKey = dateStr + '_' + slot; 
               var isHoliday = (data.holidayMap[slotKey] === "休業"); 
@@ -553,7 +556,6 @@
             currentBooking = { type: 'limited', date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain }; 
             document.getElementById('modal-header-text').innerText = "コースご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
             
-            // ★ 追加：選択された時間に応じて注意書きを表示
             var noticeEl = document.getElementById('modal-notice');
             if(currentBooking.slot === '17:30') {
               noticeEl.innerHTML = "<strong>【ご来店時間について】</strong><br>17:30~17:45までにお越しください。ラウンジにて食前酒とアミューズをご用意しております。";
@@ -565,7 +567,8 @@
               noticeEl.style.display = 'none';
             }
 
-            var currentMax = Math.min(currentBooking.remain, 6); 
+            // ★ 計算上の最大値上限も14に変更
+            var currentMax = Math.min(currentBooking.remain, 14); 
             document.getElementById('input-people').max = currentMax; 
             document.getElementById('max-people-label').innerText = currentMax; 
             document.getElementById('input-people').value = 1; 
