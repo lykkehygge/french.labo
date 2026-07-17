@@ -360,7 +360,7 @@ style="font-size:0.65em;">(税込)</span></span></h3>
           <p style="font-size:0.8em; line-height: 1.8; border: 1px 
 solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 
 400;"> 
-            各日２部制一斉スタート 13:00〜 / 15:00〜<br> 
+            各日２部制一斉スタート 13:30〜 / 15:30〜<br> 
             ※完全予約制<br> 
            ※１部につき6席まで 
           </p> 
@@ -372,20 +372,20 @@ margin-bottom: 20px; letter-spacing: 2px;">デセールご予約</h4>
 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月21日(金)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1;">13:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1;">15:30</button> 
               </div> 
 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月22日(土)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1;">13:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1;">15:30</button> 
               </div> 
 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月23日(日)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;">15:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1;">13:30</button> 
+                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1;">15:30</button> 
               </div> 
             </div> 
           </div> 
@@ -661,9 +661,9 @@ justify-content:center; align-items:center;">+</button>
 
       <div class="form-group"><label>お名前 *</label><input type="text" id="input-name" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
       
-      <!-- ★ 追加：郵便番号と住所 -->
-      <div class="form-group"><label>郵便番号</label><input type="text" id="input-zip" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
-      <div class="form-group"><label>住所</label><input type="text" id="input-address" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
+      <!-- ★ 郵便番号と住所を「必須（*）」に変更 -->
+      <div class="form-group"><label>郵便番号 *</label><input type="text" id="input-zip" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
+      <div class="form-group"><label>住所 *</label><input type="text" id="input-address" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
 
       <div class="form-group"><label>電話番号 *</label><input type="tel" id="input-phone" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px;"></div> 
 
@@ -807,12 +807,12 @@ justify-content:center; align-items:center;">+</button>
     function updateDessertButtons(dessertBookedCounts) {
       const maxSeats = 6;
       const dessertSlots = [
-        { date: '2026-08-21', slot: '13:00', id: 'btn-dessert-2026-08-21-13' },
-        { date: '2026-08-21', slot: '15:00', id: 'btn-dessert-2026-08-21-15' },
-        { date: '2026-08-22', slot: '13:00', id: 'btn-dessert-2026-08-22-13' },
-        { date: '2026-08-22', slot: '15:00', id: 'btn-dessert-2026-08-22-15' },
-        { date: '2026-08-23', slot: '13:00', id: 'btn-dessert-2026-08-23-13' },
-        { date: '2026-08-23', slot: '15:00', id: 'btn-dessert-2026-08-23-15' },
+        { date: '2026-08-21', slot: '13:30', id: 'btn-dessert-2026-08-21-13' },
+        { date: '2026-08-21', slot: '15:30', id: 'btn-dessert-2026-08-21-15' },
+        { date: '2026-08-22', slot: '13:30', id: 'btn-dessert-2026-08-22-13' },
+        { date: '2026-08-22', slot: '15:30', id: 'btn-dessert-2026-08-22-15' },
+        { date: '2026-08-23', slot: '13:30', id: 'btn-dessert-2026-08-23-13' },
+        { date: '2026-08-23', slot: '15:30', id: 'btn-dessert-2026-08-23-15' },
       ];
 
       dessertSlots.forEach(function(s) {
@@ -1006,7 +1006,8 @@ justify-content:center; align-items:center;">+</button>
       var parfaitStr = "";
       var drinkStr = "";
 
-      if(!name || !phone || !email || !people || !document.getElementById('agree-privacy').checked) { 
+      // ★ 郵便番号と住所を必須項目チェックに追加
+      if(!name || !phone || !email || !zip || !address || !people || !document.getElementById('agree-privacy').checked) { 
         alert("必須項目を入力し、同意チェックを入れてください。"); 
         return; 
       } 
@@ -1052,8 +1053,8 @@ justify-content:center; align-items:center;">+</button>
         people: people,  
         email: email,  
         phone: phone,  
-        zip: zip,           // ★ payload に追加
-        address: address,   // ★ payload に追加
+        zip: zip,           
+        address: address,   
         purpose: purpose,  
         dislikes: dislikes,  
         allergy: allergies,
@@ -1078,8 +1079,8 @@ justify-content:center; align-items:center;">+</button>
           document.getElementById('input-name').value = ''; 
           document.getElementById('input-phone').value = ''; 
           document.getElementById('input-email').value = ''; 
-          document.getElementById('input-zip').value = '';     // ★ リセット処理追加
-          document.getElementById('input-address').value = ''; // ★ リセット処理追加
+          document.getElementById('input-zip').value = '';     
+          document.getElementById('input-address').value = ''; 
           document.getElementById('input-purpose').value = ''; 
           document.getElementById('input-dislikes').value = ''; 
           document.getElementById('input-allergies').value = ''; 
