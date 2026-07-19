@@ -371,7 +371,7 @@
 
   <footer>
     <p>© <a href="https://www.gpm.co.jp/" target="_blank" rel="noopener">ジーピーエム株式会社</a> All Rights Reserved.</p>
-    <p><a href="https://french-labo.jp/canc.html" target="_self"">キャンセルポリシー</p>
+    <p><a href="https://french-labo.jp/canc.html" target="_self">キャンセルポリシー</a></p>
   </footer>
 
   <div id="res-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:1000; justify-content:center; align-items:center;">
@@ -410,7 +410,7 @@
 
     var currentBooking = {};
     var currentCalendarDate = new Date();
-    // 2026年6月以前の場合は初期表示を7月に固定（★変更箇所1）
+    // 2026年6月以前の場合は初期表示を7月に固定
     if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 6) {
       currentCalendarDate = new Date(2026, 6, 1);
     }
@@ -455,7 +455,6 @@
     document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); });
     function goToToday() { 
       var d = new Date();
-      // （★変更箇所2）
       if (d.getFullYear() === 2026 && d.getMonth() < 6) {
         currentCalendarDate = new Date(2026, 6, 1);
       } else {
@@ -471,13 +470,15 @@
       document.getElementById('current-month-label').innerText = dateObj.getFullYear() + "年 " + (dateObj.getMonth() + 1) + "月";
       
       var baseDate = new Date();
-      // （★変更箇所3）
       if (baseDate.getFullYear() === 2026 && baseDate.getMonth() < 6) {
         baseDate = new Date(2026, 6, 1);
       }
       document.getElementById('btn-prev-month').disabled = (dateObj.getFullYear() === baseDate.getFullYear() && dateObj.getMonth() === baseDate.getMonth());
       
-      fetch(WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr)
+      // ★ 修正：キャッシュ対策としてURLの末尾にタイムスタンプ（&t=...）を付与
+      var fetchUrl = WEB_APP_URL + '?action=getCalendarData&yearMonth=' + yearMonthStr + '&t=' + new Date().getTime();
+      
+      fetch(fetchUrl)
         .then(function(response) { return response.json(); })
         .then(function(data) { renderCalendar(data); })
         .catch(function(error) {
@@ -508,13 +509,10 @@
       while(dateInMonth.getMonth() === displayMonth) {
         var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2);
         
-        // 追加: 制限の判定を2つに分割（未来の制限期間か、締切が過ぎたか）
         var isFutureRestricted = (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate);
         var isDeadlinePassed = (dateInMonth < gDeadlineDate);
         
-        // 未来の制限期間でなければイベントを描画（締切後の日付にも表示を出す）
         if (!isFutureRestricted) {
-          // 「終日」の場合は1つの枠として2段で表示
           if (data.holidayMap[dateStr] === "終日") {
             eventsArray.push({
               title: 'Prep Day\n(開業準備)',
@@ -522,7 +520,6 @@
               classNames: ['holiday-event', 'full-day-holiday']
             });
           } else {
-            // それ以外（個別枠）の場合は通常通り判定
             ['昼', '夜'].forEach(function(slot) {
               var slotKey = dateStr + '_' + slot;
               var isHoliday = (data.holidayMap[slotKey] === "休業");
@@ -535,7 +532,6 @@
                 
                 var titleText = slot + '：' + (remain > 0 ? '残' + remain : '満');
                 
-                // 予約締切を過ぎていて、かつ残席がある場合は「受付終了」とする
                 if (isDeadlinePassed && remain > 0) {
                   titleText = slot + '：受付終了';
                 }
@@ -543,7 +539,6 @@
                 eventsArray.push({ 
                   title: titleText, 
                   start: dateStr, 
-                  // 締切を過ぎているか、満席の場合はグレーのイベントにする
                   classNames: [(isDeadlinePassed || remain <= 0) ? 'full-event' : 'available-event'],
                   extendedProps: { timeSlot: slot, remain: remain, restricted: isDeadlinePassed }
                 });
@@ -559,7 +554,6 @@
           initialView: 'dayGridMonth', locale: 'ja', contentHeight: 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1,
           dayCellClassNames: function(arg) {
             if (!gDeadlineDate) return [];
-            // 締切日前であってもマスのグレーアウトはしない。未来の受付期間外のみグレーアウト
             if (arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day'];
             return [];
           },
