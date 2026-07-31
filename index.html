@@ -696,8 +696,8 @@ justify-content:center; align-items:center;">+</button>
 
     var currentBooking = {}; 
     var currentCalendarDate = new Date(); 
-    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 6) { 
-      currentCalendarDate = new Date(2026, 6, 1); 
+    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 7) { 
+      currentCalendarDate = new Date(2026, 7, 1); 
     } 
     var fullCalendarInstance = null; 
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate; 
@@ -790,8 +790,8 @@ justify-content:center; align-items:center;">+</button>
     document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); }); 
     function goToToday() {  
       var d = new Date(); 
-      if (d.getFullYear() === 2026 && d.getMonth() < 7) { 
-        currentCalendarDate = new Date(2026, 7, 1); 
+      if (d.getFullYear() === 2026 && d.getMonth() < 6) { 
+        currentCalendarDate = new Date(2026, 6, 1); 
       } else { 
         currentCalendarDate = d; 
       } 
