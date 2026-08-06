@@ -258,7 +258,9 @@
     footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--sub-color); transition: border-color 0.3s; } 
     footer a:hover { border-color: var(--main-color); color: var(--main-color); } 
 
-    #loading-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); z-index: 50; justify-content: center; align-items: center; font-weight: 500; letter-spacing: 2px; color: #111112; border-radius: 8px; } 
+    /* ★ローディング画面を画面全体に固定表示するように変更 */
+    #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17, 17, 18, 0.8); z-index: 9999; justify-content: center; align-items: center; font-weight: 500; letter-spacing: 2px; color: #fff; } 
+    
     .modal-overlay { background-color: rgba(17, 17, 18, 0.8); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); } 
     .modal-content { background-color: var(--white-color); padding: 40px; border-radius: 4px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } 
 
@@ -289,7 +291,20 @@
     } 
   </style> 
 </head> 
-<body> 
+<!-- 初期状態でスクロールを禁止 -->
+<body style="overflow: hidden;"> 
+
+  <!-- ★追加：パスワード入力画面 -->
+  <div id="pw-gate" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color: var(--white-color); z-index:99999; display:flex; justify-content:center; align-items:center;">
+    <div class="modal-content" style="text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+      <div style="font-size: 1.2em; font-weight:500; margin-bottom:20px; color: var(--main-color);">限定ページへアクセス</div>
+      <input type="password" id="gate-pw" placeholder="パスワードを入力" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--sub-color); border-radius:4px; text-align:center; font-size:1.1em; background:transparent; color:var(--main-color);">
+      <div id="gate-error" style="color:#ff6b6b; margin-bottom:15px; font-size:0.9em; display:none;">パスワードが異なります。</div>
+      <button class="cal-btn" style="width:100%; padding:12px 0;" onclick="checkGatePw()">送信</button>
+    </div>
+  </div>
+
+  <div id="loading-overlay">LOADING...</div> 
 
   <header class="hero"> 
     <div class="video-background" aria-hidden="true"> 
@@ -348,7 +363,6 @@
     <section id="reservation"> 
       <h2 class="section-title">RESERVATION</h2> 
       <div id="calendar-wrapper"> 
-        <div id="loading-overlay">LOADING...</div> 
         <div class="calendar-header-top"><div id="current-month-label"></div></div> 
         <div class="calendar-nav-bottom"> 
           <button class="cal-btn" id="btn-prev-month" onclick="changeMonth(-1)">◀ 前の月</button> 
@@ -369,15 +383,12 @@
     <div class="modal-content"> 
       <div id="modal-header-text" style="font-size: 1.3em; font-weight:500; text-align:center; margin-bottom:20px; border-bottom:1px solid var(--sub-color); padding-bottom:15px; color:var(--main-color);">予約フォーム</div> 
       
-      <!-- ★ 追加：注意事項表示エリア -->
       <div id="modal-notice" style="display:none; background-color: rgba(139, 90, 43, 0.15); border: 1px solid rgba(139, 90, 43, 0.5); border-radius: 4px; padding: 15px; margin-bottom: 20px; font-size: 0.9em; line-height: 1.6; color: var(--main-color);"></div>
       
       <div class="form-group"> 
-        <!-- ★ 最大人数表記を14に変更 -->
         <label style="color:var(--main-color);">人数 * (最大<span id="max-people-label">14</span>名)</label> 
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; margin-top:5px;"> 
           <button type="button" onclick="adjustPeople(-1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">-</button> 
-          <!-- ★ inputのmaxを14に変更 -->
           <input type="number" id="input-people" min="1" max="14" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly> 
           <button type="button" onclick="adjustPeople(1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">+</button> 
         </div> 
@@ -425,10 +436,23 @@
     var fullCalendarInstance = null; 
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate; 
 
+    // ★追加：パスワード確認処理（1128）
+    function checkGatePw() {
+      var pw = document.getElementById('gate-pw').value;
+      if (pw === "1128") {
+        document.getElementById('pw-gate').style.display = 'none';
+        document.body.style.overflow = '';
+        
+        loadCalendarData(currentCalendarDate); 
+      } else {
+        document.getElementById('gate-error').style.display = 'block';
+        document.getElementById('gate-pw').value = '';
+      }
+    }
+
     function adjustPeople(diff) { 
       var input = document.getElementById('input-people'); 
       var currentVal = parseInt(input.value) || 1; 
-      // ★ デフォルトの最大値を14に変更
       var max = parseInt(input.max) || 14; 
       var newVal = currentVal + diff; 
       if(newVal >= 1 && newVal <= max) { 
@@ -436,7 +460,19 @@
       } 
     } 
 
-    document.addEventListener('DOMContentLoaded', function() { loadCalendarData(currentCalendarDate); }); 
+    document.addEventListener('DOMContentLoaded', function() { 
+      // PW認証入力欄でEnterキーが押された時の処理
+      var gateInput = document.getElementById('gate-pw');
+      if (gateInput) {
+        gateInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            checkGatePw();
+          }
+        });
+      }
+      // 初期状態ではカレンダーの読み込みを行わず、パスワード突破後に loadCalendarData を呼び出す
+    }); 
+
     function goToToday() {  
       var d = new Date(); 
       if (d.getFullYear() === 2026 && d.getMonth() < 10) { 
@@ -495,7 +531,6 @@
       var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1; 
       var dateInMonth = new Date(displayYear, displayMonth, 1); 
       
-      // ★ サーバーからmaxSeatsが取得できない場合のデフォルト値を14に変更
       var maxSeats = data.maxSeats || 14; 
       
       while(dateInMonth.getMonth() === displayMonth) { 
@@ -566,7 +601,6 @@
               noticeEl.style.display = 'none';
             }
 
-            // ★ 計算上の最大値上限も14に変更
             var currentMax = Math.min(currentBooking.remain, 14); 
             document.getElementById('input-people').max = currentMax; 
             document.getElementById('max-people-label').innerText = currentMax; 
