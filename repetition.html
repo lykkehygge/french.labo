@@ -271,10 +271,9 @@
     } 
   </style> 
 </head> 
-<!-- 初期状態でスクロールを禁止 -->
 <body style="overflow: hidden;"> 
 
-  <!-- ★追加：パスワード入力画面 -->
+  <!-- パスワード入力画面 -->
   <div id="pw-gate" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color: var(--white-color); z-index:99999; display:flex; justify-content:center; align-items:center;">
     <div class="modal-content" style="text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
       <div style="font-size: 1.2em; font-weight:500; margin-bottom:20px; color: var(--main-color);">限定ページへアクセス</div>
@@ -370,27 +369,28 @@
           </p> 
 
           <p style="font-size:0.8em; line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 400;"> 
-            各日２部制一斉スタート 13:30〜 / 15:30〜<br> 
+            各日２部制一斉スタート 13:00〜 / 16:00〜<br> 
             ※完全予約制<br> 
-           ※１部につき6席まで 
+           ※１部につき20席まで 
           </p> 
           <div style="margin-top: 25px; padding: 20px; border: 1px solid var(--sub-color); border-radius: 4px;"> 
             <h4 style="font-weight: 500; text-align: center; margin-bottom: 20px; letter-spacing: 2px;">デセールご予約</h4> 
             <div style="display: flex; flex-direction: column; gap: 15px;"> 
+              <!-- ★日付を11/8〜10に変更 -->
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
-                <strong style="width: 120px;">8月21日(金)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1; border: 1px solid var(--sub-color);">13:30</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-21-15" style="flex: 1; border: 1px solid var(--sub-color);">15:30</button> 
+                <strong style="width: 120px;">11月8日(日)</strong> 
+                <button class="cal-btn" id="btn-dessert-2026-11-08-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-11-08-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
               </div> 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
-                <strong style="width: 120px;">8月22日(土)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-13" style="flex: 1; border: 1px solid var(--sub-color);">13:30</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-22-15" style="flex: 1; border: 1px solid var(--sub-color);">15:30</button> 
+                <strong style="width: 120px;">11月9日(月)</strong> 
+                <button class="cal-btn" id="btn-dessert-2026-11-09-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-11-09-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
               </div> 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
-                <strong style="width: 120px;">8月23日(日)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-13" style="flex: 1; border: 1px solid var(--sub-color);">13:30</button> 
-                <button class="cal-btn" id="btn-dessert-2026-08-23-15" style="flex: 1; border: 1px solid var(--sub-color);">15:30</button> 
+                <strong style="width: 120px;">11月10日(火)</strong> 
+                <button class="cal-btn" id="btn-dessert-2026-11-10-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
+                <button class="cal-btn" id="btn-dessert-2026-11-10-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
               </div> 
             </div> 
           </div> 
@@ -412,10 +412,10 @@
       <div id="modal-notice" style="display:none; background-color: rgba(139, 90, 43, 0.15); border: 1px solid rgba(139, 90, 43, 0.5); border-radius: 4px; padding: 15px; margin-bottom: 20px; font-size: 0.9em; line-height: 1.6; color: var(--main-color);"></div>
       
       <div class="form-group"> 
-        <label style="color:var(--main-color);">人数 * (最大<span id="max-people-label">14</span>名)</label> 
+        <label style="color:var(--main-color);">人数 * (最大<span id="max-people-label">20</span>名)</label> 
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; margin-top:5px;"> 
           <button type="button" onclick="adjustPeople(-1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">-</button> 
-          <input type="number" id="input-people" min="1" max="14" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly> 
+          <input type="number" id="input-people" min="1" max="20" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly> 
           <button type="button" onclick="adjustPeople(1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">+</button> 
         </div> 
       </div> 
@@ -462,18 +462,14 @@
 
     var currentBooking = {}; 
 
-    // ★追加：パスワード確認処理
     function checkGatePw() {
       var pw = document.getElementById('gate-pw').value;
       if (pw === "1115") {
-        // パスワードが一致したら画面を非表示にしてスクロールを許可
         document.getElementById('pw-gate').style.display = 'none';
         document.body.style.overflow = '';
         
-        // パスワード認証後にデータを読み込む
         loadDessertData(); 
       } else {
-        // パスワードが間違っている場合はエラーメッセージを表示し入力をクリア
         document.getElementById('gate-error').style.display = 'block';
         document.getElementById('gate-pw').value = '';
       }
@@ -529,19 +525,18 @@
     function adjustPeople(diff) { 
       var input = document.getElementById('input-people'); 
       var currentVal = parseInt(input.value) || 1; 
-      var max = parseInt(input.max) || 14; 
+      var max = parseInt(input.max) || 20; 
       var newVal = currentVal + diff; 
       if(newVal >= 1 && newVal <= max) { 
         input.value = newVal; 
         
-        if (currentBooking.type === 'dessert') {
+        if (currentBooking.type === 'reception') {
           renderDessertSelections(newVal);
         }
       } 
     } 
 
     document.addEventListener('DOMContentLoaded', function() { 
-      // PW認証入力欄でEnterキーが押された時の処理を追加
       var gateInput = document.getElementById('gate-pw');
       if (gateInput) {
         gateInput.addEventListener('keypress', function(e) {
@@ -566,14 +561,15 @@
     }); 
 
     function updateDessertButtons(dessertBookedCounts) {
-      const maxSeats = 6;
+      const maxSeats = 20;
+      // ★日付を11/8〜10に変更
       const dessertSlots = [
-        { date: '2026-08-21', slot: '13:30', id: 'btn-dessert-2026-08-21-13' },
-        { date: '2026-08-21', slot: '15:30', id: 'btn-dessert-2026-08-21-15' },
-        { date: '2026-08-22', slot: '13:30', id: 'btn-dessert-2026-08-22-13' },
-        { date: '2026-08-22', slot: '15:30', id: 'btn-dessert-2026-08-22-15' },
-        { date: '2026-08-23', slot: '13:30', id: 'btn-dessert-2026-08-23-13' },
-        { date: '2026-08-23', slot: '15:30', id: 'btn-dessert-2026-08-23-15' },
+        { date: '2026-11-08', slot: '13:00', id: 'btn-dessert-2026-11-08-13' },
+        { date: '2026-11-08', slot: '16:00', id: 'btn-dessert-2026-11-08-16' },
+        { date: '2026-11-09', slot: '13:00', id: 'btn-dessert-2026-11-09-13' },
+        { date: '2026-11-09', slot: '16:00', id: 'btn-dessert-2026-11-09-16' },
+        { date: '2026-11-10', slot: '13:00', id: 'btn-dessert-2026-11-10-13' },
+        { date: '2026-11-10', slot: '16:00', id: 'btn-dessert-2026-11-10-16' },
       ];
 
       dessertSlots.forEach(function(s) {
@@ -598,7 +594,7 @@
     function loadDessertData() { 
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
-      var urlParams = '?action=getCalendarData&page=limited';
+      var urlParams = '?action=getCalendarData&page=reception';
       
       fetch(WEB_APP_URL + urlParams) 
         .then(function(response) { return response.json(); }) 
@@ -617,9 +613,10 @@
     } 
 
     function openDessertModal(date, time, remain) { 
-      currentBooking = { type: 'dessert', date: date, slot: time, remain: remain }; 
+      currentBooking = { type: 'reception', date: date, slot: time, remain: remain }; 
       document.getElementById('modal-header-text').innerText = "デセールご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
-      var currentMax = Math.min(remain, 6); 
+      
+      var currentMax = Math.min(remain, 20); 
       document.getElementById('input-people').max = currentMax; 
       document.getElementById('max-people-label').innerText = currentMax; 
       document.getElementById('input-people').value = 1; 
@@ -666,7 +663,7 @@
         return;
       }
 
-      if (currentBooking.type === 'dessert') {
+      if (currentBooking.type === 'reception') {
         let parfaits = [];
         let drinks = [];
         let parfaitSelects = document.querySelectorAll('.input-parfait');
@@ -689,7 +686,7 @@
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
       var payload = {  
-        type: currentBooking.type || 'limited',
+        type: currentBooking.type || 'reception', 
         date: currentBooking.date,  
         slot: currentBooking.slot,  
         name: name,  
