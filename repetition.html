@@ -352,14 +352,20 @@
         </div>
         
         <div class="course-info"> 
-          <h3 class="price-tag">レセプションのご案内<br><span style="font-size:0.65em;"></span><br><span style="font-size:0.8em; font-weight:400;">5,000円 <span style="font-size:0.65em;">(税込)</span></span></h3> 
+          <h3 class="price-tag">旬果のパフェ+<br><span style="font-size:0.65em;">グラスドリンク&アミューズ３種</span><br><span style="font-size:0.8em; font-weight:400;">5,000円 <span style="font-size:0.65em;">(税込)</span></span></h3> 
           <p style="font-size: 0.95em; line-height: 1.8; font-weight: 400; margin-bottom: 25px;"> 
+            旬の果実、香り、温度、食感。<br> 
+            テストキッチンで育ててきたフランス料理の余韻を、３日間だけのパフェに閉じ込めます。<br> 
+            ご好評いただいたSeason1,Season2に引き続き、スピンオフ企画としてご用意致しました。<br> 
+            ひと口ごとに香りが変わる、French LABO.のデセールをお楽しみください。 
           </p> 
           <p style="font-size: 0.9em; line-height: 1.8; font-weight: 400; margin-bottom: 25px;"> 
-            <strong>■ ■ ■</strong><br> 
-            ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。
-            <strong>■ ■ ■</strong><br> 
-            ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。
+            <strong>◆Parfait-パフェ</strong><br> 
+            Pêche - 白桃<br>Mangue - マンゴー<br>Muscat - マスカット<br>※当日上記より１種お選びいただきます。<br><br> 
+            <strong>◆Boisson-お飲み物（グラスドリンク）</strong><br> 
+            【アルコール】<br>シャンパーニュ/貴腐ワイン<br> 
+            【ノンアルコール】<br>ノンアルコールスパークリング/フレッシュハーブティー<br>※当日上記よりお選びいただきます。<br><br> 
+            <strong>◆Amuse-bouche（３種のアミューズ・ブーシュ）</strong> 
           </p> 
 
           <p style="font-size:0.8em; line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 400;"> 
@@ -370,7 +376,6 @@
           <div style="margin-top: 25px; padding: 20px; border: 1px solid var(--sub-color); border-radius: 4px;"> 
             <h4 style="font-weight: 500; text-align: center; margin-bottom: 20px; letter-spacing: 2px;">デセールご予約</h4> 
             <div style="display: flex; flex-direction: column; gap: 15px;"> 
-              <!-- ★日付を11/8〜10に変更 -->
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">11月8日(日)</strong> 
                 <button class="cal-btn" id="btn-dessert-2026-11-08-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
@@ -414,10 +419,14 @@
         </div> 
       </div> 
 
-      <div id="dessert-options" style="display:none; margin-bottom:15px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(255,255,255,0.05);">
-        <p style="margin-top:0; margin-bottom:15px; font-weight:500; font-size:1.1em; color: var(--main-color);">デセール メニュー選択</p>
-        <div id="dessert-selections-container">
-        </div>
+      <!-- ★メニュー選択の代わりにハイヤー送迎の希望を追加 -->
+      <div style="margin-bottom:20px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(255,255,255,0.05);">
+        <label style="display:flex; align-items:center; gap:10px; color:var(--main-color); font-weight:500;">
+          <input type="checkbox" id="input-hire" style="transform: scale(1.2);"> ハイヤー送迎を希望する
+        </label>
+        <p style="font-size: 0.85em; margin: 10px 0 0 0; color: var(--sub-color);">
+          ※ご希望の方には、後日詳細のご案内をさせていただきます。
+        </p>
       </div>
 
       <div class="form-group"><label style="color:var(--main-color);">お名前 *</label><input type="text" id="input-name" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
@@ -469,53 +478,6 @@
       }
     }
 
-    function renderDessertSelections(count) {
-      const container = document.getElementById('dessert-selections-container');
-      const currentCount = container.children.length;
-      
-      if (count > currentCount) {
-        for (let i = currentCount; i < count; i++) {
-          const div = document.createElement('div');
-          div.className = 'dessert-person-block';
-          div.style.marginBottom = '15px';
-          div.style.paddingBottom = '15px';
-          
-          div.innerHTML = `
-            <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.95em; color: var(--main-color);">【 ${i + 1}名様目 】</p>
-            <div class="form-group">
-              <label style="font-size: 0.9em; color: var(--main-color);">パフェの選択 *</label>
-              <select class="input-parfait" style="width:100%; padding:8px; margin-bottom:10px; border:1px solid var(--sub-color); border-radius:4px; font-size: 1em; background: transparent; color: var(--main-color);">
-                <option value="" style="color: #000;">選択してください</option>
-                <option value="白桃" style="color: #000;">白桃</option>
-                <option value="マンゴー" style="color: #000;">マンゴー</option>
-                <option value="マスカット" style="color: #000;">マスカット</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label style="font-size: 0.9em; color: var(--main-color);">お飲み物の選択 *</label>
-              <select class="input-drink" style="width:100%; padding:8px; border:1px solid var(--sub-color); border-radius:4px; font-size: 1em; background: transparent; color: var(--main-color);">
-                <option value="" style="color: #000;">選択してください</option>
-                <option value="シャンパーニュ" style="color: #000;">シャンパーニュ</option>
-                <option value="貴腐ワイン" style="color: #000;">貴腐ワイン</option>
-                <option value="ノンアルコールスパークリング" style="color: #000;">ノンアルコールスパークリング</option>
-                <option value="フレッシュハーブティー" style="color: #000;">フレッシュハーブティー</option>
-              </select>
-            </div>
-          `;
-          container.appendChild(div);
-        }
-      } else if (count < currentCount) {
-        for (let i = currentCount; i > count; i--) {
-          container.removeChild(container.lastChild);
-        }
-      }
-      
-      const blocks = container.querySelectorAll('.dessert-person-block');
-      blocks.forEach((block, index) => {
-        block.style.borderBottom = index < count - 1 ? '1px dashed var(--sub-color)' : 'none';
-      });
-    }
-
     function adjustPeople(diff) { 
       var input = document.getElementById('input-people'); 
       var currentVal = parseInt(input.value) || 1; 
@@ -523,10 +485,6 @@
       var newVal = currentVal + diff; 
       if(newVal >= 1 && newVal <= max) { 
         input.value = newVal; 
-        
-        if (currentBooking.type === 'reception') {
-          renderDessertSelections(newVal);
-        }
       } 
     } 
 
@@ -556,7 +514,6 @@
 
     function updateDessertButtons(dessertBookedCounts) {
       const maxSeats = 20;
-      // ★日付を11/8〜10に変更
       const dessertSlots = [
         { date: '2026-11-08', slot: '13:00', id: 'btn-dessert-2026-11-08-13' },
         { date: '2026-11-08', slot: '16:00', id: 'btn-dessert-2026-11-08-16' },
@@ -617,9 +574,8 @@
       
       document.getElementById('modal-notice').style.display = 'none';
 
-      document.getElementById('dessert-options').style.display = 'block';
-      document.getElementById('dessert-selections-container').innerHTML = '';
-      renderDessertSelections(1);
+      // ★ハイヤー送迎のチェック状態を初期化
+      document.getElementById('input-hire').checked = false;
 
       document.getElementById('res-modal').style.display = 'flex'; 
     } 
@@ -638,8 +594,8 @@
       var zip = document.getElementById('input-zip').value;
       var address = document.getElementById('input-address').value;
 
-      var parfaitStr = "";
-      var drinkStr = "";
+      // ★ハイヤー送迎の希望
+      var hire = document.getElementById('input-hire').checked ? "希望する" : "希望しない";
 
       if(!name || !phone || !email || !zip || !address || !people || !document.getElementById('agree-privacy').checked) { 
         alert("必須項目を入力し、同意チェックを入れてください。"); 
@@ -655,25 +611,6 @@
       if (currentBooking.remain !== undefined && people > currentBooking.remain) {
         alert("予約人数が残席数（" + currentBooking.remain + "席）を超えています。");
         return;
-      }
-
-      if (currentBooking.type === 'reception') {
-        let parfaits = [];
-        let drinks = [];
-        let parfaitSelects = document.querySelectorAll('.input-parfait');
-        let drinkSelects = document.querySelectorAll('.input-drink');
-        
-        for (let i = 0; i < people; i++) {
-          if (!parfaitSelects[i].value || !drinkSelects[i].value) {
-            alert((i+1) + "名様目のパフェとお飲み物を選択してください"); 
-            return; 
-          }
-          parfaits.push((i+1) + "人目: " + parfaitSelects[i].value);
-          drinks.push((i+1) + "人目: " + drinkSelects[i].value);
-        }
-        
-        parfaitStr = parfaits.join("\n");
-        drinkStr = drinks.join("\n");
       }
       
       closeModal('res-modal'); 
@@ -692,8 +629,7 @@
         purpose: purpose,  
         dislikes: dislikes,  
         allergy: allergies,
-        parfait: parfaitStr, 
-        drink: drinkStr      
+        hire: hire // ★追加
       }; 
 
       fetch(WEB_APP_URL, { 
