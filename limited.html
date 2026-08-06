@@ -370,6 +370,15 @@
           <button class="cal-btn" id="btn-next-month" onclick="changeMonth(1)">次の月 ▶</button> 
         </div> 
         <div id="calendar"></div> 
+        
+        <!-- ★追加：カレンダー下の注意文 -->
+        <div style="margin-top: 40px; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 4px; font-size: 0.9em; color: #111112;">
+          <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+            <li>17:30開場、18:00食事一斉スタートとさせていただきます</li>
+            <li>1st Season：12/27までの営業期間にてご予約を承っております。</li>
+            <li>2nd Season ：営業日公開、ご予約受付は11月中旬を予定しております。</li>
+          </ul>
+        </div>
       </div> 
     </section> 
   </main> 
@@ -547,7 +556,8 @@
               classNames: ['holiday-event', 'full-day-holiday'] 
             }); 
           } else { 
-            ['17:30', '18:00'].forEach(function(slot) { 
+            // ★変更：'18:00'の枠のみをループするように修正
+            ['18:00'].forEach(function(slot) { 
               var slotKey = dateStr + '_' + slot; 
               var isHoliday = (data.holidayMap[slotKey] === "休業"); 
 
@@ -591,11 +601,9 @@
             document.getElementById('modal-header-text').innerText = "コースご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
             
             var noticeEl = document.getElementById('modal-notice');
-            if(currentBooking.slot === '17:30') {
-              noticeEl.innerHTML = "<strong>【ご来店時間について】</strong><br>17:30~17:45までにお越しください。ラウンジにて食前酒とアミューズをご用意しております。";
-              noticeEl.style.display = 'block';
-            } else if(currentBooking.slot === '18:00') {
-              noticeEl.innerHTML = "<strong>【ご来店時間について】</strong><br>18時までにレストランエントランスに直接お越しください。オープンキッチンにて皆様一斉にお食事をスタートさせていただきます。";
+            if(currentBooking.slot === '18:00') {
+              // モーダル内の注意書きも18時一斉スタートに合わせて少し修正
+              noticeEl.innerHTML = "<strong>【ご来店時間について】</strong><br>17:30開場、18:00お食事一斉スタートとさせていただきます。";
               noticeEl.style.display = 'block';
             } else {
               noticeEl.style.display = 'none';
