@@ -238,7 +238,8 @@
 
     .cal-btn { background: #111112; color: #ffffff; border: none; padding: 12px 18px; border-radius: 4px; cursor: pointer; transition: background 0.2s; font-size: 0.9em; min-width: 100px; font-weight: 500; letter-spacing: 1px; } 
     .cal-btn:hover { background: #333333; } 
-    .cal-btn:disabled { background: #cccccc; color: #888888; cursor: not-allowed; } 
+    /* ★ 非活性時のスタイルを調整 */
+    .cal-btn:disabled { background: #2a2a2d; color: #888888; cursor: not-allowed; border-color: #2a2a2d; pointer-events: none; } 
 
     footer { background: var(--white-color); color: var(--sub-color); text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; letter-spacing: 1px; } 
     footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--sub-color); transition: border-color 0.3s; } 
@@ -309,7 +310,7 @@
       <a href="https://www.instagram.com/french__labo/" target="_blank" rel="noopener" class="circle-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
       </a>
-      <a href="https://french-labo.jp/limited.html#reservation" class="reserve-btn">
+      <a href="#reservation" class="reserve-btn">
         予約はこちら 
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </a>
@@ -378,7 +379,8 @@
               </div> 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">11月10日(火)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-11-10-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
+                <!-- ★ 11/10 13:00の枠を初期状態で非活性化し、メディア招待会と表記 -->
+                <button class="cal-btn" id="btn-dessert-2026-11-10-13" style="flex: 1; border: 1px solid #2a2a2d; background: #2a2a2d; color: #888888; pointer-events: none;" disabled>13:00 (メディア招待会)</button> 
                 <button class="cal-btn" id="btn-dessert-2026-11-10-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
               </div> 
             </div> 
@@ -409,7 +411,6 @@
         </div> 
       </div> 
 
-      <!-- ★メニュー選択の代わりにハイヤー送迎の希望を追加 -->
       <div style="margin-bottom:20px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(255,255,255,0.05);">
         <label style="display:flex; align-items:center; gap:10px; color:var(--main-color); font-weight:500;">
           <input type="checkbox" id="input-hire" style="transform: scale(1.2);"> ハイヤー送迎を希望する
@@ -457,7 +458,7 @@
 
     function checkGatePw() {
       var pw = document.getElementById('gate-pw').value;
-      if (pw === "1115") {
+      if (pw === "1128") {
         document.getElementById('pw-gate').style.display = 'none';
         document.body.style.overflow = '';
         
@@ -520,12 +521,28 @@
         var btn = document.getElementById(s.id);
         
         if (btn) {
-          if (remain <= 0) {
+          // ★ 11/10 13:00 はメディア招待会として強制的に非活性
+          if (s.date === '2026-11-10' && s.slot === '13:00') {
+            btn.innerText = '13:00 (メディア招待会)';
+            btn.disabled = true;
+            btn.style.background = '#2a2a2d';
+            btn.style.color = '#888888';
+            btn.style.borderColor = '#2a2a2d';
+            btn.style.pointerEvents = 'none';
+          } else if (remain <= 0) {
             btn.innerText = s.slot + ' (満席)';
             btn.disabled = true;
+            btn.style.background = '#2a2a2d';
+            btn.style.color = '#888888';
+            btn.style.borderColor = '#2a2a2d';
+            btn.style.pointerEvents = 'none';
           } else {
             btn.innerText = s.slot + ' (残' + remain + ')';
             btn.disabled = false;
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.style.borderColor = 'var(--sub-color)';
+            btn.style.pointerEvents = '';
             btn.onclick = function() { openDessertModal(s.date, s.slot, remain); };
           }
         }
@@ -564,7 +581,6 @@
       
       document.getElementById('modal-notice').style.display = 'none';
 
-      // ★ハイヤー送迎のチェック状態を初期化
       document.getElementById('input-hire').checked = false;
 
       document.getElementById('res-modal').style.display = 'flex'; 
@@ -584,7 +600,6 @@
       var zip = document.getElementById('input-zip').value;
       var address = document.getElementById('input-address').value;
 
-      // ★ハイヤー送迎の希望
       var hire = document.getElementById('input-hire').checked ? "希望する" : "希望しない";
 
       if(!name || !phone || !email || !zip || !address || !people || !document.getElementById('agree-privacy').checked) { 
@@ -619,7 +634,7 @@
         purpose: purpose,  
         dislikes: dislikes,  
         allergy: allergies,
-        hire: hire // ★追加
+        hire: hire 
       }; 
 
       fetch(WEB_APP_URL, { 
