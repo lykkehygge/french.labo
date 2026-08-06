@@ -20,7 +20,6 @@
   <meta name="format-detection" content="telephone=no"> 
   
   <base target="_top"> 
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script> 
   <link rel="preconnect" href="https://fonts.googleapis.com"> 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
@@ -229,7 +228,7 @@
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; } 
     h2.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); } 
 
-    /* ★追加：デセール用スタイル */
+    /* デセール用スタイル */
     .course-section { display: flex; flex-wrap: wrap; gap: 40px; align-items: stretch; } 
     .slideshow-container { flex: 1 1 400px; position: relative; height: clamp(300px, 40vw, 450px); border-radius: 4px; overflow: hidden; border: 1px solid var(--sub-color); width: 100%; } 
     .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; } 
@@ -237,36 +236,16 @@
     .course-info { flex: 1 1 350px; display: flex; flex-direction: column; justify-content: center; } 
     .price-tag { font-size: clamp(1.5em, 3vw, 2.2em); border-bottom: 1px solid var(--sub-color); padding-bottom: 15px; margin-bottom: 25px; font-weight: 500; line-height: 1.4; letter-spacing: 1px; } 
 
-    #calendar-wrapper { background: #ffffff; color: #111112; padding: 40px; border-radius: 8px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } 
-    .calendar-header-top { text-align: center; margin-bottom: 25px; } 
-    #current-month-label { font-size: 1.5em; font-weight: 600; letter-spacing: 2px; color: #111112; } 
-    .calendar-nav-bottom { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; width: 100%; } 
-
     .cal-btn { background: #111112; color: #ffffff; border: none; padding: 12px 18px; border-radius: 4px; cursor: pointer; transition: background 0.2s; font-size: 0.9em; min-width: 100px; font-weight: 500; letter-spacing: 1px; } 
     .cal-btn:hover { background: #333333; } 
     .cal-btn:disabled { background: #cccccc; color: #888888; cursor: not-allowed; } 
-
-    .fc-theme-standard th, .fc-theme-standard td { border-color: #dddddd !important; } 
-    .fc-daygrid-day-frame { min-height: 90px !important; display: flex; flex-direction: column; } 
-    .fc-daygrid-day-number { color: #111112 !important; font-weight: 500; }
-    .fc-col-header-cell-cushion { color: #111112 !important; font-weight: 600 !important; }
-    
-    .custom-restricted-day, .fc-day-past { background-color: #f5f5f5 !important; pointer-events: none !important; } 
-    .custom-restricted-day .fc-daygrid-day-number, .fc-day-past .fc-daygrid-day-number { color: #aaaaaa !important; } 
-    
-    .fc-event { border: none !important; border-radius: 4px !important; padding: 4px 6px !important; margin: 2px 0 !important; cursor: pointer !important; white-space: normal !important; } 
-    .fc-event-main { white-space: normal !important; } 
-    .fc-event-title { font-size: 0.95em !important; font-weight: 700 !important; text-align: center !important; display: block !important; letter-spacing: 0.5px; white-space: pre-wrap !important; } 
-
-    .available-event { background-color: var(--accent-color) !important; color: #ffffff !important; } 
-    .full-event { background-color: #dddddd !important; color: #888888 !important; pointer-events: none !important; } 
-    .holiday-event { background-color: #dddddd !important; color: #888888 !important; pointer-events: none !important; } 
 
     footer { background: var(--white-color); color: var(--sub-color); text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; letter-spacing: 1px; } 
     footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--sub-color); transition: border-color 0.3s; } 
     footer a:hover { border-color: var(--main-color); color: var(--main-color); } 
 
-    #loading-overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); z-index: 50; justify-content: center; align-items: center; font-weight: 500; letter-spacing: 2px; color: #111112; border-radius: 8px; } 
+    #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17, 17, 18, 0.8); z-index: 9999; justify-content: center; align-items: center; font-weight: 500; letter-spacing: 2px; color: #fff; } 
+    
     .modal-overlay { background-color: rgba(17, 17, 18, 0.8); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); } 
     .modal-content { background-color: var(--white-color); padding: 40px; border-radius: 4px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } 
 
@@ -284,25 +263,28 @@
       section { margin: 100px auto; padding: 0 20px; } 
       h2.section-title { margin-bottom: 50px; } 
       
-      /* ★追加：SP時のデセール用スタイル調整 */
       .course-section { flex-direction: column; gap: 40px; } 
       .slideshow-container { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; } 
 
-      .calendar-header-top { margin-bottom: 20px; } 
-      .calendar-nav-bottom { justify-content: space-between; gap: 10px; margin-bottom: 25px; } 
       .cal-btn { flex: 1; min-width: 0; font-size: 0.85em; padding: 12px 0; } 
-      .fc-daygrid-day-frame { min-height: 75px !important; } 
-      .fc-daygrid-day-number { font-size: 0.95em !important; padding: 6px !important; } 
-      .fc-col-header-cell-cushion { font-size: 0.9em !important; padding: 12px 0 !important; } 
-      .fc-event { padding: 2px 0 !important; margin: 2px !important; white-space: normal !important; } 
-      .fc-event-main { white-space: normal !important; } 
-      .fc-event-title { font-size: 0.85em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0 !important; white-space: pre-wrap !important; line-height: 1.2 !important; word-break: break-all !important; } 
-      .full-day-holiday .fc-event-title { font-size: 0.65em !important; line-height: 1.2 !important; padding: 2px 0 !important; } 
       .modal-content { padding: 30px 20px; } 
     } 
   </style> 
 </head> 
-<body> 
+<!-- 初期状態でスクロールを禁止 -->
+<body style="overflow: hidden;"> 
+
+  <!-- ★追加：パスワード入力画面 -->
+  <div id="pw-gate" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color: var(--white-color); z-index:99999; display:flex; justify-content:center; align-items:center;">
+    <div class="modal-content" style="text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+      <div style="font-size: 1.2em; font-weight:500; margin-bottom:20px; color: var(--main-color);">限定ページへアクセス</div>
+      <input type="password" id="gate-pw" placeholder="パスワードを入力" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--sub-color); border-radius:4px; text-align:center; font-size:1.1em; background:transparent; color:var(--main-color);">
+      <div id="gate-error" style="color:#ff6b6b; margin-bottom:15px; font-size:0.9em; display:none;">パスワードが異なります。</div>
+      <button class="cal-btn" style="width:100%; padding:12px 0;" onclick="checkGatePw()">送信</button>
+    </div>
+  </div>
+
+  <div id="loading-overlay">LOADING...</div> 
 
   <header class="hero"> 
     <div class="video-background" aria-hidden="true"> 
@@ -328,7 +310,7 @@
       <a href="https://www.instagram.com/french__labo/" target="_blank" rel="noopener" class="circle-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
       </a>
-      <a href="#reservation" class="reserve-btn">
+      <a href="#dessert-event" class="reserve-btn">
         予約はこちら 
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </a>
@@ -358,7 +340,6 @@
       </p>
     </section>
 
-    <!-- ★追加：デセールイベントセクション -->
     <section id="dessert-event"> 
       <h2 class="section-title">Dessert Event</h2> 
       <div class="course-section"> 
@@ -396,7 +377,6 @@
           <div style="margin-top: 25px; padding: 20px; border: 1px solid var(--sub-color); border-radius: 4px;"> 
             <h4 style="font-weight: 500; text-align: center; margin-bottom: 20px; letter-spacing: 2px;">デセールご予約</h4> 
             <div style="display: flex; flex-direction: column; gap: 15px;"> 
-              <!-- 黒背景でも見えるようボタンに枠線を追加 -->
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">8月21日(金)</strong> 
                 <button class="cal-btn" id="btn-dessert-2026-08-21-13" style="flex: 1; border: 1px solid var(--sub-color);">13:30</button> 
@@ -418,19 +398,6 @@
       </div> 
     </section>
 
-    <section id="reservation"> 
-      <h2 class="section-title">RESERVATION</h2> 
-      <div id="calendar-wrapper"> 
-        <div id="loading-overlay">LOADING...</div> 
-        <div class="calendar-header-top"><div id="current-month-label"></div></div> 
-        <div class="calendar-nav-bottom"> 
-          <button class="cal-btn" id="btn-prev-month" onclick="changeMonth(-1)">◀ 前の月</button> 
-          <button class="cal-btn" onclick="goToToday()">今日</button> 
-          <button class="cal-btn" id="btn-next-month" onclick="changeMonth(1)">次の月 ▶</button> 
-        </div> 
-        <div id="calendar"></div> 
-      </div> 
-    </section> 
   </main> 
 
   <footer> 
@@ -453,7 +420,6 @@
         </div> 
       </div> 
 
-      <!-- ★追加：デセール用のメニュー選択エリア -->
       <div id="dessert-options" style="display:none; margin-bottom:15px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(255,255,255,0.05);">
         <p style="margin-top:0; margin-bottom:15px; font-weight:500; font-size:1.1em; color: var(--main-color);">デセール メニュー選択</p>
         <div id="dessert-selections-container">
@@ -495,14 +461,24 @@
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
 
     var currentBooking = {}; 
-    var currentCalendarDate = new Date(); 
-    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 10) { 
-      currentCalendarDate = new Date(2026, 10, 1); 
-    } 
-    var fullCalendarInstance = null; 
-    var gDeadlineDate, gMaxAcceptDate, gHardEndDate; 
 
-    // ★追加：デセール用のプルダウン生成関数
+    // ★追加：パスワード確認処理
+    function checkGatePw() {
+      var pw = document.getElementById('gate-pw').value;
+      if (pw === "1115") {
+        // パスワードが一致したら画面を非表示にしてスクロールを許可
+        document.getElementById('pw-gate').style.display = 'none';
+        document.body.style.overflow = '';
+        
+        // パスワード認証後にデータを読み込む
+        loadDessertData(); 
+      } else {
+        // パスワードが間違っている場合はエラーメッセージを表示し入力をクリア
+        document.getElementById('gate-error').style.display = 'block';
+        document.getElementById('gate-pw').value = '';
+      }
+    }
+
     function renderDessertSelections(count) {
       const container = document.getElementById('dessert-selections-container');
       const currentCount = container.children.length;
@@ -558,7 +534,6 @@
       if(newVal >= 1 && newVal <= max) { 
         input.value = newVal; 
         
-        // ★追加：デセール予約時のプルダウン更新
         if (currentBooking.type === 'dessert') {
           renderDessertSelections(newVal);
         }
@@ -566,9 +541,16 @@
     } 
 
     document.addEventListener('DOMContentLoaded', function() { 
-      loadCalendarData(currentCalendarDate); 
+      // PW認証入力欄でEnterキーが押された時の処理を追加
+      var gateInput = document.getElementById('gate-pw');
+      if (gateInput) {
+        gateInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            checkGatePw();
+          }
+        });
+      }
       
-      // ★追加：スライドショーの初期化
       var slideContainers = document.querySelectorAll('.slideshow-container'); 
       slideContainers.forEach(function(container) { 
         var slides = container.querySelectorAll('.slide'); 
@@ -583,23 +565,6 @@
       });
     }); 
 
-    function goToToday() {  
-      var d = new Date(); 
-      if (d.getFullYear() === 2026 && d.getMonth() < 10) { 
-        currentCalendarDate = new Date(2026, 10, 1); 
-      } else { 
-        currentCalendarDate = d; 
-      } 
-      loadCalendarData(currentCalendarDate);  
-    } 
-
-    function changeMonth(diff) { 
-      currentCalendarDate.setDate(1); 
-      currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); 
-      loadCalendarData(currentCalendarDate); 
-    } 
-
-    // ★追加：デセールボタンの在庫更新処理
     function updateDessertButtons(dessertBookedCounts) {
       const maxSeats = 6;
       const dessertSlots = [
@@ -621,7 +586,6 @@
           if (remain <= 0) {
             btn.innerText = s.slot + ' (満席)';
             btn.disabled = true;
-            // .cal-btn:disabled のCSSが適用されるため個別styleは最低限に
           } else {
             btn.innerText = s.slot + ' (残' + remain + ')';
             btn.disabled = false;
@@ -631,144 +595,27 @@
       });
     }
 
-    function loadCalendarData(dateObj) { 
+    function loadDessertData() { 
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
       var urlParams = '?action=getCalendarData&page=limited';
-      if (dateObj) {
-        var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2); 
-        urlParams += '&yearMonth=' + yearMonthStr;
-      }
       
       fetch(WEB_APP_URL + urlParams) 
         .then(function(response) { return response.json(); }) 
         .then(function(data) { 
-          var parts = data.currentYearMonth.split('-');
-          currentCalendarDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
-          
-          document.getElementById('current-month-label').innerText = currentCalendarDate.getFullYear() + "年 " + (currentCalendarDate.getMonth() + 1) + "月"; 
-          
-          renderCalendar(data); 
-          // ★追加：データ取得後にデセールの残席も更新する（API側が対応していれば）
+          document.getElementById('loading-overlay').style.display = 'none'; 
           if(data.dessertBookedCounts) {
              updateDessertButtons(data.dessertBookedCounts);
           } else {
-             // サーバーから返ってこない場合の保険
              updateDessertButtons({});
           }
         }) 
         .catch(function(error) { 
           console.error('Error:', error); 
-          alert("カレンダーの読み込みに失敗しました。"); 
           document.getElementById('loading-overlay').style.display = 'none'; 
         }); 
     } 
 
-    function renderCalendar(data) { 
-      document.getElementById('loading-overlay').style.display = 'none'; 
-      var eventsArray = []; 
-      var today = new Date(); today.setHours(0,0,0,0); 
-      
-      gDeadlineDate = new Date(today);  
-      gDeadlineDate.setDate(today.getDate() + (parseInt(data.deadlineDays) || 0)); 
-      gMaxAcceptDate = new Date(today);  
-      gMaxAcceptDate.setDate(today.getDate() + (parseInt(data.maxDays) || 60)); 
-      gHardEndDate = new Date(data.endDate || "2099-12-31");  
-      gHardEndDate.setHours(23,59,59); 
-
-      var displayYear = parseInt(data.currentYearMonth.split('-')[0]); 
-      var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1; 
-      var dateInMonth = new Date(displayYear, displayMonth, 1); 
-      
-      var maxSeats = data.maxSeats || 14; 
-      
-      while(dateInMonth.getMonth() === displayMonth) { 
-        var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2); 
-        
-        var isFutureRestricted = (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate); 
-        var isDeadlinePassed = (dateInMonth < gDeadlineDate); 
-        
-        if (!isFutureRestricted) { 
-          if (data.holidayMap[dateStr] === "終日") { 
-            eventsArray.push({ 
-              title: 'Prep Day\n(開業準備)', 
-              start: dateStr, 
-              classNames: ['holiday-event', 'full-day-holiday'] 
-            }); 
-          } else { 
-            ['17:30', '18:00'].forEach(function(slot) { 
-              var slotKey = dateStr + '_' + slot; 
-              var isHoliday = (data.holidayMap[slotKey] === "休業"); 
-
-              if (isHoliday) { 
-                eventsArray.push({ title: slot + '：Prep Day', start: dateStr, classNames: ['holiday-event'] }); 
-              } else { 
-                var booked = data.bookedCounts[slotKey] || 0; 
-                var remain = maxSeats - booked; 
-                
-                var titleText = slot + '：' + (remain > 0 ? '残' + remain : '満'); 
-                
-                if (isDeadlinePassed && remain > 0) { 
-                  titleText = slot + '：受付終了'; 
-                } 
-
-                eventsArray.push({  
-                  title: titleText,  
-                  start: dateStr,  
-                  classNames: [(isDeadlinePassed || remain <= 0) ? 'full-event' : 'available-event'], 
-                  extendedProps: { timeSlot: slot, remain: remain, restricted: isDeadlinePassed } 
-                }); 
-              } 
-            }); 
-          } 
-        } 
-        dateInMonth.setDate(dateInMonth.getDate() + 1); 
-      } 
-
-      if (!fullCalendarInstance) { 
-        fullCalendarInstance = new FullCalendar.Calendar(document.getElementById('calendar'), { 
-          initialView: 'dayGridMonth', locale: 'ja', contentHeight: 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1, 
-          dayCellClassNames: function(arg) { 
-            if (!gDeadlineDate) return []; 
-            if (arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day']; 
-            return []; 
-          }, 
-          eventClick: function(info) { 
-            if (info.event.extendedProps.restricted || !info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return; 
-
-            currentBooking = { type: 'limited', date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain }; 
-            document.getElementById('modal-header-text').innerText = "コースご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
-            
-            var noticeEl = document.getElementById('modal-notice');
-            if(currentBooking.slot === '17:30') {
-              noticeEl.innerHTML = "<strong>【ご来店時間について】</strong><br>17:30~17:45までにお越しください。ラウンジにて食前酒とアミューズをご用意しております。";
-              noticeEl.style.display = 'block';
-            } else if(currentBooking.slot === '18:00') {
-              noticeEl.innerHTML = "<strong>【ご来店時間について】</strong><br>18時までにレストランエントランスに直接お越しください。オープンキッチンにて皆様一斉にお食事をスタートさせていただきます。";
-              noticeEl.style.display = 'block';
-            } else {
-              noticeEl.style.display = 'none';
-            }
-
-            var currentMax = Math.min(currentBooking.remain, 14); 
-            document.getElementById('input-people').max = currentMax; 
-            document.getElementById('max-people-label').innerText = currentMax; 
-            document.getElementById('input-people').value = 1; 
-
-            // ★追加：コース予約時はデセール選択を非表示
-            document.getElementById('dessert-options').style.display = 'none';
-
-            document.getElementById('res-modal').style.display = 'flex'; 
-          } 
-        }); 
-        fullCalendarInstance.render(); 
-      } 
-      fullCalendarInstance.gotoDate(data.currentYearMonth + '-01'); 
-      fullCalendarInstance.removeAllEvents(); 
-      fullCalendarInstance.addEventSource(eventsArray); 
-    } 
-
-    // ★追加：デセール予約モーダルを開く関数
     function openDessertModal(date, time, remain) { 
       currentBooking = { type: 'dessert', date: date, slot: time, remain: remain }; 
       document.getElementById('modal-header-text').innerText = "デセールご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
@@ -777,7 +624,6 @@
       document.getElementById('max-people-label').innerText = currentMax; 
       document.getElementById('input-people').value = 1; 
       
-      // デセール時はご来店時間の注意事項を消す
       document.getElementById('modal-notice').style.display = 'none';
 
       document.getElementById('dessert-options').style.display = 'block';
@@ -820,7 +666,6 @@
         return;
       }
 
-      // ★追加：デセール予約時のプルダウン入力チェック
       if (currentBooking.type === 'dessert') {
         let parfaits = [];
         let drinks = [];
@@ -844,7 +689,7 @@
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
       var payload = {  
-        type: currentBooking.type || 'limited', // ★限定予約用かデセール用かを送る
+        type: currentBooking.type || 'limited',
         date: currentBooking.date,  
         slot: currentBooking.slot,  
         name: name,  
@@ -856,8 +701,8 @@
         purpose: purpose,  
         dislikes: dislikes,  
         allergy: allergies,
-        parfait: parfaitStr, // ★追加
-        drink: drinkStr      // ★追加
+        parfait: parfaitStr, 
+        drink: drinkStr      
       }; 
 
       fetch(WEB_APP_URL, { 
@@ -884,7 +729,7 @@
           document.getElementById('input-allergies').value = ''; 
           document.getElementById('agree-privacy').checked = false; 
           
-          loadCalendarData(currentCalendarDate); 
+          loadDessertData(); 
         } else { 
           alert("エラー: " + res.message); 
           document.getElementById('loading-overlay').style.display = 'none'; 
