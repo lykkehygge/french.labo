@@ -238,8 +238,10 @@
 
     .cal-btn { background: #111112; color: #ffffff; border: none; padding: 12px 18px; border-radius: 4px; cursor: pointer; transition: background 0.2s; font-size: 0.9em; min-width: 100px; font-weight: 500; letter-spacing: 1px; } 
     .cal-btn:hover { background: #333333; } 
-    /* ★ 非活性時のスタイルを調整 */
     .cal-btn:disabled { background: #2a2a2d; color: #888888; cursor: not-allowed; border-color: #2a2a2d; pointer-events: none; } 
+
+    /* メディア招待会のテキストは、PCでは一行、SPでは改行する設定 */
+    .media-invite-text br { display: none; }
 
     footer { background: var(--white-color); color: var(--sub-color); text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; letter-spacing: 1px; } 
     footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--sub-color); transition: border-color 0.3s; } 
@@ -268,6 +270,11 @@
       .slideshow-container { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; } 
 
       .cal-btn { flex: 1; min-width: 0; font-size: 0.85em; padding: 12px 0; } 
+
+      /* SP時にメディア招待会のbrタグを表示して改行させる */
+      .media-invite-text br { display: block; }
+      .media-invite-text { line-height: 1.4; display: inline-block; padding: 4px 0; }
+
       .modal-content { padding: 30px 20px; } 
     } 
   </style> 
@@ -379,8 +386,9 @@
               </div> 
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
                 <strong style="width: 120px;">11月10日(火)</strong> 
-                <!-- ★ 11/10 13:00の枠を初期状態で非活性化し、メディア招待会と表記 -->
-                <button class="cal-btn" id="btn-dessert-2026-11-10-13" style="flex: 1; border: 1px solid #2a2a2d; background: #2a2a2d; color: #888888; pointer-events: none;" disabled>13:00 (メディア招待会)</button> 
+                <button class="cal-btn" id="btn-dessert-2026-11-10-13" style="flex: 1; border: 1px solid #2a2a2d; background: #2a2a2d; color: #888888; pointer-events: none;" disabled>
+                  <span class="media-invite-text">13:00<br>(メディア招待会)</span>
+                </button> 
                 <button class="cal-btn" id="btn-dessert-2026-11-10-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
               </div> 
             </div> 
@@ -458,7 +466,7 @@
 
     function checkGatePw() {
       var pw = document.getElementById('gate-pw').value;
-      if (pw === "1128") {
+      if (pw === "1115") {
         document.getElementById('pw-gate').style.display = 'none';
         document.body.style.overflow = '';
         
@@ -521,9 +529,9 @@
         var btn = document.getElementById(s.id);
         
         if (btn) {
-          // ★ 11/10 13:00 はメディア招待会として強制的に非活性
           if (s.date === '2026-11-10' && s.slot === '13:00') {
-            btn.innerText = '13:00 (メディア招待会)';
+            // ★JavaScriptでの更新時にも改行スタイルを適用
+            btn.innerHTML = '<span class="media-invite-text">13:00<br>(メディア招待会)</span>';
             btn.disabled = true;
             btn.style.background = '#2a2a2d';
             btn.style.color = '#888888';
