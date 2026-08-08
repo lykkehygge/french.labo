@@ -67,7 +67,6 @@
       overflow: hidden; 
     } 
     
-    /* 動画タグ用に変更 */
     .video-background video { 
       width: 100vw; 
       height: 56.25vw; 
@@ -230,7 +229,6 @@
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; } 
     h2.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); } 
 
-    /* デセール用スタイル */
     .course-section { display: flex; flex-wrap: wrap; gap: 40px; align-items: stretch; } 
     .slideshow-container { flex: 1 1 400px; position: relative; height: clamp(300px, 40vw, 450px); border-radius: 4px; overflow: hidden; border: 1px solid var(--sub-color); width: 100%; } 
     .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; } 
@@ -242,7 +240,6 @@
     .cal-btn:hover { background: #333333; } 
     .cal-btn:disabled { background: #2a2a2d; color: #888888; cursor: not-allowed; border-color: #2a2a2d; pointer-events: none; } 
 
-    /* メディア招待会のテキストは、PCでは一行、SPでは改行する設定 */
     .media-invite-text br { display: none; }
 
     footer { background: var(--white-color); color: var(--sub-color); text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; letter-spacing: 1px; } 
@@ -271,9 +268,9 @@
       .course-section { flex-direction: column; gap: 40px; } 
       .slideshow-container { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; } 
 
-      .cal-btn { flex: 1; min-width: 0; font-size: 0.85em; padding: 12px 0; } 
+      /* ボタン内の余白とフォントサイズ調整 */
+      .cal-btn { flex: 1; min-width: 0; font-size: 0.75em; padding: 8px 4px; } 
 
-      /* SP時にメディア招待会のbrタグを表示して改行させる */
       .media-invite-text br { display: block; }
       .media-invite-text { line-height: 1.4; display: inline-block; padding: 4px 0; }
 
@@ -328,25 +325,26 @@
   </header> 
 
   <main> 
+    <!-- テキスト全体を左揃えにし、画面中央に配置 -->
     <section id="concept" style="margin: 120px auto; display: flex; flex-direction: column; align-items: center;">
       <div style="text-align: left;">
         <p style="font-family: 'Shippori Mincho', serif; font-size: 1.8em; line-height: 2.0; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
           囲む。味わう。灯る。
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.9em; line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
+        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;">
           料理には、過去の記憶を呼び起こす力があります。<br>
           同時に、新たな記憶の始まりともなります。<br>
           ここは、大切な人との時間を囲む炉であり、<br>
           姫路・野里の歴史と今を旅する路となる、<br>
           泊まれるレストラン。
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.9em; line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
+        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;">
           これまでとこれからをつなぐ<br>
           姫路の古民家を舞台に<br>
           人と人が同じ時間を分かち合い、<br>
           職人の手で彩られた四季の料理を味わう。
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.9em; line-height: 2; letter-spacing: 0.1em; font-weight: 400; margin: 0;">
+        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; font-weight: 400; margin: 0; word-break: keep-all; overflow-wrap: break-word;">
           そのひと口から感じる香り、温度、食感が<br>
           野里で過ごす時間を明るく照らします。<br>
           そんな記憶が灯るひとときをお楽しみください。
@@ -368,11 +366,11 @@
         
         <div class="course-info"> 
           <h3 class="price-tag">レセプションのご案内<br><span style="font-size:0.65em;"></span><br><span style="font-size:0.8em; font-weight:400;"><span style="font-size:0.65em;"></span></span></h3> 
-          <p style="font-size: 0.95em; line-height: 1.8; font-weight: 400; margin-bottom: 25px;"> 
+          <p style="font-size: clamp(0.85em, 2vw, 1em); line-height: 1.8; font-weight: 400; margin-bottom: 25px; word-break: keep-all; overflow-wrap: break-word;"> 
             <strong>11/8〜10の3日間限定</strong><br> 
             レストラン グランドオープンに先立ち、お披露目を兼ねたレセプションパーティを開催いたします。長い時間をかけて紡いできた空間と料理の世界を、ひと足早くご体験いただける特別な３日間です。各日 2部制・各回20名様限定 にて、立食スタイルでのフィンガーフードとドリンクをご用意しております。ささやかながら、私たちの新しい物語の始まりを皆さまと共有できれば幸いです。
           </p> 
-          <p style="font-size:0.8em; line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 400;"> 
+          <p style="font-size: clamp(0.75em, 1.8vw, 0.85em); line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;"> 
             各日２部制一斉スタート 13:00〜 / 16:00〜<br> 
             ※完全予約制<br> 
             ※1部につき20名様まで<br> 
