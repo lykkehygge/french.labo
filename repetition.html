@@ -1,690 +1,1325 @@
-<!DOCTYPE html> 
+ <!DOCTYPE html> 
+
 <html lang="ja"> 
+
 <head> 
+
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="CzEATMgG4Ka9IIE5KuN/Lg" async></script> 
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0LLZ5ZXX9P"></script> 
+
 <script> 
+
   window.dataLayer = window.dataLayer || []; 
+
   function gtag(){dataLayer.push(arguments);} 
+
   gtag('js', new Date()); 
+
   gtag('config', 'G-0LLZ5ZXX9P'); 
+
 </script> 
 
+
   <meta charset="UTF-8"> 
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
   
+
   <title>RO AUBERGE HIMEJI | 限定予約ページ</title> 
 
+
   <meta name="robots" content="noindex, nofollow">
+
   <link rel="canonical" href="https://french-labo.jp/"> 
+
   <meta name="format-detection" content="telephone=no"> 
+
   
+
   <base target="_top"> 
+
   <link rel="preconnect" href="https://fonts.googleapis.com"> 
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
+
   
+
   <style> 
+
     :root { 
+
       --main-color: #F0F0F0; 
+
       --sub-color: #AFB6BB; 
+
       --accent-color: rgba(139, 90, 43, 0.9);
+
       --white-color: #111112; 
+
     } 
+
 
     body {  
+
       font-family: 'Lora', 'Shippori Mincho', "Hiragino Mincho ProN", serif;  
+
       font-size: 16px; padding: 0; background-color: var(--white-color); color: var(--main-color);  
+
       margin: 0; line-height: 1.8; -webkit-font-smoothing: antialiased;  
+
     } 
+
     *, *::before, *::after { box-sizing: border-box; } 
+
     
+
     input, button, textarea, select { font-family: inherit; } 
+
     input[type="number"]::-webkit-outer-spin-button, 
+
     input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; } 
+
     input[type="number"] { -moz-appearance: textfield; } 
+
     
+
     .hero { 
+
       position: relative; 
+
       height: 100vh; 
+
       min-height: 500px; 
+
       display: flex; 
+
       flex-direction: column; 
+
       justify-content: center; 
+
       align-items: center; 
+
       text-align: center; 
+
       color: #fff; 
+
       overflow: hidden; 
+
       background: #111112; 
+
     } 
+
     
+
     .video-background { 
+
       position: absolute; 
+
       top: 0; left: 0; 
+
       width: 100%; height: 100%; 
+
       z-index: 1; 
+
       pointer-events: none; 
+
       overflow: hidden; 
+
     } 
+
     
+
+    /* 動画タグ用に変更 */
+
     .video-background video { 
+
       width: 100vw; 
+
       height: 56.25vw; 
+
       min-height: 100vh; 
+
       min-width: 177.77vh; 
+
       position: absolute; 
+
       top: 50%; left: 50%; 
+
       transform: translate(-50%, -50%) scale(1.3); 
+
       pointer-events: none; 
+
       object-fit: cover;
+
     }
+
 
     .hero-black-cover {
+
       position: absolute; 
+
       top: 0; left: 0; 
+
       width: 100%; height: 100%; 
+
       background: #111112; 
+
       z-index: 2; 
+
       pointer-events: none; 
+
       animation: fadeOutCover 2s 5s forwards; 
+
     }
+
     
+
     .hero-overlay { 
+
       position: absolute; 
+
       top: 0; left: 0; 
+
       width: 100%; height: 100%; 
+
       background: rgba(0, 0, 0, 0.4); 
+
       z-index: 3; 
+
       pointer-events: auto; 
+
     }
+
     
+
     .hero-content { 
+
       position: relative; 
+
       z-index: 4; 
+
       padding: 0 20px; 
+
       width: 100%; 
+
       display: flex; 
+
       flex-direction: column; 
+
       align-items: center; 
+
       opacity: 0; 
+
       animation: fadeInLogo 1s 2s forwards; 
+
     } 
+
 
     .hero-content img {
+
       width: 230px; 
+
       margin-bottom: 20px;
+
     }
+
 
     .hero h1 { 
+
       font-family: 'Lora', serif; 
+
       font-weight: 400; 
+
       letter-spacing: 0.25em; 
+
       font-size: clamp(22px, 3.5vw, 28px); 
+
       margin: 0; 
+
       color: #fff; 
+
       line-height: 1.1; 
+
     } 
 
+
     .scroll-indicator { 
+
       position: absolute; 
+
       bottom: 40px; 
+
       left: 40px; 
+
       z-index: 4; 
+
       display: flex; 
+
       flex-direction: column; 
+
       align-items: center; 
+
       gap: 12px; 
+
       color: #fff; 
+
       opacity: 0;
+
       pointer-events: none;
+
       animation: fadeInElements 1s 7s forwards;
+
     }
+
     .scroll-indicator span { 
+
       writing-mode: vertical-rl; 
+
       font-size: 0.75em; 
+
       letter-spacing: 3px; 
+
       margin-bottom: 5px;
+
       font-weight: 400;
+
       color: rgba(255,255,255,0.8);
+
     }
+
     .scroll-indicator .line { 
+
       width: 1px; 
+
       height: 60px; 
+
       background: rgba(255, 255, 255, 0.2); 
+
       position: relative;
+
       overflow: hidden;
+
     }
+
     .scroll-indicator .line::after {
+
       content: '';
+
       position: absolute;
+
       top: 0; left: 0;
+
       width: 100%; height: 100%;
+
       background: #fff;
+
       animation: scrollAnim 1.5s cubic-bezier(0.8, 0, 0.2, 1) infinite;
+
     }
+
     
+
     .hero-actions { 
+
       position: absolute; 
+
       bottom: 40px; 
+
       right: 40px; 
+
       z-index: 4; 
+
       display: flex; 
+
       align-items: center; 
+
       gap: 15px; 
+
       opacity: 0;
+
       pointer-events: none;
+
       animation: fadeInElements 1s 7s forwards;
+
     }
+
     .circle-btn { 
+
       display: flex; 
+
       justify-content: center; 
+
       align-items: center; 
+
       width: 45px; 
+
       height: 45px; 
+
       border-radius: 50%; 
+
       border: 1px solid rgba(255,255,255,0.5); 
+
       color: #fff; 
+
       text-decoration: none; 
+
       transition: background 0.3s; 
+
     }
+
     .circle-btn:hover { background: rgba(255,255,255,0.2); }
+
     .reserve-btn { 
+
       display: flex; 
+
       justify-content: center; 
+
       align-items: center; 
+
       padding: 0 25px; 
+
       height: 45px; 
+
       border-radius: 25px; 
+
       border: 1px solid rgba(255,255,255,0.5); 
+
       color: #fff; 
+
       text-decoration: none; 
+
       font-size: 0.9em; 
+
       letter-spacing: 1px; 
+
       transition: background 0.3s; 
+
       background: rgba(139, 90, 43, 0.6); 
+
     }
+
     .reserve-btn:hover { background: rgba(139, 90, 43, 0.9); }
 
+
     @keyframes fadeOutCover {
+
       0% { opacity: 1; visibility: visible; }
+
       100% { opacity: 0; visibility: hidden; }
+
     }
+
     @keyframes fadeInLogo {
+
       0% { opacity: 0; }
+
       100% { opacity: 1; }
+
     }
+
     @keyframes fadeInElements {
+
       0% { opacity: 0; pointer-events: none; }
+
       100% { opacity: 1; pointer-events: auto; }
+
     }
+
     @keyframes scrollAnim {
+
       0% { transform-origin: top; transform: scaleY(0); }
+
       50% { transform-origin: top; transform: scaleY(1); }
+
       50.1% { transform-origin: bottom; transform: scaleY(1); }
+
       100% { transform-origin: bottom; transform: scaleY(0); }
+
     }
+
 
     section { max-width: 800px; margin: 140px auto; padding: 0 25px; width: 100%; } 
+
     
+
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; } 
+
     h2.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); } 
 
+
+    /* デセール用スタイル */
+
     .course-section { display: flex; flex-wrap: wrap; gap: 40px; align-items: stretch; } 
+
     .slideshow-container { flex: 1 1 400px; position: relative; height: clamp(300px, 40vw, 450px); border-radius: 4px; overflow: hidden; border: 1px solid var(--sub-color); width: 100%; } 
+
     .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; } 
+
     .slide.active { opacity: 1; } 
+
     .course-info { flex: 1 1 350px; display: flex; flex-direction: column; justify-content: center; } 
+
     .price-tag { font-size: clamp(1.5em, 3vw, 2.2em); border-bottom: 1px solid var(--sub-color); padding-bottom: 15px; margin-bottom: 25px; font-weight: 500; line-height: 1.4; letter-spacing: 1px; } 
 
+
     .cal-btn { background: #111112; color: #ffffff; border: none; padding: 12px 18px; border-radius: 4px; cursor: pointer; transition: background 0.2s; font-size: 0.9em; min-width: 100px; font-weight: 500; letter-spacing: 1px; } 
+
     .cal-btn:hover { background: #333333; } 
+
     .cal-btn:disabled { background: #2a2a2d; color: #888888; cursor: not-allowed; border-color: #2a2a2d; pointer-events: none; } 
+
+
+    /* メディア招待会のテキストは、PCでは一行、SPでは改行する設定 */
 
     .media-invite-text br { display: none; }
 
+
     footer { background: var(--white-color); color: var(--sub-color); text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; letter-spacing: 1px; } 
+
     footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--sub-color); transition: border-color 0.3s; } 
+
     footer a:hover { border-color: var(--main-color); color: var(--main-color); } 
 
+
     #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17, 17, 18, 0.8); z-index: 9999; justify-content: center; align-items: center; font-weight: 500; letter-spacing: 2px; color: #fff; } 
+
     
+
     .modal-overlay { background-color: rgba(17, 17, 18, 0.8); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); } 
+
     .modal-content { background-color: var(--white-color); padding: 40px; border-radius: 4px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } 
 
+
     @media (max-width: 767px) { 
+
       .hero { height: 100vh; height: 100dvh; min-height: auto; width: 100%; } 
+
       .hero-content img { width: 180px; margin-bottom: 15px; }
+
       .hero h1 { font-size: 20px; letter-spacing: 0.25em; }
+
       
+
       .scroll-indicator { left: 20px; bottom: 20px; }
+
       .hero-actions { right: 20px; bottom: 20px; flex-direction: row; gap: 10px; }
+
       .circle-btn { width: 35px; height: 35px; font-size: 0.9em; }
+
       .circle-btn svg { width: 16px; height: 16px; }
+
       .reserve-btn { height: 35px; padding: 0 15px; font-size: 0.8em; }
 
+
       section { margin: 100px auto; padding: 0 20px; } 
+
       h2.section-title { margin-bottom: 50px; } 
+
       
+
       .course-section { flex-direction: column; gap: 40px; } 
+
       .slideshow-container { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; } 
 
-      /* ボタン内の余白とフォントサイズ調整 */
-      .cal-btn { flex: 1; min-width: 0; font-size: 0.75em; padding: 8px 4px; } 
+
+      .cal-btn { flex: 1; min-width: 0; font-size: 0.85em; padding: 12px 0; } 
+
+
+      /* SP時にメディア招待会のbrタグを表示して改行させる */
 
       .media-invite-text br { display: block; }
+
       .media-invite-text { line-height: 1.4; display: inline-block; padding: 4px 0; }
 
+
       .modal-content { padding: 30px 20px; } 
+
     } 
+
   </style> 
+
 </head> 
+
 <body style="overflow: hidden;"> 
 
+
   <!-- パスワード入力画面 -->
+
   <div id="pw-gate" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color: var(--white-color); z-index:99999; display:flex; justify-content:center; align-items:center;">
+
     <div class="modal-content" style="text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+
       <div style="font-size: 1.2em; font-weight:500; margin-bottom:20px; color: var(--main-color);">限定ページへアクセス</div>
+
       <input type="password" id="gate-pw" placeholder="パスワードを入力" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid var(--sub-color); border-radius:4px; text-align:center; font-size:1.1em; background:transparent; color:var(--main-color);">
+
       <div id="gate-error" style="color:#ff6b6b; margin-bottom:15px; font-size:0.9em; display:none;">パスワードが異なります。</div>
+
       <button class="cal-btn" style="width:100%; padding:12px 0;" onclick="checkGatePw()">送信</button>
+
     </div>
+
   </div>
+
 
   <div id="loading-overlay">LOADING...</div> 
 
+
   <header class="hero"> 
+
     <div class="video-background" aria-hidden="true"> 
+
       <!-- 背景動画用のタグに変更 -->
+
       <video src="https://ott-ro-auberge-himeji.web.app/assets/background-movie.mp4" autoplay loop muted playsinline></video>
+
     </div> 
+
     
+
     <div class="hero-black-cover"></div>
+
     <div class="hero-overlay"></div>
 
+
     <div class="hero-content"> 
+
       <div style="display: flex; flex-direction: column; align-items: center;">
+
         <img src="./logo_w2.png" alt="Logo">
+
         <h1>RO AUBERGE<br>HIMEJI</h1>
+
       </div>
+
     </div> 
 
+
     <div class="scroll-indicator">
+
       <span>Scroll</span>
+
       <div class="line"></div>
+
     </div>
+
 
     <div class="hero-actions">
+
       <a href="https://www.instagram.com/french__labo/" target="_blank" rel="noopener" class="circle-btn">
+
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+
       </a>
+
       <a href="https://french-labo.jp/limited.html#reservation" class="reserve-btn">
+
         予約はこちら 
+
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+
       </a>
+
     </div>
+
   </header> 
 
+
   <main> 
-    <!-- テキスト全体を左揃えにし、画面中央に配置 -->
+
     <section id="concept" style="margin: 120px auto; display: flex; flex-direction: column; align-items: center;">
+
       <div style="text-align: left;">
+
         <p style="font-family: 'Shippori Mincho', serif; font-size: 1.8em; line-height: 2.0; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
+
           囲む。味わう。灯る。
+
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;">
+
+        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.85em; line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
+
           料理には、過去の記憶を呼び起こす力があります。<br>
+
           同時に、新たな記憶の始まりともなります。<br>
+
           ここは、大切な人との時間を囲む炉であり、<br>
+
           姫路・野里の歴史と今を旅する路となる、<br>
+
           泊まれるレストラン。
+
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;">
+
+        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.85em; line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
+
           これまでとこれからをつなぐ<br>
+
           姫路の古民家を舞台に<br>
+
           人と人が同じ時間を分かち合い、<br>
+
           職人の手で彩られた四季の料理を味わう。
+
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; font-weight: 400; margin: 0; word-break: keep-all; overflow-wrap: break-word;">
+
+        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.85em; line-height: 2; letter-spacing: 0.1em; font-weight: 400; margin: 0;">
+
           そのひと口から感じる香り、温度、食感が<br>
+
           野里で過ごす時間を明るく照らします。<br>
+
           そんな記憶が灯るひとときをお楽しみください。
+
         </p>
+
       </div>
+
     </section>
 
+
     <section id="dessert-event"> 
+
       <h2 class="section-title">Reception Event</h2> 
+
       <div class="course-section"> 
+
         
+
         <div style="flex: 1 1 400px; max-width: 100%;">
+
           <div class="slideshow-container" aria-hidden="true" style="flex: none; width: 100%;"> 
+
             <div class="slide active" style="background-image: url('./r-1.jpg')" title="パフェイメージ1"></div> 
+
             <div class="slide" style="background-image: url('./r-1.jpg')" title="パフェイメージ2"></div> 
+
           </div>
+
           <p style="font-size: 0.85em; color: var(--sub-color); text-align: right; margin-top: 8px; margin-bottom: 0;">※写真はイメージです。</p>
+
         </div>
+
         
+
         <div class="course-info"> 
+
           <h3 class="price-tag">レセプションのご案内<br><span style="font-size:0.65em;"></span><br><span style="font-size:0.8em; font-weight:400;"><span style="font-size:0.65em;"></span></span></h3> 
-          <p style="font-size: clamp(0.85em, 2vw, 1em); line-height: 1.8; font-weight: 400; margin-bottom: 25px; word-break: keep-all; overflow-wrap: break-word;"> 
+
+          <p style="font-size: 0.95em; line-height: 1.8; font-weight: 400; margin-bottom: 25px;"> 
+
             <strong>11/8〜10の3日間限定</strong><br> 
+
             レストラン グランドオープンに先立ち、お披露目を兼ねたレセプションパーティを開催いたします。長い時間をかけて紡いできた空間と料理の世界を、ひと足早くご体験いただける特別な３日間です。各日 2部制・各回20名様限定 にて、立食スタイルでのフィンガーフードとドリンクをご用意しております。ささやかながら、私たちの新しい物語の始まりを皆さまと共有できれば幸いです。
+
           </p> 
-          <p style="font-size: clamp(0.75em, 1.8vw, 0.85em); line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;"> 
+
+          <p style="font-size:0.8em; line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 400;"> 
+
             各日２部制一斉スタート 13:00〜 / 16:00〜<br> 
+
             ※完全予約制<br> 
+
             ※1部につき20名様まで<br> 
+
             ※1組2名様までとさせていただきます。<br> 
+
           </p> 
+
           <div style="margin-top: 25px; padding: 20px; border: 1px solid var(--sub-color); border-radius: 4px;"> 
+
             <h4 style="font-weight: 500; text-align: center; margin-bottom: 20px; letter-spacing: 2px;">レセプションご予約</h4> 
+
             <div style="display: flex; flex-direction: column; gap: 15px;"> 
+
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
+
                 <strong style="width: 120px;">11月8日(日)</strong> 
+
                 <button class="cal-btn" id="btn-dessert-2026-11-08-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
+
                 <button class="cal-btn" id="btn-dessert-2026-11-08-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
+
               </div> 
+
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
+
                 <strong style="width: 120px;">11月9日(月)</strong> 
+
                 <button class="cal-btn" id="btn-dessert-2026-11-09-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
+
                 <button class="cal-btn" id="btn-dessert-2026-11-09-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
+
               </div> 
+
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
+
                 <strong style="width: 120px;">11月10日(火)</strong> 
+
                 <button class="cal-btn" id="btn-dessert-2026-11-10-13" style="flex: 1; border: 1px solid #2a2a2d; background: #2a2a2d; color: #888888; pointer-events: none;" disabled>
+
                   <span class="media-invite-text">13:00<br>(メディア招待会)</span>
+
                 </button> 
+
                 <button class="cal-btn" id="btn-dessert-2026-11-10-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
+
               </div> 
+
             </div> 
+
           </div> 
+
         </div> 
+
       </div> 
+
     </section>
+
 
   </main> 
 
+
   <footer> 
+
     <p>© <a href="https://www.gpm.co.jp/" target="_blank" rel="noopener">ジーピーエム株式会社</a> All Rights Reserved.</p> 
+
     <p><a href="https://french-labo.jp/canc.html" target="_self">キャンセルポリシー</a></p> 
+
   </footer> 
 
+
   <div id="res-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:1000; justify-content:center; align-items:center;"> 
+
     <div class="modal-content"> 
+
       <div id="modal-header-text" style="font-size: 1.3em; font-weight:500; text-align:center; margin-bottom:20px; border-bottom:1px solid var(--sub-color); padding-bottom:15px; color:var(--main-color);">予約フォーム</div> 
+
       
+
       <div id="modal-notice" style="display:none; background-color: rgba(139, 90, 43, 0.15); border: 1px solid rgba(139, 90, 43, 0.5); border-radius: 4px; padding: 15px; margin-bottom: 20px; font-size: 0.9em; line-height: 1.6; color: var(--main-color);"></div>
+
       
+
       <div class="form-group"> 
+
         <label style="color:var(--main-color);">人数 * (最大<span id="max-people-label">20</span>名)</label> 
+
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; margin-top:5px;"> 
+
           <button type="button" onclick="adjustPeople(-1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">-</button> 
+
           <input type="number" id="input-people" min="1" max="20" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly> 
+
           <button type="button" onclick="adjustPeople(1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">+</button> 
+
         </div> 
+
       </div> 
 
+
       <div style="margin-bottom:20px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(255,255,255,0.05);">
+
         <label style="display:flex; align-items:center; gap:10px; color:var(--main-color); font-weight:500;">
+
           <input type="checkbox" id="input-hire" style="transform: scale(1.2);"> ハイヤー送迎を希望する
+
         </label>
+
         <p style="font-size: 0.85em; margin: 10px 0 0 0; color: var(--sub-color);">
+
           ※ご希望の方には、後日詳細のご案内をさせていただきます。
+
         </p>
+
       </div>
+
 
       <div class="form-group"><label style="color:var(--main-color);">お名前 *</label><input type="text" id="input-name" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
 
+
       <div class="form-group"><label style="color:var(--main-color);">郵便番号 *</label><input type="text" id="input-zip" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
+
       <div class="form-group"><label style="color:var(--main-color);">住所 *</label><input type="text" id="input-address" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
+
 
       <div class="form-group"><label style="color:var(--main-color);">電話番号 *</label><input type="tel" id="input-phone" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
 
+
       <div class="form-group"><label style="color:var(--main-color);">メールアドレス *</label><input type="email" id="input-email" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
+
 
       <div class="form-group"><label style="color:var(--main-color);">ご利用目的</label><input type="text" id="input-purpose" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
 
+
       <div class="form-group"><label style="color:var(--main-color);">苦手食材</label><input type="text" id="input-dislikes" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
+
 
       <div class="form-group"><label style="color:var(--main-color);">アレルギー</label><input type="text" id="input-allergies" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
 
+
       <p style="font-size:0.8em; color:var(--sub-color); margin:15px 0;">ご入力いただきました個人情報は、レストランの予約管理にのみ使用いたします。</p> 
+
 
       <label style="display:flex; align-items:center; gap:10px; margin-bottom:20px; color:var(--main-color);"><input type="checkbox" id="agree-privacy"> 同意する</label> 
 
+
       <div style="display:flex; gap:10px;"><button class="cal-btn" style="flex:1; background:var(--sub-color); color:#fff;" onclick="closeModal('res-modal')">戻る</button><button class="cal-btn" style="flex:2;" onclick="submitReservation()">予約確定</button></div> 
+
     </div> 
+
   </div> 
+
 
   <div id="msg-modal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:1100; justify-content:center; align-items:center;"> 
+
     <div class="modal-content" style="text-align:center;"> 
+
       <div id="msg-text" style="margin-bottom:20px; color:var(--main-color);"></div> 
+
       <button class="cal-btn" onclick="closeModal('msg-modal')">OK</button> 
+
     </div> 
+
   </div> 
 
+
   <script> 
+
     // ★ここは必ず最新のGASウェブアプリURLに書き換えてください 
+
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
+
 
     var currentBooking = {}; 
 
+
     function checkGatePw() {
+
       var pw = document.getElementById('gate-pw').value;
+
       if (pw === "1115") {
+
         document.getElementById('pw-gate').style.display = 'none';
+
         document.body.style.overflow = '';
+
         
+
         loadDessertData(); 
+
       } else {
+
         document.getElementById('gate-error').style.display = 'block';
+
         document.getElementById('gate-pw').value = '';
+
       }
+
     }
+
 
     function adjustPeople(diff) { 
+
       var input = document.getElementById('input-people'); 
+
       var currentVal = parseInt(input.value) || 1; 
+
       var max = parseInt(input.max) || 20; 
+
       var newVal = currentVal + diff; 
+
       if(newVal >= 1 && newVal <= max) { 
+
         input.value = newVal; 
+
       } 
+
     } 
+
 
     document.addEventListener('DOMContentLoaded', function() { 
+
       var gateInput = document.getElementById('gate-pw');
+
       if (gateInput) {
+
         gateInput.addEventListener('keypress', function(e) {
+
           if (e.key === 'Enter') {
+
             checkGatePw();
+
           }
+
         });
+
       }
+
       
+
       var slideContainers = document.querySelectorAll('.slideshow-container'); 
+
       slideContainers.forEach(function(container) { 
+
         var slides = container.querySelectorAll('.slide'); 
+
         var currentSlide = 0; 
+
         if (slides.length > 1) { 
+
           setInterval(function() { 
+
             slides[currentSlide].classList.remove('active'); 
+
             currentSlide = (currentSlide + 1) % slides.length; 
+
             slides[currentSlide].classList.add('active'); 
+
           }, 4000); 
+
         } 
+
       });
+
     }); 
 
+
     function updateDessertButtons(dessertBookedCounts) {
+
       const maxSeats = 20;
+
       const dessertSlots = [
+
         { date: '2026-11-08', slot: '13:00', id: 'btn-dessert-2026-11-08-13' },
+
         { date: '2026-11-08', slot: '16:00', id: 'btn-dessert-2026-11-08-16' },
+
         { date: '2026-11-09', slot: '13:00', id: 'btn-dessert-2026-11-09-13' },
+
         { date: '2026-11-09', slot: '16:00', id: 'btn-dessert-2026-11-09-16' },
+
         { date: '2026-11-10', slot: '13:00', id: 'btn-dessert-2026-11-10-13' },
+
         { date: '2026-11-10', slot: '16:00', id: 'btn-dessert-2026-11-10-16' },
+
       ];
 
+
       dessertSlots.forEach(function(s) {
+
         var key = s.date + '_' + s.slot;
+
         var booked = dessertBookedCounts ? (dessertBookedCounts[key] || 0) : 0;
+
         var remain = maxSeats - booked;
+
         var btn = document.getElementById(s.id);
+
         
+
         if (btn) {
+
           if (s.date === '2026-11-10' && s.slot === '13:00') {
+
             btn.innerHTML = '<span class="media-invite-text">13:00<br>(メディア招待会)</span>';
+
             btn.disabled = true;
+
             btn.style.background = '#2a2a2d';
+
             btn.style.color = '#888888';
+
             btn.style.borderColor = '#2a2a2d';
+
             btn.style.pointerEvents = 'none';
+
           } else if (remain <= 0) {
+
             btn.innerText = s.slot + ' (満席)';
+
             btn.disabled = true;
+
             btn.style.background = '#2a2a2d';
+
             btn.style.color = '#888888';
+
             btn.style.borderColor = '#2a2a2d';
+
             btn.style.pointerEvents = 'none';
+
           } else {
+
             btn.innerText = s.slot + ' (残' + remain + ')';
+
             btn.disabled = false;
+
             btn.style.background = '';
+
             btn.style.color = '';
+
             btn.style.borderColor = 'var(--sub-color)';
+
             btn.style.pointerEvents = '';
+
             btn.onclick = function() { openDessertModal(s.date, s.slot, remain); };
+
           }
+
         }
+
       });
+
     }
 
+
     function loadDessertData() { 
+
       document.getElementById('loading-overlay').style.display = 'flex'; 
+
       
+
       var urlParams = '?action=getCalendarData&page=reception';
+
       
+
       fetch(WEB_APP_URL + urlParams) 
+
         .then(function(response) { return response.json(); }) 
+
         .then(function(data) { 
+
           document.getElementById('loading-overlay').style.display = 'none'; 
+
           if(data.dessertBookedCounts) {
+
              updateDessertButtons(data.dessertBookedCounts);
+
           } else {
+
              updateDessertButtons({});
+
           }
+
         }) 
+
         .catch(function(error) { 
+
           console.error('Error:', error); 
+
           document.getElementById('loading-overlay').style.display = 'none'; 
+
         }); 
+
     } 
 
+
     function openDessertModal(date, time, remain) { 
+
       currentBooking = { type: 'reception', date: date, slot: time, remain: remain }; 
+
       document.getElementById('modal-header-text').innerText = "デセールご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
+
       
+
       var currentMax = Math.min(remain, 20); 
+
       document.getElementById('input-people').max = currentMax; 
+
       document.getElementById('max-people-label').innerText = currentMax; 
+
       document.getElementById('input-people').value = 1; 
+
       
+
       document.getElementById('modal-notice').style.display = 'none';
+
 
       document.getElementById('input-hire').checked = false;
 
+
       document.getElementById('res-modal').style.display = 'flex'; 
+
     } 
 
+
     function closeModal(id) { document.getElementById(id).style.display = 'none'; } 
+
     
+
     function submitReservation() { 
+
       var name = document.getElementById('input-name').value; 
+
       var phone = document.getElementById('input-phone').value; 
+
       var email = document.getElementById('input-email').value; 
+
       var people = parseInt(document.getElementById('input-people').value, 10); 
+
       var dislikes = document.getElementById('input-dislikes').value; 
+
       var allergies = document.getElementById('input-allergies').value; 
+
       var purpose = document.getElementById('input-purpose').value; 
+
       
+
       var zip = document.getElementById('input-zip').value;
+
       var address = document.getElementById('input-address').value;
+
 
       var hire = document.getElementById('input-hire').checked ? "希望する" : "希望しない";
 
+
       if(!name || !phone || !email || !zip || !address || !people || !document.getElementById('agree-privacy').checked) { 
+
         alert("必須項目を入力し、同意チェックを入れてください。"); 
+
         return; 
+
       } 
+
       
+
       var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
       if (!emailPattern.test(email)) {
+
         alert("有効なメールアドレスを入力してください");
+
         return;
+
       }
+
 
       if (currentBooking.remain !== undefined && people > currentBooking.remain) {
+
         alert("予約人数が残席数（" + currentBooking.remain + "席）を超えています。");
+
         return;
+
       }
+
       
+
       closeModal('res-modal'); 
+
       document.getElementById('loading-overlay').style.display = 'flex'; 
+
       
+
       var payload = {  
+
         type: currentBooking.type || 'reception', 
+
         date: currentBooking.date,  
+
         slot: currentBooking.slot,  
+
         name: name,  
+
         people: people,  
+
         email: email,  
+
         phone: phone, 
+
         zip: zip,
+
         address: address,
+
         purpose: purpose,  
+
         dislikes: dislikes,  
+
         allergy: allergies,
+
         hire: hire 
+
       }; 
 
+
       fetch(WEB_APP_URL, { 
+
         method: 'POST', 
+
         headers: { 'Content-Type': 'text/plain' }, 
+
         body: JSON.stringify(payload) 
+
       }) 
+
       .then(function(response) {  
+
         if (!response.ok) throw new Error('Network response was not ok'); 
+
         return response.json();  
+
       }) 
+
       .then(function(res) { 
+
         if(res.status === "OK") { 
+
           document.getElementById('msg-text').innerHTML = "予約が完了しました。"; 
+
           document.getElementById('msg-modal').style.display = 'flex'; 
+
           
+
           document.getElementById('input-name').value = ''; 
+
           document.getElementById('input-phone').value = ''; 
+
           document.getElementById('input-email').value = ''; 
+
           document.getElementById('input-zip').value = '';
+
           document.getElementById('input-address').value = '';
+
           document.getElementById('input-purpose').value = ''; 
+
           document.getElementById('input-dislikes').value = ''; 
+
           document.getElementById('input-allergies').value = ''; 
+
           document.getElementById('agree-privacy').checked = false; 
+
           
+
           loadDessertData(); 
+
         } else { 
+
           alert("エラー: " + res.message); 
+
           document.getElementById('loading-overlay').style.display = 'none'; 
+
         } 
+
       }) 
+
       .catch(function(error) { 
+
         console.error('Error:', error); 
+
         alert("通信エラーが発生しました。ブラウザをリロードして再度お試しください。"); 
+
         document.getElementById('loading-overlay').style.display = 'none'; 
+
       }); 
+
     } 
+
   </script> 
+
 </body> 
-</html>
+
+</html> 
