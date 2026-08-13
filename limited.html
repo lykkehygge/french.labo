@@ -225,7 +225,8 @@
       100% { transform-origin: bottom; transform: scaleY(0); }
     }
 
-    section { max-width: 800px; margin: 140px auto; padding: 0 25px; width: 100%; } 
+    /* ★ ページ全体の幅を広げる (800px -> 1000px) ★ */
+    section { max-width: 1000px; margin: 140px auto; padding: 0 25px; width: 100%; } 
     
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; } 
     h2.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); } 
@@ -273,7 +274,7 @@
       width: 100%;
     }
     .menu-inner {
-      max-width: 900px;
+      max-width: 1000px; /* ★ 幅を広げる (900px -> 1000px) */
       margin: 0 auto;
       padding: 0 25px;
     }
@@ -302,15 +303,15 @@
     .menu-block {
       display: flex;
       align-items: center;
-      gap: 60px;
+      gap: 50px; /* ★ テキストとの間隔を調整 */
       margin-bottom: 100px;
     }
     .menu-block:last-child {
       margin-bottom: 0;
     }
     .menu-img-wrap {
-      flex: 1;
-      max-width: 50%;
+      flex: 1 1 45%; /* ★ 画像領域の比率を調整 */
+      max-width: 45%; 
     }
     .menu-img-wrap img {
       width: 100%;
@@ -319,7 +320,7 @@
       object-fit: cover;
     }
     .menu-text-wrap {
-      flex: 1;
+      flex: 1 1 55%; /* ★ テキスト領域の比率を広げて改行を防ぐ */
       text-align: left;
     }
     .menu-title-jp {
@@ -371,14 +372,28 @@
     }
 
     /* ★★★ CHEF & INFORMATION セクション用のスタイル ★★★ */
-    .chef-container { display: flex; flex-wrap: nowrap; gap: 40px; align-items: flex-start; } 
-    .chef-slideshow { flex: 0 0 45%; height: 500px; position: relative; overflow: hidden; border-radius: 4px; } 
+    .chef-container { 
+      display: flex; 
+      flex-wrap: nowrap; 
+      gap: 50px; /* ★ テキストとの間隔を調整 */
+      align-items: flex-start; 
+    } 
+    .chef-slideshow { 
+      flex: 0 0 45%; /* ★ 画像領域の比率を調整 */
+      height: 500px; 
+      position: relative; 
+      overflow: hidden; 
+      border-radius: 4px; 
+    } 
     .chef-slideshow .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; }
     .chef-slideshow .slide.active { opacity: 1; }
-    .chef-bio { flex: 1 1 auto; } 
+    .chef-bio { 
+      flex: 1 1 55%; /* ★ テキスト領域の比率を広げて改行を防ぐ */
+    } 
     .cv-list { list-style: none; padding: 0; font-size: 0.95em; color: var(--main-color); margin-top: 25px; } 
     .cv-item { display: flex; margin-bottom: 12px; padding-left: 15px; border-left: 2px solid var(--sub-color); } 
-    .cv-year { flex: 0 0 65px; font-weight: 500; } 
+    .cv-year { flex: 0 0 75px; /* ★ 年の幅を少し広げる */ font-weight: 500; } 
+    .cv-desc { flex: 1; } /* ★ 残りを説明文に充てる */
 
     .info-content { max-width: 600px; margin: 0 auto; } 
     .info-dl { width: 100%; border-top: 1px solid var(--sub-color); margin: 0; padding: 0; } 
