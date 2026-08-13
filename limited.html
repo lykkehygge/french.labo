@@ -264,38 +264,12 @@
     .modal-overlay { background-color: rgba(17, 17, 18, 0.8); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); } 
     .modal-content { background-color: var(--white-color); padding: 40px; border-radius: 4px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } 
 
-    @media (max-width: 767px) { 
-      .hero { height: 100vh; height: 100dvh; min-height: auto; width: 100%; } 
-      .hero-content img { width: 180px; margin-bottom: 15px; }
-      .hero h1 { font-size: 20px; letter-spacing: 0.25em; }
-      
-      .scroll-indicator { left: 20px; bottom: 20px; }
-      .hero-actions { right: 20px; bottom: 20px; flex-direction: row; gap: 10px; }
-      .circle-btn { width: 35px; height: 35px; font-size: 0.9em; }
-      .circle-btn svg { width: 16px; height: 16px; }
-      .reserve-btn { height: 35px; padding: 0 15px; font-size: 0.8em; }
-
-      section { margin: 100px auto; padding: 0 20px; } 
-      h2.section-title { margin-bottom: 50px; } 
-      .calendar-header-top { margin-bottom: 20px; } 
-      .calendar-nav-bottom { justify-content: space-between; gap: 10px; margin-bottom: 25px; } 
-      .cal-btn { flex: 1; min-width: 0; font-size: 0.85em; padding: 12px 0; } 
-      .fc-daygrid-day-frame { min-height: 75px !important; } 
-      .fc-daygrid-day-number { font-size: 0.95em !important; padding: 6px !important; } 
-      .fc-col-header-cell-cushion { font-size: 0.9em !important; padding: 12px 0 !important; } 
-      .fc-event { padding: 2px 0 !important; margin: 2px !important; white-space: normal !important; } 
-      .fc-event-main { white-space: normal !important; } 
-      .fc-event-title { font-size: 0.85em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0 !important; white-space: pre-wrap !important; line-height: 1.2 !important; word-break: break-all !important; } 
-      .full-day-holiday .fc-event-title { font-size: 0.65em !important; line-height: 1.2 !important; padding: 2px 0 !important; } 
-      .modal-content { padding: 30px 20px; } 
-    } 
-
-    /* ★★★ メニューセクション用のスタイル（完全再現用） ★★★ */
+    /* ★★★ メニューセクション用のスタイル ★★★ */
     #menu-section-wrapper {
-      background-color: #f4f5f4; /* 画像の背景色に合わせたライトグレー */
-      color: #111112; /* テキストは黒に統一 */
+      background-color: #f4f5f4; 
+      color: #111112; 
       padding: 100px 0;
-      margin: 140px 0; /* 前後のダークセクションとの余白 */
+      margin: 140px 0; 
       width: 100%;
     }
     .menu-inner {
@@ -383,16 +357,6 @@
       margin: 0 0 30px 0;
       letter-spacing: 0.05em;
     }
-    .menu-list {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 30px 0;
-      font-size: 0.95em;
-      line-height: 2.2;
-    }
-    .menu-list .tax {
-      font-size: 0.7em;
-    }
     .menu-notes {
       border: 1px solid #ccc;
       padding: 25px 20px;
@@ -405,25 +369,59 @@
     .menu-notes p {
       margin: 0;
     }
-    
-    @media (max-width: 767px) {
-      #menu-section-wrapper {
-        padding: 60px 0;
-        margin: 80px 0;
-      }
-      .menu-block {
-        flex-direction: column;
-        gap: 40px;
-        margin-bottom: 80px;
-      }
-      .menu-img-wrap {
-        max-width: 100%;
-      }
-      h2.menu-section-title {
-        font-size: 1.8em;
-        margin-bottom: 60px;
-      }
-    }
+
+    /* ★★★ CHEF & INFORMATION セクション用のスタイル ★★★ */
+    .chef-container { display: flex; flex-wrap: nowrap; gap: 40px; align-items: flex-start; } 
+    .chef-slideshow { flex: 0 0 45%; height: 500px; position: relative; overflow: hidden; border-radius: 4px; } 
+    .chef-slideshow .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; }
+    .chef-slideshow .slide.active { opacity: 1; }
+    .chef-bio { flex: 1 1 auto; } 
+    .cv-list { list-style: none; padding: 0; font-size: 0.95em; color: var(--main-color); margin-top: 25px; } 
+    .cv-item { display: flex; margin-bottom: 12px; padding-left: 15px; border-left: 2px solid var(--sub-color); } 
+    .cv-year { flex: 0 0 65px; font-weight: 500; } 
+
+    .info-content { max-width: 600px; margin: 0 auto; } 
+    .info-dl { width: 100%; border-top: 1px solid var(--sub-color); margin: 0; padding: 0; } 
+    .info-row { display: flex; border-bottom: 1px solid var(--sub-color); padding: 30px 0; } 
+    .info-row dt { flex: 0 0 160px; font-weight: 500; letter-spacing: 2px; } 
+    .info-row dd { flex: 1; margin: 0; line-height: 1.8; font-weight: 400; } 
+
+    @media (max-width: 767px) { 
+      .hero { height: 100vh; height: 100dvh; min-height: auto; width: 100%; } 
+      .hero-content img { width: 180px; margin-bottom: 15px; }
+      .hero h1 { font-size: 20px; letter-spacing: 0.25em; }
+      
+      .scroll-indicator { left: 20px; bottom: 20px; }
+      .hero-actions { right: 20px; bottom: 20px; flex-direction: row; gap: 10px; }
+      .circle-btn { width: 35px; height: 35px; font-size: 0.9em; }
+      .circle-btn svg { width: 16px; height: 16px; }
+      .reserve-btn { height: 35px; padding: 0 15px; font-size: 0.8em; }
+
+      section { margin: 100px auto; padding: 0 20px; } 
+      h2.section-title { margin-bottom: 50px; } 
+      .calendar-header-top { margin-bottom: 20px; } 
+      .calendar-nav-bottom { justify-content: space-between; gap: 10px; margin-bottom: 25px; } 
+      .cal-btn { flex: 1; min-width: 0; font-size: 0.85em; padding: 12px 0; } 
+      .fc-daygrid-day-frame { min-height: 75px !important; } 
+      .fc-daygrid-day-number { font-size: 0.95em !important; padding: 6px !important; } 
+      .fc-col-header-cell-cushion { font-size: 0.9em !important; padding: 12px 0 !important; } 
+      .fc-event { padding: 2px 0 !important; margin: 2px !important; white-space: normal !important; } 
+      .fc-event-main { white-space: normal !important; } 
+      .fc-event-title { font-size: 0.85em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0 !important; white-space: pre-wrap !important; line-height: 1.2 !important; word-break: break-all !important; } 
+      .full-day-holiday .fc-event-title { font-size: 0.65em !important; line-height: 1.2 !important; padding: 2px 0 !important; } 
+      .modal-content { padding: 30px 20px; } 
+      
+      #menu-section-wrapper { padding: 60px 0; margin: 80px 0; }
+      .menu-block { flex-direction: column; gap: 40px; margin-bottom: 80px; }
+      .menu-img-wrap { max-width: 100%; }
+      h2.menu-section-title { font-size: 1.8em; margin-bottom: 60px; }
+      
+      .chef-container { flex-direction: column; gap: 40px; } 
+      .chef-slideshow { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+      .info-row { display: block; padding: 25px 0; } 
+      .info-row dt { margin-bottom: 8px; font-size: 0.9em; color: var(--sub-color); text-transform: uppercase; } 
+      .info-row dd { margin: 0; font-size: 1.05em; line-height: 1.6; } 
+    } 
   </style> 
 </head> 
 <body style="overflow: hidden;"> 
@@ -498,7 +496,7 @@
       </div>
     </section>
 
-    <!-- メニュー・ドリンクエリア ここから変更 -->
+    <!-- メニュー・ドリンクエリア -->
     <div id="menu-section-wrapper">
       <div class="menu-inner">
         <h2 class="menu-section-title">MENU DÉGUSTATION</h2>
@@ -516,7 +514,7 @@
              <div class="menu-notes">
                <p>※季節により皿数は変更となる可能性がございます。</p>
                <p>※ご提供時間:約2時間</p>
-               <p>※ディナーのみのご案内となります。(17:30開場　18時お食事一斉スタート)</p>
+               <p>※ディナーのみのご案内となります。(17:30開場 18時お食事一斉スタート)</p>
                <p>※一斉スタートの為、時間に余裕を持ってお越しくださいませ。</p>
                <p>※お子様のご利用について<br>
                  大人の方と同じ料理を召し上がれるお子様に限ります。</p>
@@ -565,6 +563,60 @@
         </div>
       </div> 
     </section> 
+
+    <!-- ★ CHEF セクション追加 ★ -->
+    <section id="chef"> 
+      <h2 class="section-title">CHEF</h2> 
+      <div class="chef-container"> 
+        
+        <div class="chef-slideshow" aria-hidden="true"> 
+          <div class="slide active" style="background-image: url('https://french-labo.jp/fl-chef_1.jpg');" title="シェフ 米田武史 1"></div> 
+          <div class="slide" style="background-image: url('https://french-labo.jp/fl-chef_2.jpg');" title="シェフ 米田武史 2"></div> 
+        </div> 
+
+        <div class="chef-bio"> 
+          <h3 style="font-size: clamp(1.6em, 3vw, 2.2em); letter-spacing: 4px; margin-bottom: 15px; font-weight: 500;">米田 武史</h3> 
+          <p style="font-size:0.8em; line-height: 1.8; padding: 0px; margin-top: -20px; font-weight: 400;"> 
+            - TAKESHI KOMEDA - 
+          </p> 
+          <div class="cv-list"> 
+            <div class="cv-item"><div class="cv-year">1982年</div><div class="cv-desc">奈良県生まれ</div></div> 
+            <div class="cv-item"><div class="cv-year">2002年</div><div class="cv-desc">リーガロイヤルホテル大阪 入社</div></div> 
+            <div class="cv-item"><div class="cv-year">2013年</div><div class="cv-desc">フランス研修<br>(Maison PIC,Jean François Piège)</div></div> 
+            <div class="cv-item"><div class="cv-year">2016年</div><div class="cv-desc">リーガロイヤルホテル小倉レストラン料理長<br>第8回エスコフィエ・フランス料理コンクール優勝</div></div> 
+            <div class="cv-item"><div class="cv-year">2017年</div><div class="cv-desc">ひらまつ杯<br>ボキューズ・ドール2019日本代表選考会第3位</div></div> 
+            <div class="cv-item"><div class="cv-year">2020年</div><div class="cv-desc">リーガロイヤルホテル大阪<br>レストランシャンボールスーシェフ</div></div> 
+            <div class="cv-item"><div class="cv-year">2024年</div><div class="cv-desc">J.S.Aソムリエ<br>取得</div></div> 
+          </div> 
+        </div> 
+      </div> 
+    </section> 
+    
+    <!-- ★ INFORMATION セクション追加 (地図なし) ★ -->
+    <section id="information" class="store-info"> 
+      <h2 class="section-title">INFORMATION</h2> 
+      <div class="info-content"> 
+        <dl class="info-dl"> 
+          <div class="info-row"> 
+            <dt>営業時間</dt> 
+            <dd>完全予約制（カレンダーをご確認ください）</dd> 
+          </div> 
+          <div class="info-row"> 
+            <dt>お支払い方法</dt> 
+            <dd>現金、クレジットカード、各種QRコード決済</dd> 
+          </div> 
+          <div class="info-row"> 
+            <dt>住所</dt> 
+            <dd>兵庫県姫路市本町174<br>アネスティ七番館 1階 AND内</dd> 
+          </div> 
+          <div class="info-row"> 
+            <dt>アクセス</dt> 
+            <dd>徒歩：JR姫路駅より北へ徒歩約12分<br>車：近隣コインパーキングをご利用ください</dd> 
+          </div> 
+        </dl> 
+      </div> 
+    </section> 
+
   </main> 
 
   <footer> 
@@ -628,6 +680,20 @@
     } 
     var fullCalendarInstance = null; 
     var gDeadlineDate, gMaxAcceptDate, gHardEndDate; 
+
+    // ★ スライドショー機能の追加 (CHEFセクション用)
+    var slideContainers = document.querySelectorAll('.chef-slideshow'); 
+    slideContainers.forEach(function(container) { 
+      var slides = container.querySelectorAll('.slide'); 
+      var currentSlide = 0; 
+      if (slides.length > 1) { 
+        setInterval(function() { 
+          slides[currentSlide].classList.remove('active'); 
+          currentSlide = (currentSlide + 1) % slides.length; 
+          slides[currentSlide].classList.add('active'); 
+        }, 4000); 
+      } 
+    }); 
 
     function checkGatePw() {
       var pw = document.getElementById('gate-pw').value;
