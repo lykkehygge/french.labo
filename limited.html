@@ -289,6 +289,141 @@
       .full-day-holiday .fc-event-title { font-size: 0.65em !important; line-height: 1.2 !important; padding: 2px 0 !important; } 
       .modal-content { padding: 30px 20px; } 
     } 
+
+    /* ★★★ メニューセクション用のスタイル（完全再現用） ★★★ */
+    #menu-section-wrapper {
+      background-color: #f4f5f4; /* 画像の背景色に合わせたライトグレー */
+      color: #111112; /* テキストは黒に統一 */
+      padding: 100px 0;
+      margin: 140px 0; /* 前後のダークセクションとの余白 */
+      width: 100%;
+    }
+    .menu-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 25px;
+    }
+    h2.menu-section-title {
+      font-family: 'Lora', serif;
+      font-weight: 400;
+      letter-spacing: 4px;
+      font-size: 2.2em;
+      text-align: center;
+      margin-bottom: 80px;
+      color: #111112;
+      text-transform: uppercase;
+      position: relative;
+    }
+    h2.menu-section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 1px;
+      background: var(--accent-color);
+    }
+    
+    .menu-block {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      margin-bottom: 100px;
+    }
+    .menu-block:last-child {
+      margin-bottom: 0;
+    }
+    .menu-img-wrap {
+      flex: 1;
+      max-width: 50%;
+    }
+    .menu-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    .menu-text-wrap {
+      flex: 1;
+      text-align: left;
+    }
+    .menu-title-jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.8em;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      line-height: 1.6;
+      margin: 0 0 15px 0;
+    }
+    .menu-title-en {
+      font-family: 'Lora', serif;
+      font-size: 2.2em;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin: 0 0 25px 0;
+    }
+    .menu-price {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.4em;
+      margin-bottom: 25px;
+    }
+    .menu-price .tax {
+      font-size: 0.6em;
+      margin-left: 5px;
+    }
+    .menu-divider {
+      border: none;
+      border-top: 1px solid #dcdcdc;
+      margin: 0 0 25px 0;
+    }
+    .menu-desc {
+      font-size: 0.95em;
+      line-height: 2;
+      margin: 0 0 30px 0;
+      letter-spacing: 0.05em;
+    }
+    .menu-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px 0;
+      font-size: 0.95em;
+      line-height: 2.2;
+    }
+    .menu-list .tax {
+      font-size: 0.7em;
+    }
+    .menu-notes {
+      border: 1px solid #ccc;
+      padding: 25px 20px;
+      font-size: 0.75em;
+      line-height: 2;
+      color: #333;
+      background-color: transparent;
+      border-radius: 2px;
+    }
+    .menu-notes p {
+      margin: 0;
+    }
+    
+    @media (max-width: 767px) {
+      #menu-section-wrapper {
+        padding: 60px 0;
+        margin: 80px 0;
+      }
+      .menu-block {
+        flex-direction: column;
+        gap: 40px;
+        margin-bottom: 80px;
+      }
+      .menu-img-wrap {
+        max-width: 100%;
+      }
+      h2.menu-section-title {
+        font-size: 1.8em;
+        margin-bottom: 60px;
+      }
+    }
   </style> 
 </head> 
 <body style="overflow: hidden;"> 
@@ -363,45 +498,53 @@
       </div>
     </section>
 
-    <!-- メニュー・ドリンクエリア ここから追加 -->
-    <section id="menu">
-      <h2 class="section-title">Menu Dégustation</h2>
-      <div style="text-align: center; margin-bottom: 80px;">
-        <p style="font-family: 'Shippori Mincho', serif; font-size: 1.2em; margin-bottom: 20px; font-weight: 500; letter-spacing: 0.1em; line-height: 1.6;">
-          旬の食材で彩る、<br>
-          おまかせコース
-        </p>
-        <p style="font-size: 1.1em; font-weight: 600; margin-bottom: 20px; letter-spacing: 1px;">16,000円 (税込)</p>
-        <p style="font-size: 0.95em; line-height: 2; margin-bottom: 30px;">
-          前菜 2皿 / 魚料理 1皿 / 肉料理 1皿 /<br>
-          デザート 2皿 / パン / 食後のお飲み物
-        </p>
-        <div style="font-size: 0.85em; text-align: left; display: inline-block; color: var(--sub-color); line-height: 1.8;">
-          ※ご提供時間：2時間前後<br>
-          ※ランチ(12:00)、ディナー(18:00)ともに同じ内容になります。<br>
-          ※内容は季節の食材によって変更となる場合がございます。<br>
-          ※一斉スタートのため、開始時間までにお越しください。<br>
-          ※お子様のご利用について<br>
-           大人の方と同じ料理を召し上がれるお子様に限ります。
+    <!-- メニュー・ドリンクエリア ここから変更 -->
+    <div id="menu-section-wrapper">
+      <div class="menu-inner">
+        <h2 class="menu-section-title">MENU DÉGUSTATION</h2>
+        
+        <!-- おまかせコース -->
+        <div class="menu-block">
+          <div class="menu-img-wrap">
+             <!-- 画像URLは実際のパスに変更してください -->
+             <img src="./menu_food.jpg" alt="おまかせコース">
+          </div>
+          <div class="menu-text-wrap">
+             <h3 class="menu-title-jp">旬の食材で彩る、<br>おまかせコース</h3>
+             <div class="menu-price">16,000円<span class="tax">(税込)</span></div>
+             <hr class="menu-divider">
+             <p class="menu-desc">前菜 2皿 / 魚料理 1皿 / 肉料理 1皿 /<br>デザート 2皿 / パン / 食後のお飲み物</p>
+             <div class="menu-notes">
+               <p>※ご提供時間：2時間前後</p>
+               <p>※ランチ(12:00)、ディナー(18:00)ともに同じ内容になります。</p>
+               <p>※内容は季節の食材によって変更となる場合がございます。</p>
+               <p>※一斉スタートのため、開始時間までにお越しください。</p>
+               <p>※お子様のご利用について<br>大人の方と同じ料理を召し上がれるお子様に限ります。</p>
+             </div>
+          </div>
+        </div>
+
+        <!-- Drink Selection -->
+        <div class="menu-block">
+          <div class="menu-img-wrap">
+             <!-- 画像URLは実際のパスに変更してください -->
+             <img src="./menu_drink.jpg" alt="Drink Selection">
+          </div>
+          <div class="menu-text-wrap">
+             <h3 class="menu-title-en">Drink Selection</h3>
+             <p class="menu-desc" style="margin-bottom:30px;">お料理一皿ごとに厳選したドリンクを少しずつお楽しみ<br>いただけます。</p>
+             <ul class="menu-list">
+               <li>アルコールペアリングコース：8,500円<span class="tax"> (税込)〜</span></li>
+               <li>ノンアルコールペアリングコース：4,200円<span class="tax"> (税込)</span></li>
+             </ul>
+             <div class="menu-notes">
+               <p>※単品でのご用意もございます。</p>
+             </div>
+          </div>
         </div>
       </div>
-
-      <div style="text-align: center;">
-        <h3 style="font-family: 'Lora', serif; font-weight: 400; font-size: 1.6em; letter-spacing: 0.1em; margin: 0 0 20px 0; color: var(--main-color);">Drink Selection</h3>
-        <p style="font-size: 0.95em; margin-bottom: 25px; line-height: 1.8;">
-          お料理一皿ごとに厳選したドリンクを少しずつお楽しみいただけます。
-        </p>
-        <p style="font-size: 1em; line-height: 2; margin-bottom: 15px;">
-          アルコールペアリングコース：8,500円 (税込)〜<br>
-          ノンアルコールペアリングコース：4,200円 (税込)
-        </p>
-        <p style="font-size: 0.85em; color: var(--sub-color);">
-          ※単品でのご用意もございます。
-        </p>
-      </div>
-    </section>
+    </div>
     <!-- メニュー・ドリンクエリア ここまで -->
-
 
     <section id="reservation"> 
       <h2 class="section-title">RESERVATION</h2> 
