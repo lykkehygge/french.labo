@@ -20,6 +20,7 @@
   <meta name="format-detection" content="telephone=no"> 
   
   <base target="_top"> 
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script> 
   <link rel="preconnect" href="https://fonts.googleapis.com"> 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
@@ -229,18 +230,30 @@
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; } 
     h2.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 1px; background: var(--accent-color); } 
 
-    .course-section { display: flex; flex-wrap: wrap; gap: 40px; align-items: stretch; } 
-    .slideshow-container { flex: 1 1 400px; position: relative; height: clamp(300px, 40vw, 450px); border-radius: 4px; overflow: hidden; border: 1px solid var(--sub-color); width: 100%; } 
-    .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; } 
-    .slide.active { opacity: 1; } 
-    .course-info { flex: 1 1 350px; display: flex; flex-direction: column; justify-content: center; } 
-    .price-tag { font-size: clamp(1.5em, 3vw, 2.2em); border-bottom: 1px solid var(--sub-color); padding-bottom: 15px; margin-bottom: 25px; font-weight: 500; line-height: 1.4; letter-spacing: 1px; } 
+    #calendar-wrapper { background: #ffffff; color: #111112; padding: 40px; border-radius: 8px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); } 
+    .calendar-header-top { text-align: center; margin-bottom: 25px; } 
+    #current-month-label { font-size: 1.5em; font-weight: 600; letter-spacing: 2px; color: #111112; } 
+    .calendar-nav-bottom { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; width: 100%; } 
 
     .cal-btn { background: #111112; color: #ffffff; border: none; padding: 12px 18px; border-radius: 4px; cursor: pointer; transition: background 0.2s; font-size: 0.9em; min-width: 100px; font-weight: 500; letter-spacing: 1px; } 
     .cal-btn:hover { background: #333333; } 
-    .cal-btn:disabled { background: #2a2a2d; color: #888888; cursor: not-allowed; border-color: #2a2a2d; pointer-events: none; } 
+    .cal-btn:disabled { background: #cccccc; color: #888888; cursor: not-allowed; } 
 
-    .media-invite-text br { display: none; }
+    .fc-theme-standard th, .fc-theme-standard td { border-color: #dddddd !important; } 
+    .fc-daygrid-day-frame { min-height: 90px !important; display: flex; flex-direction: column; } 
+    .fc-daygrid-day-number { color: #111112 !important; font-weight: 500; }
+    .fc-col-header-cell-cushion { color: #111112 !important; font-weight: 600 !important; }
+    
+    .custom-restricted-day, .fc-day-past { background-color: #f5f5f5 !important; pointer-events: none !important; } 
+    .custom-restricted-day .fc-daygrid-day-number, .fc-day-past .fc-daygrid-day-number { color: #aaaaaa !important; } 
+    
+    .fc-event { border: none !important; border-radius: 4px !important; padding: 4px 6px !important; margin: 2px 0 !important; cursor: pointer !important; white-space: normal !important; } 
+    .fc-event-main { white-space: normal !important; } 
+    .fc-event-title { font-size: 0.95em !important; font-weight: 700 !important; text-align: center !important; display: block !important; letter-spacing: 0.5px; white-space: pre-wrap !important; } 
+
+    .available-event { background-color: var(--accent-color) !important; color: #ffffff !important; } 
+    .full-event { background-color: #dddddd !important; color: #888888 !important; pointer-events: none !important; } 
+    .holiday-event { background-color: #dddddd !important; color: #888888 !important; pointer-events: none !important; } 
 
     footer { background: var(--white-color); color: var(--sub-color); text-align: center; padding: 60px 20px; font-size: 0.85em; border-top: 1px solid var(--sub-color); margin-top: 100px; letter-spacing: 1px; } 
     footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--sub-color); transition: border-color 0.3s; } 
@@ -264,23 +277,22 @@
 
       section { margin: 100px auto; padding: 0 20px; } 
       h2.section-title { margin-bottom: 50px; } 
-      
-      .course-section { flex-direction: column; gap: 40px; } 
-      .slideshow-container { flex: none; width: 100%; height: auto; aspect-ratio: 16 / 9; } 
-
-      /* ボタン内の余白とフォントサイズ調整 */
-      .cal-btn { flex: 1; min-width: 0; font-size: 0.75em; padding: 8px 4px; } 
-
-      .media-invite-text br { display: block; }
-      .media-invite-text { line-height: 1.4; display: inline-block; padding: 4px 0; }
-
+      .calendar-header-top { margin-bottom: 20px; } 
+      .calendar-nav-bottom { justify-content: space-between; gap: 10px; margin-bottom: 25px; } 
+      .cal-btn { flex: 1; min-width: 0; font-size: 0.85em; padding: 12px 0; } 
+      .fc-daygrid-day-frame { min-height: 75px !important; } 
+      .fc-daygrid-day-number { font-size: 0.95em !important; padding: 6px !important; } 
+      .fc-col-header-cell-cushion { font-size: 0.9em !important; padding: 12px 0 !important; } 
+      .fc-event { padding: 2px 0 !important; margin: 2px !important; white-space: normal !important; } 
+      .fc-event-main { white-space: normal !important; } 
+      .fc-event-title { font-size: 0.85em !important; text-align: center !important; font-weight: 700 !important; letter-spacing: 0 !important; white-space: pre-wrap !important; line-height: 1.2 !important; word-break: break-all !important; } 
+      .full-day-holiday .fc-event-title { font-size: 0.65em !important; line-height: 1.2 !important; padding: 2px 0 !important; } 
       .modal-content { padding: 30px 20px; } 
     } 
   </style> 
 </head> 
 <body style="overflow: hidden;"> 
 
-  <!-- パスワード入力画面 -->
   <div id="pw-gate" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color: var(--white-color); z-index:99999; display:flex; justify-content:center; align-items:center;">
     <div class="modal-content" style="text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
       <div style="font-size: 1.2em; font-weight:500; margin-bottom:20px; color: var(--main-color);">限定ページへアクセス</div>
@@ -317,7 +329,7 @@
       <a href="https://www.instagram.com/french__labo/" target="_blank" rel="noopener" class="circle-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
       </a>
-      <a href="https://french-labo.jp/limited.html#reservation" class="reserve-btn">
+      <a href="#reservation" class="reserve-btn">
         予約はこちら 
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 5px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </a>
@@ -325,26 +337,25 @@
   </header> 
 
   <main> 
-    <!-- テキスト全体を左揃えにし、画面中央に配置 -->
     <section id="concept" style="margin: 120px auto; display: flex; flex-direction: column; align-items: center;">
       <div style="text-align: left;">
-        <p style="font-family: 'Shippori Mincho', serif; font-size: 1.8em; line-height: 2.0; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
+        <p style="font-family: 'Shippori Mincho', serif; font-size: 1.8em; line-height: 2.4; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
           囲む。味わう。灯る。
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;">
+        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.85em; line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
           料理には、過去の記憶を呼び起こす力があります。<br>
           同時に、新たな記憶の始まりともなります。<br>
           ここは、大切な人との時間を囲む炉であり、<br>
           姫路・野里の歴史と今を旅する路となる、<br>
           泊まれるレストラン。
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;">
+        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.85em; line-height: 2; letter-spacing: 0.1em; margin-bottom: 40px; font-weight: 400;">
           これまでとこれからをつなぐ<br>
           姫路の古民家を舞台に<br>
           人と人が同じ時間を分かち合い、<br>
           職人の手で彩られた四季の料理を味わう。
         </p>
-        <p style="font-family: 'Shippori Mincho', serif; font-size: clamp(0.85em, 2vw, 1.1em); line-height: 2; letter-spacing: 0.1em; font-weight: 400; margin: 0; word-break: keep-all; overflow-wrap: break-word;">
+        <p style="font-family: 'Shippori Mincho', serif; font-size: 0.85em; line-height: 2; letter-spacing: 0.1em; font-weight: 400; margin: 0;">
           そのひと口から感じる香り、温度、食感が<br>
           野里で過ごす時間を明るく照らします。<br>
           そんな記憶が灯るひとときをお楽しみください。
@@ -352,92 +363,28 @@
       </div>
     </section>
 
-    <!-- ★追加内容：Menu Dégustationのコンテンツ -->
-    <section id="menu-degustation"> 
-      <h2 class="section-title">Menu Dégustation</h2> 
-      <div class="course-section"> 
-        <div style="flex: 1 1 400px; max-width: 100%;">
-          <div class="slideshow-container" aria-hidden="true" style="flex: none; width: 100%;"> 
-            <div class="slide active" style="background-image: url('./r-1.jpg')" title="料理イメージ1"></div> 
-            <div class="slide" style="background-image: url('./r-1.jpg')" title="料理イメージ2"></div> 
-          </div>
-          <p style="font-size: 0.85em; color: var(--sub-color); text-align: right; margin-top: 8px; margin-bottom: 0;">※写真はイメージです。</p>
-        </div>
-        
-        <div class="course-info"> 
-          <h3 class="price-tag">おまかせコース<br><span style="font-size:0.65em;">￥16,000</span><br><span style="font-size:0.8em; font-weight:400;"><span style="font-size:0.65em;">(税込)</span></span></h3> 
-          <p style="font-size: clamp(0.85em, 2vw, 1em); line-height: 1.8; font-weight: 400; margin-bottom: 25px; word-break: keep-all; overflow-wrap: break-word;"> 
-            季節の素材を活かしたシェフおまかせのコース料理です。<br><br>
-            <strong>コース内容：</strong><br>
-            前菜2皿、魚料理1皿、肉料理1皿、デザート2皿、パン、食後のお飲み物<br>
-            ※ランチ、ディナー共通のメニューとなります。
-          </p> 
-          
-          <div style="margin-top: 25px; padding: 20px; border: 1px solid var(--sub-color); border-radius: 4px;"> 
-            <h4 style="font-weight: 500; text-align: center; margin-bottom: 20px; letter-spacing: 2px;">ペアリングドリンク</h4> 
-            <p style="font-size: clamp(0.75em, 1.8vw, 0.85em); line-height: 1.8; font-weight: 400; margin-bottom: 10px; word-break: keep-all; overflow-wrap: break-word;">
-              お料理に合わせてソムリエが厳選したドリンクをご用意しております。<br>
-              ※単品のドリンクメニューもございます。
-            </p>
-            <ul style="font-size: clamp(0.75em, 1.8vw, 0.85em); line-height: 1.8; margin: 0; padding-left: 20px; font-weight: 400;">
-              <li>アルコールペアリング：￥8,500〜</li>
-              <li>ノンアルコールペアリング：￥4,200</li>
-            </ul>
-          </div> 
-        </div> 
-      </div> 
-    </section>
 
-    <section id="dessert-event"> 
-      <h2 class="section-title">Reception Event</h2> 
-      <div class="course-section"> 
-        
-        <div style="flex: 1 1 400px; max-width: 100%;">
-          <div class="slideshow-container" aria-hidden="true" style="flex: none; width: 100%;"> 
-            <div class="slide active" style="background-image: url('./r-1.jpg')" title="パフェイメージ1"></div> 
-            <div class="slide" style="background-image: url('./r-1.jpg')" title="パフェイメージ2"></div> 
-          </div>
-          <p style="font-size: 0.85em; color: var(--sub-color); text-align: right; margin-top: 8px; margin-bottom: 0;">※写真はイメージです。</p>
-        </div>
-        
-        <div class="course-info"> 
-          <h3 class="price-tag">レセプションのご案内<br><span style="font-size:0.65em;"></span><br><span style="font-size:0.8em; font-weight:400;"><span style="font-size:0.65em;"></span></span></h3> 
-          <p style="font-size: clamp(0.85em, 2vw, 1em); line-height: 1.8; font-weight: 400; margin-bottom: 25px; word-break: keep-all; overflow-wrap: break-word;"> 
-            <strong>11/8〜10の3日間限定</strong><br> 
-            レストラン グランドオープンに先立ち、お披露目を兼ねたレセプションパーティを開催いたします。長い時間をかけて紡いできた空間と料理の世界を、ひと足早くご体験いただける特別な３日間です。各日 2部制・各回20名様限定 にて、立食スタイルでのフィンガーフードとドリンクをご用意しております。ささやかながら、私たちの新しい物語の始まりを皆さまと共有できれば幸いです。
-          </p> 
-          <p style="font-size: clamp(0.75em, 1.8vw, 0.85em); line-height: 1.8; border: 1px solid var(--sub-color); padding: 20px; border-radius: 4px; font-weight: 400; word-break: keep-all; overflow-wrap: break-word;"> 
-            各日２部制一斉スタート 13:00〜 / 16:00〜<br> 
-            ※完全予約制<br> 
-            ※1部につき20名様まで<br> 
-            ※1組2名様までとさせていただきます。<br> 
-          </p> 
-          <div style="margin-top: 25px; padding: 20px; border: 1px solid var(--sub-color); border-radius: 4px;"> 
-            <h4 style="font-weight: 500; text-align: center; margin-bottom: 20px; letter-spacing: 2px;">レセプションご予約</h4> 
-            <div style="display: flex; flex-direction: column; gap: 15px;"> 
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
-                <strong style="width: 120px;">11月8日(日)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-11-08-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-11-08-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
-              </div> 
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
-                <strong style="width: 120px;">11月9日(月)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-11-09-13" style="flex: 1; border: 1px solid var(--sub-color);">13:00</button> 
-                <button class="cal-btn" id="btn-dessert-2026-11-09-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
-              </div> 
-              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;"> 
-                <strong style="width: 120px;">11月10日(火)</strong> 
-                <button class="cal-btn" id="btn-dessert-2026-11-10-13" style="flex: 1; border: 1px solid #2a2a2d; background: #2a2a2d; color: #888888; pointer-events: none;" disabled>
-                  <span class="media-invite-text">13:00<br>(メディア招待会)</span>
-                </button> 
-                <button class="cal-btn" id="btn-dessert-2026-11-10-16" style="flex: 1; border: 1px solid var(--sub-color);">16:00</button> 
-              </div> 
-            </div> 
-          </div> 
+    <section id="reservation"> 
+      <h2 class="section-title">RESERVATION</h2> 
+      <div id="calendar-wrapper"> 
+        <div class="calendar-header-top"><div id="current-month-label"></div></div> 
+        <div class="calendar-nav-bottom"> 
+          <button class="cal-btn" id="btn-prev-month" onclick="changeMonth(-1)">◀ 前の月</button> 
+          <button class="cal-btn" onclick="goToToday()">今日</button> 
+          <button class="cal-btn" id="btn-next-month" onclick="changeMonth(1)">次の月 ▶</button> 
         </div> 
+        <div id="calendar"></div> 
+        
+        <div style="margin-top: 40px; padding: 20px; background-color: #f9f9f9; border: 1px solid #dddddd; border-radius: 4px; font-size: 0.9em; color: #111112;">
+          <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+            <li>17:30開場、18:00食事一斉スタートとさせていただきます</li>
+            <li>1st Season：12/27までの営業期間にてご予約を承っております。</li>
+            <li>2nd Season ：営業日公開、ご予約受付は11月中旬を予定しております。</li>
+            <li>レストランのみのご予約となり、宿泊のご予約は2027.3月以降の予定となります。</li>
+          </ul>
+        </div>
       </div> 
-    </section>
-
+    </section> 
   </main> 
 
   <footer> 
@@ -452,22 +399,13 @@
       <div id="modal-notice" style="display:none; background-color: rgba(139, 90, 43, 0.15); border: 1px solid rgba(139, 90, 43, 0.5); border-radius: 4px; padding: 15px; margin-bottom: 20px; font-size: 0.9em; line-height: 1.6; color: var(--main-color);"></div>
       
       <div class="form-group"> 
-        <label style="color:var(--main-color);">人数 * (最大<span id="max-people-label">20</span>名)</label> 
+        <label style="color:var(--main-color);">人数 * (最大<span id="max-people-label">14</span>名)</label> 
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px; margin-top:5px;"> 
           <button type="button" onclick="adjustPeople(-1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">-</button> 
-          <input type="number" id="input-people" min="1" max="20" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly> 
+          <input type="number" id="input-people" min="1" max="14" value="1" style="width:60px; height:45px; border:none; border-bottom:1px solid var(--sub-color); text-align:center; font-size:1.2em; background: transparent; color:var(--main-color); outline:none; pointer-events:none;" readonly> 
           <button type="button" onclick="adjustPeople(1)" style="width:45px; height:45px; background:transparent; border:1px solid var(--sub-color); border-radius:4px; font-size:1.5em; cursor:pointer; color:var(--main-color); display:flex; justify-content:center; align-items:center;">+</button> 
         </div> 
       </div> 
-
-      <div style="margin-bottom:20px; border: 1px solid var(--sub-color); padding: 15px; border-radius: 4px; background: rgba(255,255,255,0.05);">
-        <label style="display:flex; align-items:center; gap:10px; color:var(--main-color); font-weight:500;">
-          <input type="checkbox" id="input-hire" style="transform: scale(1.2);"> ハイヤー送迎を希望する
-        </label>
-        <p style="font-size: 0.85em; margin: 10px 0 0 0; color: var(--sub-color);">
-          ※ご希望の方には、後日詳細のご案内をさせていただきます。
-        </p>
-      </div>
 
       <div class="form-group"><label style="color:var(--main-color);">お名前 *</label><input type="text" id="input-name" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid var(--sub-color); border-radius:4px; color:var(--main-color); background:transparent;"></div> 
 
@@ -504,14 +442,20 @@
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwsGXnYIV9N-T8JslrfzniugTQMVOypvFXeOVjWYDAICm5DxyuHKQfFRRQUICsZXP6gRA/exec";
 
     var currentBooking = {}; 
+    var currentCalendarDate = new Date(); 
+    if (currentCalendarDate.getFullYear() === 2026 && currentCalendarDate.getMonth() < 10) { 
+      currentCalendarDate = new Date(2026, 10, 1); 
+    } 
+    var fullCalendarInstance = null; 
+    var gDeadlineDate, gMaxAcceptDate, gHardEndDate; 
 
     function checkGatePw() {
       var pw = document.getElementById('gate-pw').value;
-      if (pw === "1115") {
+      if (pw === "1128") {
         document.getElementById('pw-gate').style.display = 'none';
         document.body.style.overflow = '';
         
-        loadDessertData(); 
+        loadCalendarData(currentCalendarDate); 
       } else {
         document.getElementById('gate-error').style.display = 'block';
         document.getElementById('gate-pw').value = '';
@@ -521,7 +465,7 @@
     function adjustPeople(diff) { 
       var input = document.getElementById('input-people'); 
       var currentVal = parseInt(input.value) || 1; 
-      var max = parseInt(input.max) || 20; 
+      var max = parseInt(input.max) || 14; 
       var newVal = currentVal + diff; 
       if(newVal >= 1 && newVal <= max) { 
         input.value = newVal; 
@@ -537,101 +481,154 @@
           }
         });
       }
-      
-      var slideContainers = document.querySelectorAll('.slideshow-container'); 
-      slideContainers.forEach(function(container) { 
-        var slides = container.querySelectorAll('.slide'); 
-        var currentSlide = 0; 
-        if (slides.length > 1) { 
-          setInterval(function() { 
-            slides[currentSlide].classList.remove('active'); 
-            currentSlide = (currentSlide + 1) % slides.length; 
-            slides[currentSlide].classList.add('active'); 
-          }, 4000); 
-        } 
-      });
     }); 
 
-    function updateDessertButtons(dessertBookedCounts) {
-      const maxSeats = 20;
-      const dessertSlots = [
-        { date: '2026-11-08', slot: '13:00', id: 'btn-dessert-2026-11-08-13' },
-        { date: '2026-11-08', slot: '16:00', id: 'btn-dessert-2026-11-08-16' },
-        { date: '2026-11-09', slot: '13:00', id: 'btn-dessert-2026-11-09-13' },
-        { date: '2026-11-09', slot: '16:00', id: 'btn-dessert-2026-11-09-16' },
-        { date: '2026-11-10', slot: '13:00', id: 'btn-dessert-2026-11-10-13' },
-        { date: '2026-11-10', slot: '16:00', id: 'btn-dessert-2026-11-10-16' },
-      ];
+    function goToToday() {  
+      var d = new Date(); 
+      if (d.getFullYear() === 2026 && d.getMonth() < 10) { 
+        currentCalendarDate = new Date(2026, 10, 1); 
+      } else { 
+        currentCalendarDate = d; 
+      } 
+      loadCalendarData(currentCalendarDate);  
+    } 
 
-      dessertSlots.forEach(function(s) {
-        var key = s.date + '_' + s.slot;
-        var booked = dessertBookedCounts ? (dessertBookedCounts[key] || 0) : 0;
-        var remain = maxSeats - booked;
-        var btn = document.getElementById(s.id);
-        
-        if (btn) {
-          if (s.date === '2026-11-10' && s.slot === '13:00') {
-            btn.innerHTML = '<span class="media-invite-text">13:00<br>(メディア招待会)</span>';
-            btn.disabled = true;
-            btn.style.background = '#2a2a2d';
-            btn.style.color = '#888888';
-            btn.style.borderColor = '#2a2a2d';
-            btn.style.pointerEvents = 'none';
-          } else if (remain <= 0) {
-            btn.innerText = s.slot + ' (満席)';
-            btn.disabled = true;
-            btn.style.background = '#2a2a2d';
-            btn.style.color = '#888888';
-            btn.style.borderColor = '#2a2a2d';
-            btn.style.pointerEvents = 'none';
-          } else {
-            btn.innerText = s.slot + ' (残' + remain + ')';
-            btn.disabled = false;
-            btn.style.background = '';
-            btn.style.color = '';
-            btn.style.borderColor = 'var(--sub-color)';
-            btn.style.pointerEvents = '';
-            btn.onclick = function() { openDessertModal(s.date, s.slot, remain); };
-          }
-        }
-      });
-    }
+    function changeMonth(diff) { 
+      currentCalendarDate.setDate(1); 
+      currentCalendarDate.setMonth(currentCalendarDate.getMonth() + diff); 
+      loadCalendarData(currentCalendarDate); 
+    } 
 
-    function loadDessertData() { 
+    function loadCalendarData(dateObj) { 
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
-      var urlParams = '?action=getCalendarData&page=reception';
+      var urlParams = '?action=getCalendarData&page=limited';
+      if (dateObj) {
+        var yearMonthStr = dateObj.getFullYear() + "-" + ('0' + (dateObj.getMonth() + 1)).slice(-2); 
+        urlParams += '&yearMonth=' + yearMonthStr;
+      }
       
       fetch(WEB_APP_URL + urlParams) 
         .then(function(response) { return response.json(); }) 
         .then(function(data) { 
-          document.getElementById('loading-overlay').style.display = 'none'; 
-          if(data.dessertBookedCounts) {
-             updateDessertButtons(data.dessertBookedCounts);
-          } else {
-             updateDessertButtons({});
-          }
+          var parts = data.currentYearMonth.split('-');
+          currentCalendarDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, 1);
+          
+          document.getElementById('current-month-label').innerText = currentCalendarDate.getFullYear() + "年 " + (currentCalendarDate.getMonth() + 1) + "月"; 
+          
+          renderCalendar(data); 
         }) 
         .catch(function(error) { 
           console.error('Error:', error); 
+          alert("カレンダーの読み込みに失敗しました。"); 
           document.getElementById('loading-overlay').style.display = 'none'; 
         }); 
     } 
 
-    function openDessertModal(date, time, remain) { 
-      currentBooking = { type: 'reception', date: date, slot: time, remain: remain }; 
-      document.getElementById('modal-header-text').innerText = "デセールご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
+    function renderCalendar(data) { 
+      document.getElementById('loading-overlay').style.display = 'none'; 
+      var eventsArray = []; 
+      var today = new Date(); today.setHours(0,0,0,0); 
       
-      var currentMax = Math.min(remain, 20); 
-      document.getElementById('input-people').max = currentMax; 
-      document.getElementById('max-people-label').innerText = currentMax; 
-      document.getElementById('input-people').value = 1; 
+      gDeadlineDate = new Date(today);  
+      gDeadlineDate.setDate(today.getDate() + (parseInt(data.deadlineDays) || 0)); 
+      gMaxAcceptDate = new Date(today);  
+      gMaxAcceptDate.setDate(today.getDate() + (parseInt(data.maxDays) || 60)); 
+      gHardEndDate = new Date(data.endDate || "2099-12-31");  
+      gHardEndDate.setHours(23,59,59); 
+
+      var displayYear = parseInt(data.currentYearMonth.split('-')[0]); 
+      var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1; 
+      var dateInMonth = new Date(displayYear, displayMonth, 1); 
       
-      document.getElementById('modal-notice').style.display = 'none';
+      var maxSeats = data.maxSeats || 14; 
+      
+      while(dateInMonth.getMonth() === displayMonth) { 
+        var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2); 
+        
+        var isFutureRestricted = (dateInMonth > gMaxAcceptDate) || (dateInMonth > gHardEndDate); 
+        var isDeadlinePassed = (dateInMonth < gDeadlineDate); 
+        
+        if (!isFutureRestricted) { 
+          if (data.holidayMap[dateStr] === "終日") { 
+            // ★変更：スプレッドシートC列からのテキストを優先表示。なければデフォルト。
+            var holidayTitle = (data.holidayTextMap && data.holidayTextMap[dateStr]) ? data.holidayTextMap[dateStr] : 'Prep Day\n(開業準備)';
+            // 「\n」が文字列として入力されている場合、実際の改行に変換する処理
+            holidayTitle = holidayTitle.replace(/\\n/g, '\n');
 
-      document.getElementById('input-hire').checked = false;
+            eventsArray.push({ 
+              title: holidayTitle, 
+              start: dateStr, 
+              classNames: ['holiday-event', 'full-day-holiday'] 
+            }); 
+          } else { 
+            ['18:00'].forEach(function(slot) { 
+              var slotKey = dateStr + '_' + slot; 
+              var isHoliday = (data.holidayMap[slotKey] === "休業"); 
 
-      document.getElementById('res-modal').style.display = 'flex'; 
+              if (isHoliday) { 
+                // ★変更：スプレッドシートC列からのテキストを優先表示。なければデフォルト。
+                var slotHolidayTitle = (data.holidayTextMap && data.holidayTextMap[slotKey]) ? data.holidayTextMap[slotKey] : 'Prep Day';
+                slotHolidayTitle = slotHolidayTitle.replace(/\\n/g, '\n');
+                
+                eventsArray.push({ title: slot + '：' + slotHolidayTitle, start: dateStr, classNames: ['holiday-event'] }); 
+              } else { 
+                var booked = data.bookedCounts[slotKey] || 0; 
+                var remain = maxSeats - booked; 
+                
+                var titleText = slot + '：' + (remain > 0 ? '残' + remain : '満'); 
+                
+                if (isDeadlinePassed && remain > 0) { 
+                  titleText = slot + '：受付終了'; 
+                } 
+
+                eventsArray.push({  
+                  title: titleText,  
+                  start: dateStr,  
+                  classNames: [(isDeadlinePassed || remain <= 0) ? 'full-event' : 'available-event'], 
+                  extendedProps: { timeSlot: slot, remain: remain, restricted: isDeadlinePassed } 
+                }); 
+              } 
+            }); 
+          } 
+        } 
+        dateInMonth.setDate(dateInMonth.getDate() + 1); 
+      } 
+
+      if (!fullCalendarInstance) { 
+        fullCalendarInstance = new FullCalendar.Calendar(document.getElementById('calendar'), { 
+          initialView: 'dayGridMonth', locale: 'ja', contentHeight: 'auto', headerToolbar: false, showNonCurrentDates: false, firstDay: 1, 
+          dayCellClassNames: function(arg) { 
+            if (!gDeadlineDate) return []; 
+            if (arg.date > gMaxAcceptDate || arg.date > gHardEndDate) return ['custom-restricted-day']; 
+            return []; 
+          }, 
+          eventClick: function(info) { 
+            if (info.event.extendedProps.restricted || !info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return; 
+
+            currentBooking = { type: 'limited', date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain }; 
+            document.getElementById('modal-header-text').innerText = "コースご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
+            
+            var noticeEl = document.getElementById('modal-notice');
+            if(currentBooking.slot === '18:00') {
+              noticeEl.innerHTML = "<strong>【ご来店時間について】</strong><br>17:30開場、18:00お食事一斉スタートとさせていただきます。";
+              noticeEl.style.display = 'block';
+            } else {
+              noticeEl.style.display = 'none';
+            }
+
+            var currentMax = Math.min(currentBooking.remain, 14); 
+            document.getElementById('input-people').max = currentMax; 
+            document.getElementById('max-people-label').innerText = currentMax; 
+            document.getElementById('input-people').value = 1; 
+            document.getElementById('res-modal').style.display = 'flex'; 
+          } 
+        }); 
+        fullCalendarInstance.render(); 
+      } 
+      fullCalendarInstance.gotoDate(data.currentYearMonth + '-01'); 
+      fullCalendarInstance.removeAllEvents(); 
+      fullCalendarInstance.addEventSource(eventsArray); 
     } 
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; } 
@@ -647,8 +644,6 @@
       
       var zip = document.getElementById('input-zip').value;
       var address = document.getElementById('input-address').value;
-
-      var hire = document.getElementById('input-hire').checked ? "希望する" : "希望しない";
 
       if(!name || !phone || !email || !zip || !address || !people || !document.getElementById('agree-privacy').checked) { 
         alert("必須項目を入力し、同意チェックを入れてください。"); 
@@ -670,7 +665,7 @@
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
       var payload = {  
-        type: currentBooking.type || 'reception', 
+        type: 'limited', 
         date: currentBooking.date,  
         slot: currentBooking.slot,  
         name: name,  
@@ -681,8 +676,7 @@
         address: address,
         purpose: purpose,  
         dislikes: dislikes,  
-        allergy: allergies,
-        hire: hire 
+        allergy: allergies  
       }; 
 
       fetch(WEB_APP_URL, { 
@@ -709,7 +703,7 @@
           document.getElementById('input-allergies').value = ''; 
           document.getElementById('agree-privacy').checked = false; 
           
-          loadDessertData(); 
+          loadCalendarData(currentCalendarDate); 
         } else { 
           alert("エラー: " + res.message); 
           document.getElementById('loading-overlay').style.display = 'none'; 
