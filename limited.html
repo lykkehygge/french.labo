@@ -229,7 +229,6 @@
       100% { transform-origin: bottom; transform: scaleY(0); }
     }
 
-    /* ★ ページ全体の幅を広げる (800px -> 1000px) ★ */
     section { max-width: 1000px; margin: 140px auto; padding: 0 25px; width: 100%; } 
     
     h2.section-title { font-weight: 500; letter-spacing: 4px; font-size: clamp(1.8em, 4vw, 2.8em); text-align: center; margin-bottom: 70px; position: relative; padding-bottom: 20px; color: var(--main-color); text-transform: uppercase; } 
@@ -278,7 +277,7 @@
       width: 100%;
     }
     .menu-inner {
-      max-width: 1000px; /* ★ 幅を広げる (900px -> 1000px) */
+      max-width: 1000px; 
       margin: 0 auto;
       padding: 0 25px;
     }
@@ -307,14 +306,14 @@
     .menu-block {
       display: flex;
       align-items: center;
-      gap: 50px; /* ★ テキストとの間隔を調整 */
+      gap: 50px; 
       margin-bottom: 100px;
     }
     .menu-block:last-child {
       margin-bottom: 0;
     }
     .menu-img-wrap {
-      flex: 1 1 45%; /* ★ 画像領域の比率を調整 */
+      flex: 1 1 45%; 
       max-width: 45%; 
     }
     .menu-img-wrap img {
@@ -324,7 +323,7 @@
       object-fit: cover;
     }
     .menu-text-wrap {
-      flex: 1 1 55%; /* ★ テキスト領域の比率を広げて改行を防ぐ */
+      flex: 1 1 55%; 
       text-align: left;
     }
     .menu-title-jp {
@@ -379,11 +378,11 @@
     .chef-container { 
       display: flex; 
       flex-wrap: nowrap; 
-      gap: 50px; /* ★ テキストとの間隔を調整 */
+      gap: 50px; 
       align-items: flex-start; 
     } 
     .chef-slideshow { 
-      flex: 0 0 45%; /* ★ 画像領域の比率を調整 */
+      flex: 0 0 45%; 
       height: 500px; 
       position: relative; 
       overflow: hidden; 
@@ -392,12 +391,12 @@
     .chef-slideshow .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; background-size: cover; background-position: center; }
     .chef-slideshow .slide.active { opacity: 1; }
     .chef-bio { 
-      flex: 1 1 55%; /* ★ テキスト領域の比率を広げて改行を防ぐ */
+      flex: 1 1 55%; 
     } 
     .cv-list { list-style: none; padding: 0; font-size: 0.95em; color: var(--main-color); margin-top: 25px; } 
     .cv-item { display: flex; margin-bottom: 12px; padding-left: 15px; border-left: 2px solid var(--sub-color); } 
-    .cv-year { flex: 0 0 75px; /* ★ 年の幅を少し広げる */ font-weight: 500; } 
-    .cv-desc { flex: 1; } /* ★ 残りを説明文に充てる */
+    .cv-year { flex: 0 0 75px; font-weight: 500; } 
+    .cv-desc { flex: 1; } 
 
     .info-content { max-width: 600px; margin: 0 auto; } 
     .info-dl { width: 100%; border-top: 1px solid var(--sub-color); margin: 0; padding: 0; } 
@@ -413,7 +412,6 @@
       .scroll-indicator { left: 20px; bottom: 20px; }
       .hero-actions { right: 20px; bottom: 20px; flex-direction: row; gap: 10px; }
       
-      /* SP用のボタンサイズ調整 */
       .circle-btn { width: 40px; height: 40px; font-size: 0.9em; }
       .circle-btn svg { width: 18px; height: 18px; }
       .reserve-btn { height: 40px; padding: 5px 15px; font-size: 0.75em; line-height: 1.2; }
@@ -640,7 +638,7 @@
               姫路駅間の無料送迎も承っております。<br>
               詳しくはお電話にてお問合せください。<br>
               電話番号：050-5497-7277<br>
-              （担当：高橋/米田）</dd>
+              （担当：高橋/米田）</dd> 
           </div> 
         </dl> 
       </div> 
@@ -737,12 +735,15 @@
       }
     }
 
+    // ★ 人数調整。個室の場合は下限を2名に変更
     function adjustPeople(diff) { 
       var input = document.getElementById('input-people'); 
       var currentVal = parseInt(input.value) || 1; 
       var max = parseInt(input.max) || 14; 
+      var min = parseInt(input.min) || 1;
+      
       var newVal = currentVal + diff; 
-      if(newVal >= 1 && newVal <= max) { 
+      if(newVal >= min && newVal <= max) { 
         input.value = newVal; 
       } 
     } 
@@ -816,7 +817,8 @@
       var displayMonth = parseInt(data.currentYearMonth.split('-')[1]) - 1; 
       var dateInMonth = new Date(displayYear, displayMonth, 1); 
       
-      var maxSeats = data.maxSeats || 14; 
+      var maxSeatsCounter = data.maxSeats || 14; 
+      var maxSeatsPrivate = 6; // ★ 個室の最大人数
       
       while(dateInMonth.getMonth() === displayMonth) { 
         var dateStr = dateInMonth.getFullYear() + '-' + ('0' + (dateInMonth.getMonth() + 1)).slice(-2) + '-' + ('0' + dateInMonth.getDate()).slice(-2); 
@@ -826,9 +828,7 @@
         
         if (!isFutureRestricted) { 
           if (data.holidayMap[dateStr] === "終日") { 
-            // ★変更：スプレッドシートC列からのテキストを優先表示。なければデフォルト。
             var holidayTitle = (data.holidayTextMap && data.holidayTextMap[dateStr]) ? data.holidayTextMap[dateStr] : 'Prep Day\n(開業準備)';
-            // 「\n」が文字列として入力されている場合、実際の改行に変換する処理
             holidayTitle = holidayTitle.replace(/\\n/g, '\n');
 
             eventsArray.push({ 
@@ -837,19 +837,28 @@
               classNames: ['holiday-event', 'full-day-holiday'] 
             }); 
           } else { 
-            ['18:00'].forEach(function(slot) { 
+            // ★ カウンター枠と個室枠を追加
+            ['カウンター', '個室'].forEach(function(slot) { 
               var slotKey = dateStr + '_' + slot; 
               var isHoliday = (data.holidayMap[slotKey] === "休業"); 
 
               if (isHoliday) { 
-                // ★変更：スプレッドシートC列からのテキストを優先表示。なければデフォルト。
                 var slotHolidayTitle = (data.holidayTextMap && data.holidayTextMap[slotKey]) ? data.holidayTextMap[slotKey] : 'Prep Day';
                 slotHolidayTitle = slotHolidayTitle.replace(/\\n/g, '\n');
                 
                 eventsArray.push({ title: slot + '：' + slotHolidayTitle, start: dateStr, classNames: ['holiday-event'] }); 
               } else { 
-                var booked = data.bookedCounts[slotKey] || 0; 
-                var remain = maxSeats - booked; 
+                var booked = 0;
+                var remain = 0;
+
+                // ★ カウンターと個室で予約データを分ける
+                if (slot === 'カウンター') {
+                  booked = data.bookedCounts[slotKey] || 0; 
+                  remain = maxSeatsCounter - booked; 
+                } else if (slot === '個室') {
+                  booked = data.privateBookedCounts ? (data.privateBookedCounts[slotKey] || 0) : 0;
+                  remain = maxSeatsPrivate - booked;
+                }
                 
                 var titleText = slot + '：' + (remain > 0 ? '残' + remain : '満'); 
                 
@@ -881,21 +890,42 @@
           eventClick: function(info) { 
             if (info.event.extendedProps.restricted || !info.event.extendedProps.remain || info.event.extendedProps.remain <= 0) return; 
 
-            currentBooking = { type: 'limited', date: info.event.startStr, slot: info.event.extendedProps.timeSlot, remain: info.event.extendedProps.remain }; 
+            // ★ カウンターか個室かでタイプを分ける
+            var slotType = info.event.extendedProps.timeSlot;
+            currentBooking = { 
+              type: slotType === '個室' ? 'private' : 'limited', 
+              date: info.event.startStr, 
+              slot: slotType, 
+              remain: info.event.extendedProps.remain 
+            }; 
+            
             document.getElementById('modal-header-text').innerText = "コースご予約 " + currentBooking.date + " (" + currentBooking.slot + ")"; 
             
             var noticeEl = document.getElementById('modal-notice');
-            if(currentBooking.slot === '18:00') {
-              noticeEl.innerHTML = "<strong>【ご来店時間について】</strong><br>17:30開場、18:00お食事一斉スタートとさせていただきます。";
-              noticeEl.style.display = 'block';
+            var noticeHtml = "<strong>【ご来店時間について】</strong><br>17:30開場、18:00お食事一斉スタートとさせていただきます。";
+            
+            // ★ 個室の場合は注意書きを追加
+            if (slotType === '個室') {
+              noticeHtml += "<br><br><strong>【個室について】</strong><br>※別途個室料：10,000円（税込）が必要になります。";
+            }
+            noticeEl.innerHTML = noticeHtml;
+            noticeEl.style.display = 'block';
+
+            var inputPeople = document.getElementById('input-people');
+            var currentMax = Math.min(currentBooking.remain, slotType === '個室' ? 6 : 14); 
+            
+            // ★ 個室の場合は最少人数を2名に設定
+            if (slotType === '個室') {
+              inputPeople.min = 2;
+              inputPeople.value = 2;
             } else {
-              noticeEl.style.display = 'none';
+              inputPeople.min = 1;
+              inputPeople.value = 1;
             }
 
-            var currentMax = Math.min(currentBooking.remain, 14); 
-            document.getElementById('input-people').max = currentMax; 
+            inputPeople.max = currentMax; 
             document.getElementById('max-people-label').innerText = currentMax; 
-            document.getElementById('input-people').value = 1; 
+            
             document.getElementById('res-modal').style.display = 'flex'; 
           } 
         }); 
@@ -936,11 +966,17 @@
         return;
       }
       
+      // ★ 個室の最少人数チェック
+      if (currentBooking.type === 'private' && people < 2) {
+        alert("個室のご予約は2名様から承っております。");
+        return;
+      }
+      
       closeModal('res-modal'); 
       document.getElementById('loading-overlay').style.display = 'flex'; 
       
       var payload = {  
-        type: 'limited', 
+        type: currentBooking.type, // 'limited' または 'private'
         date: currentBooking.date,  
         slot: currentBooking.slot,  
         name: name,  
